@@ -2,7 +2,7 @@
   source             = "clouddrove/vpc-peering/aws"
   version            = "0.13.0"
 
-  name              = "eks-ops--to--default"
+  name              = "eks-dev--to--default"
   application       = "eks"
   environment       = var.environment
   requestor_vpc_id  = var.requestor_vpc_id
