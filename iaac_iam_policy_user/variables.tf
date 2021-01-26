@@ -15,30 +15,25 @@ variable "aws_default_region" {
 
 variable "iam_policy_json" {
   description = "Contains policy"
-  default     = ""
 }
 
 variable "iam_user_name" {
   description = "IAM Username"
-  default     = ""
 }
 
 variable "iam_path" {
   description = "IAM Path"
-  default     = ""
+  default     = "/"
 }
 
 variable "iam_user_policy_name" {
   description = "Policy Name"
-  default     = ""
 }
 
 variable "iam_user_policy_description" {
   description = "Policy Description"
-  default     = ""
 }
 
 variable "iam_user_description" {
   description = "User Description"
-  default     = ""
 }

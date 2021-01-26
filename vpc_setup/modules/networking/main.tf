@@ -9,7 +9,7 @@ resource "aws_vpc" "vpc" {
 
   tags = {
     Name        = "${var.vpc_name}-vpc"
-    env = var.environment
+    env         = var.environment
   }
 }
 
@@ -22,7 +22,7 @@ resource "aws_internet_gateway" "ig" {
 
   tags = {
     Name        = "${var.vpc_name}-igw"
-    env = var.environment
+    env         = var.environment
   }
 }
 
@@ -40,7 +40,7 @@ resource "aws_nat_gateway" "nat" {
 
   tags = {
     Name        = "${var.vpc_name}-nat"
-    env = var.environment
+    env         = var.environment
   }
 }
 
@@ -54,7 +54,7 @@ resource "aws_subnet" "public_subnet" {
 
   tags = {
     Name        = "${var.vpc_name}-${element(var.availability_zones, count.index)}-public-subnet"
-    env = var.environment
+    env         = var.environment
   }
 }
 
@@ -68,7 +68,7 @@ resource "aws_subnet" "private_subnet" {
 
   tags = {
     Name        = "${var.vpc_name}-${element(var.availability_zones, count.index)}-private-subnet"
-    env = var.environment
+    env         = var.environment
   }
 }
 
@@ -78,7 +78,7 @@ resource "aws_route_table" "private" {
 
   tags = {
     Name        = "${var.vpc_name}-private-route-table"
-    env = var.environment
+    env         = var.environment
   }
 }
 
@@ -88,7 +88,7 @@ resource "aws_route_table" "public" {
 
   tags = {
     Name        = "${var.vpc_name}-public-route-table"
-    env = var.environment
+    env         = var.environment
   }
 }
 
@@ -144,5 +144,12 @@ resource "aws_security_group" "default" {
     Name  = "${var.vpc_name}-sg"
     env   = var.environment
   }
+}
+
+module "flow_logs" {
+  source = "./flow_logs"
+
+  vpc_name             = var.vpc_name
+  vpc_id               = aws_vpc.id
 }
 

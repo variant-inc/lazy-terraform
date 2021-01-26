@@ -10,8 +10,23 @@ resource "aws_flow_log" "flow" {
   }
 }
 
+resource "aws_kms_key" "kms" {
+  description  = "KMS key CloudWatch Group ${var.vpc_name}-vpc"
+
+  tags = {
+    purpose = "${var.vpc_name}-vpc"
+    owner   = "devops"
+  }
+}
+
+resource "aws_kms_alias" "kms" {
+  name          = "alias/${var.vpc_name}-vpc"
+  target_key_id = aws_kms_key.kms.key_id
+}
+
 resource "aws_cloudwatch_log_group" "flow" {
-  name = "flow"
+  name        = "${var.vpc_name}-vpc"
+  kms_key_id  = aws_kms_key.kms.key_id
   tags = {
     Name  = "${var.vpc_name}-vpc"
     purpose = "Flog logs for ${var.vpc_name} VPC"
@@ -19,7 +34,7 @@ resource "aws_cloudwatch_log_group" "flow" {
 }
 
 resource "aws_iam_role" "flow" {
-  name = "flow"
+  name = "${var.vpc_name}-vpc"
   tags = {
     Name  = "${var.vpc_name}-vpc"
     purpose = "Flog logs for ${var.vpc_name} VPC"
@@ -43,7 +58,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "flow" {
-  name = "flow"
+  name = "${var.vpc_name}-vpc"
   role = aws_iam_role.flow.id
   tags = {
     Name  = "${var.vpc_name}-vpc"
