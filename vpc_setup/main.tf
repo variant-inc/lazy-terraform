@@ -28,3 +28,10 @@ module "networking" {
   availability_zones   = local.availability_zones
   vpc_name             = local.vpc_name
 }
+
+module "flow_logs" {
+  source = "./modules/flow_logs"
+
+  vpc_name             = local.vpc_name
+  vpc_id               = module.networking.vpc_id
+}
