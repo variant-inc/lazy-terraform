@@ -39,7 +39,9 @@ Module to deploy EC2 instance and required resources in a lazy fashion
     - string
     - on of: public or private
 - security_group_rules_data
-    - map (object({
+    - 
+    ```
+      map (object({
         type = string (ingress/egress)
         from_port = number
         to_port = number
@@ -47,6 +49,7 @@ Module to deploy EC2 instance and required resources in a lazy fashion
         description = string
         cidr = list(string)
     }))
+    ```
     - example 
     
     ```
