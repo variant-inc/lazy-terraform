@@ -82,6 +82,7 @@ variable "kms_key_id" {
 
 variable "ebs_vol_type" {
   type = string
+  default = "gp2"
   description = "Volume type of EBS instance. One of: standard, gp2, gp3, io1, io2, sc1 or st1"
 }
 
@@ -91,3 +92,7 @@ variable "ebs_device_name" {
   description = "Device name given to EBS volume of the instance"
 }
 
+variable "alarm_sns_arn" {
+  type = string
+  description = "ARN for the SNS topic accepting CloudWatch Alerts"
+}

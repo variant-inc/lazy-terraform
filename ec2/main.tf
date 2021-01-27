@@ -51,7 +51,7 @@ resource "aws_ebs_volume" "ec2_ebs_volume" {
 
 
 resource "aws_security_group" "ec2_security_group" {
-  name        = "${var.ec2_instance_name}-security-group"
+  name        = "${var.ec2_instance_name}-ec2"
   description = "Security group for ${var.ec2_instance_name}"
   vpc_id      = var.vpc_id
   tags = local.common_tags
@@ -60,6 +60,7 @@ resource "aws_security_group" "ec2_security_group" {
 
 resource "aws_security_group_rule" "ec2_security_group_rules" {
   for_each = var.security_group_rules_data
+  description = each.value.description
   type = each.value.type
   from_port = each.value.from_port
   to_port = each.value.to_port
@@ -102,3 +103,22 @@ resource "aws_eip_association" "ec2_instance" {
   allocation_id = aws_eip.ec2_instance_eip.id
 }
 
+
+module "metric_alarm" {
+  source  = "terraform-aws-modules/cloudwatch/aws//modules/metric-alarm"
+  version = "~> 1.0"
+
+  alarm_name          = "${var.ec2_instance_name}_cpu_usage"
+  alarm_description   = "CPU usage alarm for ${var.ec2_instance_name}"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = 2
+  threshold           = 80
+  period              = 60
+  unit                = "Count"
+
+  namespace   = var.ec2_instance_name
+  metric_name = "CPUUtilization"
+  statistic   = "Maximum"
+
+  alarm_actions = [var.alarm_sns_arn]
+}
