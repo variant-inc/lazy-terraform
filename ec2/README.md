@@ -48,7 +48,8 @@ Module to deploy EC2 instance and required resources in a lazy fashion
         cidr = list(string)
     }))
     - example 
-    '''
+    
+    ```
         - "ssh" : {
             "type" : "ingress",
             "from_port" : "0",
@@ -57,7 +58,7 @@ Module to deploy EC2 instance and required resources in a lazy fashion
             "description" : "ssh access to instance",
             "cidr_blocks" : ["0.0.0.0/8"]
         }
-    '''
+    ```
 - ebs_volume_size
     - number
 - kms_key_id
