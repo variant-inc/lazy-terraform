@@ -1,0 +1,23 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ListRoleTags",
+      "Effect": "Allow",
+      "Action": ["iam:ListRoleTags"],
+      "Resource": "*"
+    },
+    {
+      "Sid": "ListUserTags",
+      "Effect": "Allow",
+      "Action": ["iam:ListUserTags"],
+      "Resource": "*"
+    },
+    {
+      "Sid": "ListRolesAndUsers",
+      "Effect": "Allow",
+      "Action": ["iam:ListRoles", "iam:ListUsers"],
+      "Resource": "*"
+    }
+  ]
+}
