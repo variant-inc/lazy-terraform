@@ -1,7 +1,7 @@
 //AWS
-aws_profile = "iaac_dev"
+aws_profile = "vdaniel"
 region = "us-east-1"
-environment = "dev"
+environment = "prd"
 
 dynamodb_table_name = "lazy_tf_state"
 replica_bucket_prefix = "lazy-tf-state-replica"
