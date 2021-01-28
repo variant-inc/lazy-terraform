@@ -1,6 +1,7 @@
-variable "zone" {
+variable "region" {
   type = string
-  description = "Default zone for AWS provider"
+  default = "us-east-1"
+  description = "Default region for AWS provider"
 }
 
 variable "profile" {

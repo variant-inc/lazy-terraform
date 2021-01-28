@@ -12,8 +12,9 @@ Module to deploy EC2 instance and required resources in a lazy fashion
 - Elastic IP Instance Association
 
 ## Input Variables
-- zone
+- region
     - string
+    - default = us-east-1
 - profile
     - string
 - ec2_instance_name
@@ -73,6 +74,8 @@ Module to deploy EC2 instance and required resources in a lazy fashion
 - ebs_device_name
     - string
     - default = /dev/sdh
+- alarm_sns_arn
+    - string
 
 ## Example .tfvars
 ```
@@ -94,10 +97,11 @@ security_group_rules_data = {
         "to_port":"22",
         "protocol":"TCP",
         "description":"ssh",
-        "cidr_blocks": ["0.0.0.0/8"]
+        "cidr_blocks": ["0.0.0.0/0"]
     }
 }
 kms_key_id = "arn:aws:kms:us-west-2:-000000000:key/00000000-0000-0000-0000-000000000000"
 ebs_volume_size = 40
 ebs_vol_type="standard"
+alarm_sns_arn="arn:aws:sns:us-east-1:0000000000:CloudWatch-alerts"
 ```
