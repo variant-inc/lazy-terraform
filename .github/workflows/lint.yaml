@@ -1,0 +1,21 @@
+---
+name: Linter
+
+on:
+  push:
+
+jobs:
+  lint:
+    name: Lint Code Base
+    runs-on: [ops]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Lint Code Base
+        uses: github/super-linter@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_ALL_CODEBASE: true
+          VALIDATE_TERRAFORM_TERRASCAN: false
