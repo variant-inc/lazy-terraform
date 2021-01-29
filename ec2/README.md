@@ -13,69 +13,68 @@ Module to deploy EC2 instance and required resources in a lazy fashion
 
 ## Input Variables
 - region
-    - string
-    - default = us-east-1
+  - string
+  - default = us-east-1
 - profile
-    - string
+  - string
 - ec2_instance_name
-    - string
+  - string
 - instance_purpose
-    - string
+  - string
 - instance_owner
-    - string
+  - string
 - ami_id
-    - string
+  - string
 - associate_public_ip_address
-    - boolean
-    - default = false
+  - boolean
+  - default = false
 - ec2_instance_type
-    - string
-    - default = t2.small
+  - string
+  - default = t2.small
 - ebs_optimized
-    - boolean
-    - default = true
+  - boolean
+  - default = true
 - vpc_id
-    - string
+  - string
 - subnet_type
-    - string
-    - on of: public or private
+  - string
+  - on of: public or private
 - security_group_rules_data
-    - 
-    ```
-      map (object({
-        type = string (ingress/egress)
-        from_port = number
-        to_port = number
-        protocol = string
-        description = string
-        cidr = list(string)
-    }))
-    ```
-    - example 
-    
-    ```
-        - "ssh" : {
-            "type" : "ingress",
-            "from_port" : "0",
-            "to_port" : "22",
-            "protocol" : "TCP",
-            "description" : "ssh access to instance",
-            "cidr_blocks" : ["0.0.0.0/8"]
-        }
-    ```
+  - 
+  ```
+    map (object({
+    type = string (ingress/egress)
+    from_port = number
+    to_port = number
+    protocol = string
+    description = string
+    cidr = list(string)
+  }))
+  ```
+  - example 
+  ```
+    - "ssh" : {
+      "type" : "ingress",
+      "from_port" : "0",
+      "to_port" : "22",
+      "protocol" : "TCP",
+      "description" : "ssh access to instance",
+      "cidr_blocks" : ["0.0.0.0/8"]
+    }
+  ```
 - ebs_volume_size
-    - number
+  - number
 - kms_key_id
-    - string
+  - string
 - ebs_vol_type
-    - string
-    - default gp2
-    - one of standard, gp2, gp3, io1, io2, sc1 or st1
+  - string
+  - default gp2
+  - one of standard, gp2, gp3, io1, io2, sc1 or st1
 - ebs_device_name
-    - string
-    - default = /dev/sdh
+  - string
+  - default = /dev/sdh
 - alarm_sns_arn
-    - string
+  - string
 
 ## Example .tfvars
 ```
@@ -91,14 +90,14 @@ ebs_optimized = true
 vpc_id = "vpc-000000000000"
 subnet_type = "public"
 security_group_rules_data = {
-    "ssh" : {
-        "type" :"ingress",
-        "from_port":"22",
-        "to_port":"22",
-        "protocol":"TCP",
-        "description":"ssh",
-        "cidr_blocks": ["0.0.0.0/0"]
-    }
+  "ssh" : {
+    "type" :"ingress",
+    "from_port":"22",
+    "to_port":"22",
+    "protocol":"TCP",
+    "description":"ssh",
+    "cidr_blocks": ["0.0.0.0/0"]
+  }
 }
 kms_key_id = "arn:aws:kms:us-west-2:-000000000:key/00000000-0000-0000-0000-000000000000"
 ebs_volume_size = 40

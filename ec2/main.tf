@@ -25,10 +25,6 @@ data "aws_subnet" "selected" {
   id = random_shuffle.random_subnet.result[0]
 }
 
-output "subnet_cidr" {
-  value = data.aws_subnet.selected.cidr_block
-}
-
 
 resource "aws_eip" "ec2_instance_eip" {
   vpc  = true
@@ -121,4 +117,13 @@ module "metric_alarm" {
   statistic   = "Maximum"
 
   alarm_actions = [var.alarm_sns_arn]
+}
+
+
+output "instance_arn" {
+  value = module.ec2-instance.arn
+}
+
+output "instance_id" {
+  value = module.ec2-instance.id
 }
