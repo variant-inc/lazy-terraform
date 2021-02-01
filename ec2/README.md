@@ -31,6 +31,9 @@ Module to deploy EC2 instance and required resources in a lazy fashion
 - ec2_instance_type
   - string
   - default = t2.small
+- ec2_instance_role
+  - string
+  - default = awsssmdefault
 - ebs_optimized
   - boolean
   - default = true

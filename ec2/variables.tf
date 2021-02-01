@@ -42,6 +42,12 @@ variable "ec2_instance_type" {
   description = "Machine type of the instance"
 }
 
+variable "ec2_instance_role" {
+  type    = string
+  default = "awsssmdefault"
+  description = "Role assigned to the instance"
+}
+
 variable "ebs_optimized" {
   type = bool
   default = true

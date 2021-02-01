@@ -68,7 +68,7 @@ resource "aws_security_group_rule" "ec2_security_group_rules" {
 
 resource "aws_iam_instance_profile" "instance_profile" {
   name = "${var.ec2_instance_name}-ec2"
-  role = var.instance_role
+  role = var.ec2_instance_role
 }
 
 module "ec2-instance" {
