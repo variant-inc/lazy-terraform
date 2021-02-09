@@ -1,7 +1,9 @@
 # Lazy EC-2 Module
+
 Module to deploy EC2 instance and required resources in a lazy fashion
 
 ## Resources
+
 - Elastic IP
 - EBS Volume
 - Security Group 
@@ -12,6 +14,7 @@ Module to deploy EC2 instance and required resources in a lazy fashion
 - Elastic IP Instance Association
 
 ## Input Variables
+
 - region
   - string
   - default = us-east-1
@@ -42,9 +45,11 @@ Module to deploy EC2 instance and required resources in a lazy fashion
 - subnet_type
   - string
   - on of: public or private
+
 - security_group_rules_data
-  - 
-  ```
+  - Variable definition
+
+  ```bash
     map (object({
     type = string (ingress/egress)
     from_port = number
@@ -54,9 +59,11 @@ Module to deploy EC2 instance and required resources in a lazy fashion
     cidr = list(string)
   }))
   ```
-  - example 
-  ```
-    - "ssh" : {
+
+  - example
+
+  ```bash
+    "ssh" : {
       "type" : "ingress",
       "from_port" : "0",
       "to_port" : "22",
@@ -65,6 +72,7 @@ Module to deploy EC2 instance and required resources in a lazy fashion
       "cidr_blocks" : ["0.0.0.0/8"]
     }
   ```
+
 - ebs_volume_size
   - number
 - kms_key_id
@@ -80,7 +88,8 @@ Module to deploy EC2 instance and required resources in a lazy fashion
   - string
 
 ## Example .tfvars
-```
+
+```bash
 profile = "dev"
 region = "us-west-2"
 ami_id = "ami-0000000000000000"
