@@ -31,10 +31,6 @@ resource "aws_eip" "ec2_instance_eip" {
   tags = local.common_tags
 }
 
-# resource "aws_key_pair" "ec2_key" {
-#   key_name   = "${var.ec2_instance_name}-key"
-#   public_key = var.public_key
-# }
 
 resource "aws_ebs_volume" "ec2_ebs_volume" {
   availability_zone = module.ec2-instance.availability_zone[0]
