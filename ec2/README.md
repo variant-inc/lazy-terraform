@@ -6,7 +6,7 @@ Module to deploy EC2 instance and required resources in a lazy fashion
 
 - Elastic IP
 - EBS Volume
-- Security Group 
+- Security Group
 - Security Group Rules
 - IAM EC2 Instance Profile
 - EC2 Instance
