@@ -4,14 +4,14 @@ Module to deploy EC2 instance and required resources in a lazy fashion
 
 ## Resources
 
-- Elastic IP
 - EBS Volume
 - Security Group
 - Security Group Rules
 - IAM EC2 Instance Profile
 - EC2 Instance
 - EBS Volume Attachement
-- Elastic IP Instance Association
+- Elastic IP (if public subnet)
+- Elastic IP Instance Association (if public subnet)
 
 ## Input Variables
 

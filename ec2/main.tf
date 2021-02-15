@@ -5,6 +5,17 @@ locals {
     "Purpose" = var.instance_purpose
     "Owner" = var.instance_owner
   }
+  default_sg_rule = {
+    "ssm": {
+        "type" :"egress",
+        "from_port":"0",
+        "to_port":"65535",
+        "protocol":"TCP",
+        "description":"Default egress to any for SSM access",
+        "cidr_blocks": ["0.0.0.0/0"]
+    }
+  }
+  merged_sg_rules = merge(local.default_sg_rule,var.security_group_rules_data)
 }
 
 data "aws_subnet_ids" "private" {
@@ -27,6 +38,7 @@ data "aws_subnet" "selected" {
 
 
 resource "aws_eip" "ec2_instance_eip" {
+  count = var.subnet_type == "public" ? 1 : 0
   vpc  = true
   tags = local.common_tags
 }
@@ -51,7 +63,7 @@ resource "aws_security_group" "ec2_security_group" {
 }
 
 resource "aws_security_group_rule" "ec2_security_group_rules" {
-  for_each = var.security_group_rules_data
+  for_each = local.merged_sg_rules
   description = each.value.description
   type = each.value.type
   from_port = each.value.from_port
@@ -91,8 +103,9 @@ resource "aws_volume_attachment" "ebs_ec2_attachement" {
 
 
 resource "aws_eip_association" "ec2_instance" {
+  count = var.subnet_type == "public" ? 1 : 0
   instance_id   = module.ec2-instance.id[0]
-  allocation_id = aws_eip.ec2_instance_eip.id
+  allocation_id = aws_eip.ec2_instance_eip[0].id
 }
 
 
