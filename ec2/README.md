@@ -4,12 +4,10 @@ Module to deploy EC2 instance and required resources in a lazy fashion
 
 ## Resources
 
-- EBS Volume
 - Security Group
 - Security Group Rules
 - IAM EC2 Instance Profile
 - EC2 Instance
-- EBS Volume Attachement
 - Elastic IP (if public subnet)
 - Elastic IP Instance Association (if public subnet)
 
@@ -90,7 +88,7 @@ Module to deploy EC2 instance and required resources in a lazy fashion
 ## Example .tfvars
 
 ```bash
-profile = "dev"
+profile = "dev-ops"
 region = "us-west-2"
 ami_id = "ami-0000000000000000"
 instance_purpose = "Test"
@@ -100,7 +98,7 @@ associate_public_ip_address = false
 ec2_instance_type = "c5.metal"
 ebs_optimized = true
 vpc_id = "vpc-000000000000"
-subnet_type = "public"
+subnet_type = "public/private"
 security_group_rules_data = {
   "ssh" : {
     "type" :"ingress",

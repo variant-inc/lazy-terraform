@@ -32,27 +32,11 @@ resource "random_shuffle" "random_subnet" {
   result_count = 1
 }
 
-data "aws_subnet" "selected" {
-  id = random_shuffle.random_subnet.result[0]
-}
-
-
 resource "aws_eip" "ec2_instance_eip" {
   count = var.subnet_type == "public" ? 1 : 0
   vpc  = true
   tags = local.common_tags
 }
-
-
-resource "aws_ebs_volume" "ec2_ebs_volume" {
-  availability_zone = module.ec2-instance.availability_zone[0]
-  size = var.ebs_volume_size
-  encrypted = true
-  tags = local.common_tags
-  kms_key_id = var.kms_key_id
-  type = var.ebs_vol_type
-}
-
 
 resource "aws_security_group" "ec2_security_group" {
   name        = "${var.ec2_instance_name}-ec2"
@@ -87,20 +71,18 @@ module "ec2-instance" {
   associate_public_ip_address = var.associate_public_ip_address
   instance_type = var.ec2_instance_type
   ebs_optimized = var.ebs_optimized
-  # key_name = aws_key_pair.ec2_key.key_name
   monitoring = true
   tags = local.common_tags
   subnet_id = random_shuffle.random_subnet.result[0]
   iam_instance_profile = aws_iam_instance_profile.instance_profile.name
   vpc_security_group_ids = [aws_security_group.ec2_security_group.id]
+  root_block_device = [{
+    volume_type = var.ebs_vol_type
+    volume_size = var.ebs_volume_size
+    kms_key_id = var.kms_key_id
+    encrypted = true
+  }]
 }
-
-resource "aws_volume_attachment" "ebs_ec2_attachement" {
-  device_name = var.ebs_device_name
-  volume_id   = aws_ebs_volume.ec2_ebs_volume.id
-  instance_id = module.ec2-instance.id[0]
-}
-
 
 resource "aws_eip_association" "ec2_instance" {
   count = var.subnet_type == "public" ? 1 : 0
