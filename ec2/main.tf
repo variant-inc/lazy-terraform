@@ -5,6 +5,17 @@ locals {
     "Purpose" = var.instance_purpose
     "Owner" = var.instance_owner
   }
+  default_sg_rule = {
+    "ssm": {
+        "type" :"egress",
+        "from_port":"0",
+        "to_port":"65535",
+        "protocol":"TCP",
+        "description":"Default egress to any for SSM access",
+        "cidr_blocks": ["0.0.0.0/0"]
+    }
+  }
+  merged_sg_rules = merge(local.default_sg_rule,var.security_group_rules_data)
 }
 
 data "aws_subnet_ids" "private" {
@@ -21,26 +32,11 @@ resource "random_shuffle" "random_subnet" {
   result_count = 1
 }
 
-data "aws_subnet" "selected" {
-  id = random_shuffle.random_subnet.result[0]
-}
-
-
 resource "aws_eip" "ec2_instance_eip" {
+  count = var.subnet_type == "public" ? 1 : 0
   vpc  = true
   tags = local.common_tags
 }
-
-
-resource "aws_ebs_volume" "ec2_ebs_volume" {
-  availability_zone = module.ec2-instance.availability_zone[0]
-  size = var.ebs_volume_size
-  encrypted = true
-  tags = local.common_tags
-  kms_key_id = var.kms_key_id
-  type = var.ebs_vol_type
-}
-
 
 resource "aws_security_group" "ec2_security_group" {
   name        = "${var.ec2_instance_name}-ec2"
@@ -51,7 +47,7 @@ resource "aws_security_group" "ec2_security_group" {
 }
 
 resource "aws_security_group_rule" "ec2_security_group_rules" {
-  for_each = var.security_group_rules_data
+  for_each = local.merged_sg_rules
   description = each.value.description
   type = each.value.type
   from_port = each.value.from_port
@@ -75,24 +71,23 @@ module "ec2-instance" {
   associate_public_ip_address = var.associate_public_ip_address
   instance_type = var.ec2_instance_type
   ebs_optimized = var.ebs_optimized
-  # key_name = aws_key_pair.ec2_key.key_name
   monitoring = true
   tags = local.common_tags
   subnet_id = random_shuffle.random_subnet.result[0]
   iam_instance_profile = aws_iam_instance_profile.instance_profile.name
   vpc_security_group_ids = [aws_security_group.ec2_security_group.id]
+  root_block_device = [{
+    volume_type = var.ebs_vol_type
+    volume_size = var.ebs_volume_size
+    kms_key_id = var.kms_key_id
+    encrypted = true
+  }]
 }
-
-resource "aws_volume_attachment" "ebs_ec2_attachement" {
-  device_name = var.ebs_device_name
-  volume_id   = aws_ebs_volume.ec2_ebs_volume.id
-  instance_id = module.ec2-instance.id[0]
-}
-
 
 resource "aws_eip_association" "ec2_instance" {
+  count = var.subnet_type == "public" ? 1 : 0
   instance_id   = module.ec2-instance.id[0]
-  allocation_id = aws_eip.ec2_instance_eip.id
+  allocation_id = aws_eip.ec2_instance_eip[0].id
 }
 
 

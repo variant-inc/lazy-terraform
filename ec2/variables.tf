@@ -74,6 +74,7 @@ variable "security_group_rules_data" {
       cidr_blocks = list(string)
     })
   )
+  default = {}
   description = "Ingress/Egress rules for the security group"
 }
 
