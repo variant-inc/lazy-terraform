@@ -72,6 +72,7 @@ variable "security_group_rules_data" {
       protocol = string
       description = string
       cidr_blocks = list(string)
+      source_security_group_id = string
     })
   )
   default = {}
@@ -103,4 +104,10 @@ variable "ebs_device_name" {
 variable "alarm_sns_arn" {
   type = string
   description = "ARN for the SNS topic accepting CloudWatch Alerts"
+}
+
+variable "install_cloudwatch_agent" {
+  type = bool
+  description = "Installs Cloudwatch Agent in the machine"
+  default = false
 }

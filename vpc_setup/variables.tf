@@ -16,3 +16,9 @@ variable "environment" {
 variable "vpc_cidr" {
   description = "The CIDR block of the vpc"
 }
+
+//Networking
+variable "vpc_name" {
+  description = "Name of the VPC"
+  default = "default"
+}

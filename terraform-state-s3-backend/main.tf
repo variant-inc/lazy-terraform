@@ -8,8 +8,8 @@ module "remote_state" {
   terraform_iam_policy_create = false
 
   tags = {
-    owner = "devops"
-    purpose = "lazy terraform state storage"
+    owner = "engineering"
+    purpose = "engineering terraform state storage"
     env = var.environment
   }
 
