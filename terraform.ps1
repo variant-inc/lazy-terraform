@@ -7,7 +7,7 @@ param (
 
 $tfS3Key = "efs/server"
 $env = "ops"
-$profile = "1234567890"
+$awsProfile = "1234567890"
 
 $currentPath = $(Get-Location).Path
 
@@ -31,7 +31,7 @@ ce terraform init `
   -backend-config="dynamodb_table=$tfDynamodbTable" `
   -backend-config="encrypt=true" `
   -backend-config="kms_key_id=$tfKmsKeyId" `
-  -backend-config="profile=$profile"
+  -backend-config="profile=$awsProfile"
 
 
 ce terraform plan

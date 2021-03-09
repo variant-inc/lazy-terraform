@@ -27,5 +27,5 @@ Modify lines 8-10 in [terraform.ps1](./terraform.ps1)
 ```powershell
 $tfS3Key = "efs/octopus-server" ## Name of the state key
 $env = "ops" ## env name which is same as `.terraform.<env>.yaml`
-$profile = "108141096600_AWSAdministratorAccess" ## Profile name in `/.aws/credentials
+$awsProfile = "108141096600_AWSAdministratorAccess" ## Profile name in `/.aws/credentials
 ```
