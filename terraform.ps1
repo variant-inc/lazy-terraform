@@ -37,4 +37,7 @@ ce terraform init `
 ce terraform plan
 ce terraform apply
 
+$vars_path = [System.IO.Path]::GetFullPath((Join-Path -Path "$currentPath" -ChildPath "${Path}terraform.tfvars"))
+ce aws s3 cp $vars_path s3://$tfS3Bucket/tfvars/$tfS3Key --profile $awsProfile
+
 Set-Location $currentPath

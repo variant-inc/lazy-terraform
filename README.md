@@ -4,6 +4,8 @@ Terraform scripts for lazy folks
 
 ## How to run
 
+`./terraform.ps1 -Path ./octopus_server_efs/`
+
 Create a filename called `.terraform.<env>.yaml` which will contain the following vars
 
 ```yaml
