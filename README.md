@@ -2,11 +2,16 @@
 
 Terraform scripts for lazy folks
 
+## Prerequisites
+
+1. Install Powershell
+2. Install `powershell-yaml` module by running `Install-Module powershell-yaml`
+
 ## How to run
 
 `./terraform.ps1 -Path ./octopus_server_efs/`
 
-Create a filename called `.terraform.<env>.yaml` which will contain the following vars
+Create a filename called `.terraform.<env>.yaml` in the root dir of the cloned repository which will contain the following vars
 
 ```yaml
 tfS3Bucket: lazy-tf-state
