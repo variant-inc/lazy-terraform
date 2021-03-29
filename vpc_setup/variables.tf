@@ -1,4 +1,4 @@
-variable "aws_profile" {
+variable "profile" {
   description = "AWS Account Number"
   default     = "default"
 }
@@ -12,13 +12,11 @@ variable "environment" {
   description = "The Deployment environment"
 }
 
-//Networking
 variable "vpc_cidr" {
   description = "The CIDR block of the vpc"
 }
 
-//Networking
 variable "vpc_name" {
   description = "Name of the VPC"
-  default = "default"
+  default     = "default"
 }

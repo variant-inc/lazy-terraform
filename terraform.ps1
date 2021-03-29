@@ -8,6 +8,10 @@ param (
 $tfS3Key = "efs/server"
 $env = "ops"
 $awsProfile = "1234567890"
+$awsRegion = "us-east-1"
+
+$env:TF_VAR_region = $awsRegion
+$env:TF_VAR_profile = $awsProfile
 
 $currentPath = $(Get-Location).Path
 

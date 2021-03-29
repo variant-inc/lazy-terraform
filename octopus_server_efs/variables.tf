@@ -1,3 +1,4 @@
 variable "vpc_id" {
-  description = "EKS VPC ID"
+  type = string
+  description = "ID of EKS VPC where efs is created"
 }

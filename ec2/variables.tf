@@ -7,6 +7,7 @@ variable "region" {
 variable "profile" {
   type = string
   description = "Credentials profile for AWS provider"
+  default = "default"
 }
 
 variable "ec2_instance_name" {

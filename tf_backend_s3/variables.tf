@@ -1,4 +1,4 @@
-variable "aws_profile" {
+variable "profile" {
   description = "AWS Account Number"
   default     = "default"
 }

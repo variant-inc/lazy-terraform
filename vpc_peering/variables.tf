@@ -1,10 +1,10 @@
-variable "aws_profile" {
-  description = "AWS Account Number"
+variable "profile" {
+  description = "AWS Profile"
   default     = "default"
 }
 
 variable "region" {
-  description = "AWS Default Region"
+  description = "AWS Region"
   default     = "us-east-1"
 }
 

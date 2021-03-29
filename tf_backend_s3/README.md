@@ -4,7 +4,7 @@ Module to create s3, dynamodb & KMS for terraform s3 backend
 
 ## Input Variables
 
-- aws_profile
+- profile
   - string
 - region
   - string
