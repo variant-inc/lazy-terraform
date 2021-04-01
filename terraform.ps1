@@ -2,7 +2,9 @@
 param (
   [Parameter(Mandatory = $true)]
   [string]
-  $Path
+  $Path,
+  [switch]
+  $Destroy = $false
 )
 
 $tfS3Key = "efs/server"
@@ -37,11 +39,13 @@ ce terraform init `
   -backend-config="kms_key_id=$tfKmsKeyId" `
   -backend-config="profile=$awsProfile"
 
-
-ce terraform plan
-ce terraform apply
-
 $vars_path = [System.IO.Path]::GetFullPath((Join-Path -Path "$currentPath" -ChildPath "${Path}terraform.tfvars"))
-ce aws s3 cp $vars_path s3://$tfS3Bucket/tfvars/$tfS3Key --profile $awsProfile
+if($Destroy -ne $true){
+  ce terraform plan
+  ce terraform apply
+  ce aws s3 cp $vars_path s3://$tfS3Bucket/tfvars/$tfS3Key --profile $awsProfile
+} elseif ($Destroy) {
+  ce terraform destroy
+}
 
 Set-Location $currentPath
