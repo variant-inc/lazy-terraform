@@ -31,7 +31,7 @@ variable "ami_id" {
   description = "ID of the AMI of the instance"
 }
 
-variable "associate_public_ip_address" { 
+variable "associate_public_ip_address" {
   type = bool
   default = false
   description = "Attach public IP to instance?"

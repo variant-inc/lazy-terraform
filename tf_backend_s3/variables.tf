@@ -8,10 +8,6 @@ variable "region" {
   default     = "us-east-1"
 }
 
-variable "environment" {
-  description = "The Deployment environment"
-}
-
 variable "dynamodb_table_name" {
 }
 
@@ -19,4 +15,19 @@ variable "replica_bucket_prefix" {
 }
 
 variable "state_bucket_prefix" {
+}
+
+variable "tag_purpose" {
+  type = string
+  description = "Purpose Tag"
+}
+
+variable "tag_team" {
+  type = string
+  description = "Team Tag"
+}
+
+variable "tag_owner" {
+  type = string
+  description = "Owner Tag"
 }

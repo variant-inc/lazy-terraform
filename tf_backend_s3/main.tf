@@ -8,14 +8,14 @@ module "remote_state" {
   terraform_iam_policy_create = false
 
   tags = {
-    owner = "engineering"
-    purpose = "engineering terraform state storage"
-    env = var.environment
+    owner   = var.tag_owner
+    purpose = var.tag_purpose
+    team    = var.tag_team
   }
 
   providers = {
-    aws                         = aws
-    aws.replica                 = aws.replica
+    aws         = aws
+    aws.replica = aws.replica
   }
 }
 

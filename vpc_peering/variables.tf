@@ -19,3 +19,18 @@ variable "requestor_vpc_id" {
 variable "acceptor_vpc_id" {
   description = "VPC ID of Acceptor"
 }
+
+variable "tag_purpose" {
+  type = string
+  description = "Purpose Tag"
+}
+
+variable "tag_team" {
+  type = string
+  description = "Team Tag"
+}
+
+variable "tag_owner" {
+  type = string
+  description = "Owner Tag"
+}
