@@ -81,6 +81,10 @@ module "ec2-instance" {
     kms_key_id = var.kms_key_id
     encrypted = true
   }]
+  metadata_options = {
+    "http_endpoint" = "enabled",
+    "http_metadata" = "required"
+  }
 }
 
 resource "aws_eip_association" "ec2_instance" {
