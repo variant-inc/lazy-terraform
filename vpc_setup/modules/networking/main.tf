@@ -27,12 +27,13 @@ resource "aws_internet_gateway" "ig" {
 /* Elastic IP for NAT */
 resource "aws_eip" "nat_eip" {
   vpc        = true
+  count      = length(var.availability_zones)
   depends_on = [aws_internet_gateway.ig]
 }
 
 /* NAT */
 resource "aws_nat_gateway" "nat" {
-  allocation_id = aws_eip.nat_eip.id
+  allocation_id = element(aws_eip.nat_eip.*.id, count.index)
   count         = length(var.availability_zones)
   subnet_id     = element(aws_subnet.public_subnet.*.id, count.index)
   depends_on    = [aws_internet_gateway.ig]
