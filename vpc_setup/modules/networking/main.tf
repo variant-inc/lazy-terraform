@@ -33,7 +33,8 @@ resource "aws_eip" "nat_eip" {
 /* NAT */
 resource "aws_nat_gateway" "nat" {
   allocation_id = aws_eip.nat_eip.id
-  subnet_id     = element(aws_subnet.public_subnet.*.id, 0)
+  count         = length(var.availability_zones)
+  subnet_id     = element(aws_subnet.public_subnet.*.id, count.index)
   depends_on    = [aws_internet_gateway.ig]
 
   tags = {
@@ -45,7 +46,7 @@ resource "aws_nat_gateway" "nat" {
 resource "aws_subnet" "public_subnet" {
   vpc_id                  = aws_vpc.vpc.id
   count                   = length(var.availability_zones)
-  cidr_block              = cidrsubnet(aws_vpc.vpc.cidr_block, 8, 2 * (count.index + 1))
+  cidr_block              = cidrsubnet(aws_vpc.vpc.cidr_block, 4, 2 * (count.index + 1))
   availability_zone       = element(var.availability_zones, count.index)
   map_public_ip_on_launch = true
 
@@ -72,9 +73,10 @@ resource "aws_subnet" "private_subnet" {
 /* Routing table for private subnet */
 resource "aws_route_table" "private" {
   vpc_id = aws_vpc.vpc.id
+  count  = length(var.availability_zones)
 
   tags = {
-    Name = "${var.vpc_name}-private-route-table"
+    Name = "${var.vpc_name}-${element(var.availability_zones, count.index)}-private-route-table"
   }
 }
 
@@ -94,9 +96,10 @@ resource "aws_route" "public_internet_gateway" {
 }
 
 resource "aws_route" "private_nat_gateway" {
-  route_table_id         = aws_route_table.private.id
+  count                  = length(var.availability_zones)
+  route_table_id         = element(aws_route_table.private.*.id, count.index)
   destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = aws_nat_gateway.nat.id
+  nat_gateway_id         = element(aws_nat_gateway.nat.*.id, count.index)
 }
 
 /* Route table associations */
@@ -109,7 +112,7 @@ resource "aws_route_table_association" "public" {
 resource "aws_route_table_association" "private" {
   count          = length(var.availability_zones)
   subnet_id      = element(aws_subnet.private_subnet.*.id, count.index)
-  route_table_id = aws_route_table.private.id
+  route_table_id = element(aws_route_table.private.*.id, count.index)
 }
 
 /*====
@@ -120,20 +123,6 @@ resource "aws_security_group" "default" {
   description = "Default security group to allow inbound/outbound from the VPC"
   vpc_id      = aws_vpc.vpc.id
   depends_on  = [aws_vpc.vpc]
-
-  ingress {
-    from_port = "0"
-    to_port   = "0"
-    protocol  = "-1"
-    self      = true
-  }
-
-  egress {
-    from_port = "0"
-    to_port   = "0"
-    protocol  = "-1"
-    self      = "true"
-  }
 
   tags = {
     Name = "${var.vpc_name}-sg"
