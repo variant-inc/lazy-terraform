@@ -7,6 +7,7 @@ variable "region" {
 variable "profile" {
   type = string
   description = "Credentials profile for AWS provider"
+  default = "default"
 }
 
 variable "ec2_instance_name" {
@@ -30,7 +31,7 @@ variable "ami_id" {
   description = "ID of the AMI of the instance"
 }
 
-variable "associate_public_ip_address" { 
+variable "associate_public_ip_address" {
   type = bool
   default = false
   description = "Attach public IP to instance?"
@@ -72,6 +73,7 @@ variable "security_group_rules_data" {
       protocol = string
       description = string
       cidr_blocks = list(string)
+      source_security_group_id = string
     })
   )
   default = {}
@@ -103,4 +105,10 @@ variable "ebs_device_name" {
 variable "alarm_sns_arn" {
   type = string
   description = "ARN for the SNS topic accepting CloudWatch Alerts"
+}
+
+variable "install_cloudwatch_agent" {
+  type = bool
+  description = "Installs Cloudwatch Agent in the machine"
+  default = false
 }

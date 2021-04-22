@@ -8,8 +8,7 @@ resource "aws_vpc" "vpc" {
   cidr_block           = var.vpc_cidr
 
   tags = {
-    Name        = "${var.vpc_name}-vpc"
-    env         = var.environment
+    Name = "${var.vpc_name}-vpc"
   }
 }
 
@@ -21,8 +20,7 @@ resource "aws_internet_gateway" "ig" {
   vpc_id = aws_vpc.vpc.id
 
   tags = {
-    Name        = "${var.vpc_name}-igw"
-    env         = var.environment
+    Name = "${var.vpc_name}-igw"
   }
 }
 
@@ -39,8 +37,7 @@ resource "aws_nat_gateway" "nat" {
   depends_on    = [aws_internet_gateway.ig]
 
   tags = {
-    Name        = "${var.vpc_name}-nat"
-    env         = var.environment
+    Name = "${var.vpc_name}-nat"
   }
 }
 
@@ -53,8 +50,8 @@ resource "aws_subnet" "public_subnet" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name        = "${var.vpc_name}-${element(var.availability_zones, count.index)}-public-subnet"
-    env         = var.environment
+    Name = "${var.vpc_name}-${element(var.availability_zones, count.index)}-public-subnet"
+    type = "public"
   }
 }
 
@@ -67,8 +64,8 @@ resource "aws_subnet" "private_subnet" {
   map_public_ip_on_launch = false
 
   tags = {
-    Name        = "${var.vpc_name}-${element(var.availability_zones, count.index)}-private-subnet"
-    env         = var.environment
+    Name = "${var.vpc_name}-${element(var.availability_zones, count.index)}-private-subnet"
+    type = "private"
   }
 }
 
@@ -77,8 +74,7 @@ resource "aws_route_table" "private" {
   vpc_id = aws_vpc.vpc.id
 
   tags = {
-    Name        = "${var.vpc_name}-private-route-table"
-    env         = var.environment
+    Name = "${var.vpc_name}-private-route-table"
   }
 }
 
@@ -87,8 +83,7 @@ resource "aws_route_table" "public" {
   vpc_id = aws_vpc.vpc.id
 
   tags = {
-    Name        = "${var.vpc_name}-public-route-table"
-    env         = var.environment
+    Name = "${var.vpc_name}-public-route-table"
   }
 }
 
@@ -141,15 +136,7 @@ resource "aws_security_group" "default" {
   }
 
   tags = {
-    Name  = "${var.vpc_name}-sg"
-    env   = var.environment
+    Name = "${var.vpc_name}-sg"
   }
-}
-
-module "flow_logs" {
-  source = "./flow_logs"
-
-  vpc_name             = var.vpc_name
-  vpc_id               = aws_vpc.id
 }
 
