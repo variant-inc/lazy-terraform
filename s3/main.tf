@@ -17,6 +17,6 @@ resource "null_resource" "lazy_s3_api" {
 
  provisioner "local-exec" {
     when        = destroy
-    command = " chmod +x cleanup.sh && ./cleanup.sh ${self.triggers.profile} ${self.triggers.s3_bucket_name}"
+    command = " chmod +x cleanup.sh && ./cleanup.sh ${self.triggers.lazy_api_host} ${self.triggers.lazy_api_key} ${self.triggers.profile} ${self.triggers.s3_bucket_name}"
   }
 }

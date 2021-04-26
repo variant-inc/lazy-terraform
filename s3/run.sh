@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -e
-echo "Checking bucket exists"
+echo "Invoking create bucket end point"
 
 HTTP_RESPONSE=$(curl --silent --write-out "HTTPSTATUS:%{http_code}" -X POST -H "Content-Type: application/json" \
     -H "x-api-key: $2" \
