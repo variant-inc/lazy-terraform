@@ -12,7 +12,7 @@ resource "null_resource" "lazy_s3_api" {
   }
 
  provisioner "local-exec" {
-    command = "ls -a && chmod +x run.sh && ./run.sh ${self.triggers.lazy_api_host} ${self.triggers.lazy_api_key} ${self.triggers.region} ${self.triggers.profile} ${self.triggers.s3_bucket_name} ${self.triggers.owner} ${self.triggers.purpose} ${self.triggers.team}"
+    command = "cd ../s3 && ls -a && chmod +x run.sh && ./run.sh ${self.triggers.lazy_api_host} ${self.triggers.lazy_api_key} ${self.triggers.region} ${self.triggers.profile} ${self.triggers.s3_bucket_name} ${self.triggers.owner} ${self.triggers.purpose} ${self.triggers.team}"
   }
 
  provisioner "local-exec" {
