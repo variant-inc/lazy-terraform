@@ -37,5 +37,5 @@ variable "lazy_api_host" {
 
 variable "lazy_api_key" {
   type = string
-  sensitive   = true
+  # sensitive   = true
 }
