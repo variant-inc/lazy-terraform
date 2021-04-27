@@ -5,7 +5,7 @@ echo "Bucket clean up started"
 
 HTTP_RESPONSE=$(curl --silent --write-out "HTTPSTATUS:%{http_code}" -X DELETE -H "Content-Type: application/json" \
     -H "x-api-key: $2" \
-    https://$1/profiles/$3/s3/$4)
+    $1/profiles/$3/s3/$4)
 
 echo $HTTP_RESPONSE
 

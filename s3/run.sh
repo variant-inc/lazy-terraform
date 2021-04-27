@@ -6,7 +6,7 @@ echo "Invoking create bucket end point"
 HTTP_RESPONSE=$(curl --silent --write-out "HTTPSTATUS:%{http_code}" -X POST -H "Content-Type: application/json" \
     -H "x-api-key: $2" \
     -d '{"options": { "Bucket" : "'$5'"}, "tags": { "owner" : "'$6'","purpose" : "'$7'","team" : "'$8'"   } }' \
-    https://$1/profiles/$4/regions/$3/s3)
+    $1/profiles/$4/regions/$3/s3)
 
 echo $HTTP_RESPONSE
 
