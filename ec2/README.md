@@ -55,6 +55,7 @@ Module to deploy EC2 instance and required resources in a lazy fashion
     protocol = string
     description = string
     cidr = list(string)
+    source_security_group_id = string
   }))
   ```
 
@@ -67,7 +68,8 @@ Module to deploy EC2 instance and required resources in a lazy fashion
       "to_port" : "22",
       "protocol" : "TCP",
       "description" : "ssh access to instance",
-      "cidr_blocks" : ["0.0.0.0/8"]
+      "cidr_blocks" : ["0.0.0.0/8"],
+      "source_security_group_id": null
     }
   ```
 
@@ -106,7 +108,8 @@ security_group_rules_data = {
     "to_port":"22",
     "protocol":"TCP",
     "description":"ssh",
-    "cidr_blocks": ["0.0.0.0/0"]
+    "cidr_blocks": ["0.0.0.0/0"],
+    "source_security_group_id": null
   }
 }
 kms_key_id = "arn:aws:kms:us-west-2:-000000000:key/00000000-0000-0000-0000-000000000000"
