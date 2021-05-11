@@ -28,21 +28,29 @@ Module to deploy EC2 instance and required resources in a lazy fashion
 
     ```bash
     dedicated_master_enabled = false
-    instance_count= 1
+    instance_count= 4
+    ```
+
+    or
+
+    ```bash
+    dedicated_master_enabled = true
+    dedicated_master_count = 2
+    instance_count= 4
     ```
 
 - [master_user_options](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/elasticsearch_domain#master_user_options)
   - map(string)
   - example
-  
+
     ```bash
     master_user_name= "devops-test-user"
     master_user_password= "jbb12377(!#%TORkf2ef"
     ```
 
 - user_tags
-  - map(string
-  - Following tags are required) 
+  - map(string)
+  - Following tags are required
   
     ```bash
     octopus-project_name= "actions-test"
