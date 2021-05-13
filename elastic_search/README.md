@@ -22,6 +22,9 @@ Module to deploy EC2 instance and required resources in a lazy fashion
   - string
 - vpc_id
   - string
+- inbound_cidr
+  - string
+  - default = "0.0.0.0/0"
 - [cluster_config](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/elasticsearch_domain#kibana_endpoint)
   - map(string)
   - example
@@ -69,6 +72,7 @@ module "module-test" {
         profile ="0601924719241_AWSAdministratorAccess"
         domain_name= "module-test"
         vpc_id= "vpc-26r9f023fh2f3"
+        inbound_cidr = "0.0.0.0/0"
         cluster_config= {
             dedicated_master_enabled = false
             instance_count= 1
@@ -86,7 +90,7 @@ module "module-test" {
 }
 ```
 
-or example.tfvars.json
+or example.tf.json
 
 ```json
 {
@@ -97,6 +101,7 @@ or example.tfvars.json
             "region": "us-east-1",
             "domain_name": "module-test",
             "vpc_id": "vpc-26r9f023fh2f3",
+            "inbound_cidr": "0.0.0.0/0",
             "cluster_config": {
                 "dedicated_master_enabled" : false,
                 "instance_count": "1"

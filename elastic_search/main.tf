@@ -1,15 +1,3 @@
-# Get EKS VPC id and cidr to add to securtiy group rules
-data "aws_vpcs" "eks_vpcs" {
-    filter {
-        name = "tag-key"
-        values = ["alpha.eksctl.io/eksctl-version"]
-    }
-}
-
-data "aws_vpc" "eks_vpc" {
-  id = tolist(data.aws_vpcs.eks_vpcs.ids)[0]
-}
-
 # Get Open VPN security group for ES securtiy group
 data "aws_security_groups" "openvpn" {
   tags = {
@@ -45,7 +33,6 @@ locals {
     
     tags = merge(local.common_tags, local.user_tags)
     log_publishing_options = { "index_slow_logs": "INDEX_SLOW_LOGS", "search_slow_logs": "SEARCH_SLOW_LOGS", "es_application_logs": "ES_APPLICATION_LOGS", "audit_logs": "AUDIT_LOGS"}
-    eks_cidr_block = data.aws_vpc.eks_vpc.cidr_block_associations[0]["cidr_block"]
     open_vpn_sgs = {
         for sg in data.aws_security_groups.openvpn.ids:
         "open_vpn_ingress_${sg}" => {
@@ -65,7 +52,7 @@ locals {
             "to_port":"443",
             "protocol":"TCP",
             "description":"",
-            "cidr_blocks": [local.eks_cidr_block],
+            "cidr_blocks": [var.inbound_cidr],
             "source_security_group_id": null
         },
         "es_tcp_ingress": {
@@ -74,7 +61,7 @@ locals {
             "to_port":"65535",
             "protocol":"TCP",
             "description":"",
-            "cidr_blocks": [local.eks_cidr_block],
+            "cidr_blocks": [var.inbound_cidr],
             "source_security_group_id": null
         },
         "es_tcp_egree": {
@@ -83,7 +70,7 @@ locals {
             "to_port":"65535",
             "protocol":"TCP",
             "description":"",
-            "cidr_blocks": [local.eks_cidr_block],
+            "cidr_blocks": [var.inbound_cidr],
             "source_security_group_id": null
         }
     }

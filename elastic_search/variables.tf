@@ -16,6 +16,11 @@ variable "vpc_id" {
   description = "VPC to create the cluster in"
 }
 
+variable "inbound_cidr" {
+  description = "CIDR block to expect requests to originate from ie the source/destination in es' security group"
+  default = "0.0.0.0/0"
+}
+
 variable "user_tags" {
   description = "Mandatory tags fot the elk resources"
   type = object({
@@ -28,17 +33,17 @@ variable "user_tags" {
 }
 
 variable "ebs_volume_size" {
-  description = "Elastic Search Security Options"
+  description = "Elastic Search EBS volume size"
   type = number
   default = 100
 }
 
 variable "cluster_config" {
-  description = "Elastic Search Security Options. See "
+  description = "Elastic Search Cluster Config "
   type = map(string)
 }
 
 variable "master_user_options" {
-  description = "Elastic Search Security Options"
+  description = "Elastic Search User Options"
   type = map(string)
 }
