@@ -4,9 +4,20 @@ variable "region" {
   description = "Default region for AWS provider"
 }
 
+variable "s3_region" {
+  type = string
+  default = "us-east-1"
+  description = "Region where s3 bucket need to be created"
+}
+
 variable "profile" {
   type = string
   description = "Credentials profile for AWS provider"
+}
+
+variable "s3_profile" {
+  type = string
+  description = "Profile where s3 bucket need to created"
 }
 
 variable "s3_bucket_name" {

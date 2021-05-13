@@ -3,7 +3,7 @@
 set -e
 echo "Bucket clean up started"
 
-HTTP_RESPONSE=$(curl --silent --write-out "HTTPSTATUS:%{http_code}" -X DELETE -H "Content-Type: application/json" \
+HTTP_RESPONSE=$(curl --fail-with-body --silent --write-out "HTTPSTATUS:%{http_code}" -X DELETE -H "Content-Type: application/json" \
     -H "x-api-key: $2" \
     "$1"/profiles/"$3"/s3/"$4")
 
