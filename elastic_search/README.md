@@ -20,6 +20,9 @@ Module to deploy EC2 instance and required resources in a lazy fashion
   - string
 - domain_name
   - string
+- es_version
+  - string
+  - default = 7.10
 - vpc_id
   - string
 - inbound_cidr
@@ -83,9 +86,9 @@ module "module-test" {
         user_tags= {
             octopus-project_name= "actions-test"
             octopus-space_name = "Default"
-            Team= "devops"
-            Purpose= "elk module test"
-            Owner= "Samir"
+            team= "devops"
+            purpose= "elk module test"
+            owner= "Samir"
         }
 }
 ```
@@ -113,9 +116,9 @@ or example.tf.json
             "user_tags": {
                 "octopus-project_name": "actions-test",
                 "octopus-space_name" : "Default",
-                "Team": "devops",
-                "Purpose": "elk module",
-                "Owner": "YourNameHere"
+                "team": "devops",
+                "purpose": "elk module",
+                "owner": "YourNameHere"
             }
         }
     }

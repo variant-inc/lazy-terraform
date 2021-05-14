@@ -1,5 +1,6 @@
 # Get Open VPN security group for ES securtiy group
-data "aws_security_groups" "openvpn" {
+data "aws_security_group" "openvpn" {
+  name = "openvpn-ec2"
   tags = {
     openvpn = "true"
  }
@@ -15,7 +16,6 @@ data "aws_subnet_ids" "private_subnets" {
 }
 
 # Get data for tags
-data "aws_region" "current" {}
 data "aws_caller_identity" "current" {}
 
 locals {
@@ -26,23 +26,22 @@ locals {
     }
 
     common_tags = {
-        "Name" = var.domain_name
-        "DeployedBy" = data.aws_caller_identity.current.user_id
+        "name" = var.domain_name
+        "deployed_by" = data.aws_caller_identity.current.user_id
         "aws/account_number" = data.aws_caller_identity.current.id
     }
     
     tags = merge(local.common_tags, local.user_tags)
     log_publishing_options = { "index_slow_logs": "INDEX_SLOW_LOGS", "search_slow_logs": "SEARCH_SLOW_LOGS", "es_application_logs": "ES_APPLICATION_LOGS", "audit_logs": "AUDIT_LOGS"}
-    open_vpn_sgs = {
-        for sg in data.aws_security_groups.openvpn.ids:
-        "open_vpn_ingress_${sg}" => {
+    open_vpn_sg = {
+        "open_vpn_ingress_": {
             "type" :"ingress",
             "from_port":"443",
             "to_port":"443",
             "protocol":"TCP",
             "description":"",
             "cidr_blocks": null,
-            "source_security_group_id": sg
+            "source_security_group_id": data.aws_security_group.openvpn.id
         }
     }
     default_sg_rules = {
@@ -74,7 +73,7 @@ locals {
             "source_security_group_id": null
         }
     }
-    sg_rules = merge(local.open_vpn_sgs, local.default_sg_rules)
+    sg_rules = merge(local.open_vpn_sg, local.default_sg_rules)
 }
 
 # Pick one incase instance number is one
@@ -148,7 +147,7 @@ CONFIG
 
 resource "aws_elasticsearch_domain" "variant-elk-cluster" {
     domain_name           = var.domain_name
-    elasticsearch_version = "7.10"
+    elasticsearch_version = var.es_version
     domain_endpoint_options {
         enforce_https=true
         tls_security_policy = "Policy-Min-TLS-1-2-2019-07"
@@ -158,7 +157,6 @@ resource "aws_elasticsearch_domain" "variant-elk-cluster" {
         internal_user_database_enabled = true
         master_user_options {
             master_user_name = var.master_user_options["master_user_name"]
-            # master_user_arn = var.master_user_options["master_user_arn"]
             master_user_password = lookup( var.master_user_options, "master_user_password", random_password.password.result)
         }
     }
@@ -223,7 +221,7 @@ resource "aws_elasticsearch_domain" "variant-elk-cluster" {
         "AWS": "*"
       },
       "Effect": "Allow",
-      "Resource": "arn:aws:es:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:domain/${var.domain_name}/*"
+      "Resource": "arn:aws:es:${var.region}:${data.aws_caller_identity.current.account_id}:domain/${var.domain_name}/*"
     }
   ]
 }

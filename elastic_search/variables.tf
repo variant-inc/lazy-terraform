@@ -12,6 +12,11 @@ variable "domain_name" {
   description = "Elastic Search Domain Name"
 }
 
+variable "es_version" {
+  description = "Elastic Search Version"
+  default =  "7.10"
+}
+
 variable "vpc_id" {
   description = "VPC to create the cluster in"
 }
@@ -26,9 +31,9 @@ variable "user_tags" {
   type = object({
     octopus-project_name = string
     octopus-space_name = string
-    Team = string
-    Purpose = string
-    Owner = string
+    team = string
+    purpose = string
+    owner = string
   })
 }
 
