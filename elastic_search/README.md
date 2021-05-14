@@ -6,10 +6,10 @@ Module to deploy EC2 instance and required resources in a lazy fashion
 
 - Security Group
 - Security Group Rules
-- IAM EC2 Instance Profile
-- EC2 Instance
-- Elastic IP (if public subnet)
-- Elastic IP Instance Association (if public subnet)
+- Random Password (If nonotne provided)
+- ES Service Domain
+- Log Groups for ES Cluster
+- Log Resource Policy for Log Groups
 
 ## Input Variables
 
