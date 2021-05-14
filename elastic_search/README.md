@@ -63,11 +63,11 @@ Module to deploy EC2 instance and required resources in a lazy fashion
     Owner= "Samir"
     ```
 
-## Example .tfvars
+## Example .tf file module reference
 
 ```bash
 module "module-test" {
-        source = "./elastic_search"
+        source = "./elastic_search" # See below for github repo reference
         region="us-east-1"
         profile ="0601924719241_AWSAdministratorAccess"
         domain_name= "module-test"
