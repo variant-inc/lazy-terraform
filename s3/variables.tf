@@ -1,26 +1,15 @@
 variable "region" {
   type = string
   default = "us-east-1"
-  description = "Default region for AWS provider"
-}
-
-variable "s3_region" {
-  type = string
-  default = "us-east-1"
   description = "Region where s3 bucket need to be created"
 }
 
 variable "profile" {
   type = string
-  description = "Credentials profile for AWS provider"
-}
-
-variable "s3_profile" {
-  type = string
   description = "Profile where s3 bucket need to created"
 }
 
-variable "s3_bucket_name" {
+variable "bucket_name" {
   type    = string
   default = "name-not-provided"
   description = "Name given to s3 bucket"
@@ -49,4 +38,14 @@ variable "lazy_api_host" {
 variable "lazy_api_key" {
   type = string
   sensitive = true
+}
+
+variable "octopus_project_space" {
+  type = string
+  default = ""
+}
+
+variable "octopus_project_name" {
+  type = string
+  default = ""
 }

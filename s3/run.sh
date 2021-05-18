@@ -3,10 +3,12 @@
 set -e
 echo "Invoking create bucket end point"
 
-HTTP_RESPONSE=$(curl --fail-with-body --silent --write-out "HTTPSTATUS:%{http_code}" -X POST -H "Content-Type: application/json" \
+HTTP_RESPONSE=$(curl --silent --write-out "HTTPSTATUS:%{http_code}" -X POST -H "Content-Type: application/json" \
     -H "x-api-key: $2" \
-    -d '{"options": { "Bucket" : "'"$5"'"}, "tags": { "owner" : "'"$6"'","purpose" : "'"$7"'","team" : "'"$8"'"   } }' \
-    "$1"/profiles/"$4"/regions/"$3"/s3)
+    -d '{"options": { "Bucket" : "'"$5"'"}, "CreateBucketConfiguration": { "LocationConstraint":"'"$3"'" }, \
+    "tags": { "created-by" : "lazy-terraform", "owner" : "'"$6"'","purpose" : "'"$7"'","team" : "'"$8"'", \
+     "/octopus/project_name" : "'"$10"'", "/octopus/space" : "'"$9"'"   } }' \
+    "$1"/profiles/"$4"/s3)
 
 HTTP_BODY="$HTTP_RESPONSE"
 HTTP_STATUS_CODE="$(echo "$HTTP_RESPONSE" | tr -d '\n' | sed -e 's/.*HTTPSTATUS://')"
