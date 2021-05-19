@@ -1,13 +1,12 @@
 
 terraform {
   backend "s3" {
-    profile         = "108141096600_AWSAdministratorAccess"
-    bucket          = "lazy-tf-state20210107203535113800000001"
-    key             = "s3/default"
+    profile         = ""
+    bucket          = ""
+    key             = "s3/default1"
     region          = "us-west-2"
     dynamodb_table  = "lazy_tf_state"
-    encrypt         = true
-    kms_key_id      = "arn:aws:kms:us-west-2:108141096600:key/fc9bb6d7-4f0d-4b99-a830-85951933c030"
+    encrypt         = false
   }
 }
 
@@ -32,6 +31,6 @@ resource "null_resource" "lazy_s3_api" {
 
  provisioner "local-exec" {
     when        = destroy
-    command = "./cleanup.sh ${self.triggers.lazy_api_host} ${self.triggers.lazy_api_key} ${self.triggers.s3_profile} ${self.triggers.s3_bucket_name}"
+    command = "./cleanup.sh ${self.triggers.lazy_api_host} ${self.triggers.lazy_api_key} ${self.triggers.profile} ${self.triggers.bucket_name}"
   }
 }
