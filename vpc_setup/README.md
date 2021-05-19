@@ -1,20 +1,17 @@
 # Terraform VPC Setup Module
 
-This module create a VPC peering connection in the same account
+This module create a VPC with private and public subnets
 
 ## Input Variables
 
-- requestor_vpc_id
+- vpc_cidr
   - string
-- acceptor_vpc_id
-  - string
-- environment
+- vpc_name
   - string
 
 ## Example .tfvars
 
 ```text
-requestor_vpc_id = "vpc-123"
-acceptor_vpc_id = "vpc-234"
-environment = "devops"
+vpc_cidr = "10.1.10.0/20"
+vpc_name = "default"
 ```
