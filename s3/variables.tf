@@ -32,7 +32,7 @@ variable "team" {
 
 variable "lazy_api_host" {
   type = string
-  default = "https://lazyapi-test.apps.ops-drivevariant.com"
+  default = "https://lazy.apps.ops-drivevariant.com"
 }
 
 variable "lazy_api_key" {
