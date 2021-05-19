@@ -1,15 +1,3 @@
-
-terraform {
-  backend "s3" {
-    profile         = ""
-    bucket          = ""
-    key             = "s3/default1"
-    region          = "us-west-2"
-    dynamodb_table  = "lazy_tf_state"
-    encrypt         = false
-  }
-}
-
 resource "null_resource" "lazy_s3_api" {
 
   triggers = {
