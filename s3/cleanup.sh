@@ -1,20 +1,6 @@
 #!/bin/bash
+set -e
+echo "Invoking create bucket end point"
+wget --content-on-error -O - --header="Content-Type:application/json" --header='x-api-key: '"$2"'' --method=delete "$1"/profiles/"$3"/s3/"$4"
 
-# set -e
-# echo "Bucket clean up started"
-
-# HTTP_RESPONSE=$(curl --silent --write-out "HTTPSTATUS:%{http_code}" -X DELETE -H "Content-Type: application/json" \
-#     -H "x-api-key: $2" \
-#     "$1"/profiles/"$3"/s3/"$4")
-
-# HTTP_BODY="$HTTP_RESPONSE"
-# HTTP_STATUS_CODE="$(echo "$HTTP_RESPONSE" | tr -d '\n' | sed -e 's/.*HTTPSTATUS://')"
-# echo "Response Body: $HTTP_BODY"
-# echo "Response Code: $HTTP_STATUS_CODE"
-
-# if [ ! "$HTTP_STATUS_CODE" -eq 200  ]; then
-#   echo "Error [HTTP status: $HTTP_STATUS_CODE]"
-#   exit 1
-# fi
-# echo "Bucket clean up done"
 
