@@ -2,8 +2,11 @@ resource "random_id" "random_id_prefix" {
   byte_length = 2
 }
 
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
 locals {
-  availability_zones = ["${var.region}a", "${var.region}b", "${var.region}c", "${var.region}d"]
   vpc_name           = var.vpc_name
 }
 
@@ -12,6 +15,6 @@ module "networking" {
 
   region             = var.region
   vpc_cidr           = var.vpc_cidr
-  availability_zones = local.availability_zones
+  availability_zones = data.aws_availability_zones.available.names
   vpc_name           = local.vpc_name
 }
