@@ -14,8 +14,8 @@ resource "null_resource" "lazy_s3_api" {
   }
 
  provisioner "local-exec" {
-    working_dir = "${path.module}/s3"
-    command = "ls -lrt"
+    working_dir = "${path.module}"
+    command = "ls"
     #command = "ls -lrt && ./run.sh ${self.triggers.lazy_api_host} ${self.triggers.lazy_api_key} ${self.triggers.region} ${self.triggers.profile} ${self.triggers.bucket_name} ${self.triggers.owner} ${self.triggers.purpose} ${self.triggers.team} ${self.triggers.octopus_project_space} ${self.triggers.octopus_project_name}"
   }
 
