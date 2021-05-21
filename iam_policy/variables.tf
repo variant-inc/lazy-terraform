@@ -19,5 +19,14 @@ variable "policy_name" {
 }
 
 variable "policy_json" {
-    description = "IAM Policy Definition"
+  description = "IAM Policy Definition"
+  type = object({
+    Version = string
+    Statement = list(object({
+      Sid      = string
+      Effect   = string
+      Action   = string
+      Resource = string
+    }))
+  })
 }
