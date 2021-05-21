@@ -5,17 +5,17 @@ Module to create IAM Policy in a lazy fasion
 ## Input Variables
 
 - profile
-    - string
+  - string
 - region
-    - string
-    - default = us-east-1
+  - string
+  - default = us-east-1
 - policy_description
-    - string
+  - string
 - policy_name
-    - string
-    - default = policy-name-not-provided
+  - string
+  - default = policy-name-not-provided
 - policy_json
-    - Variable Definition
+  - Variable Definition
     ```bash
         object({
         Version     = string
@@ -27,7 +27,7 @@ Module to create IAM Policy in a lazy fasion
         }))
     })
     ```
-    - Example
+  - Example
     ```bash
     {
         "Version"   : "2012-10-17",
