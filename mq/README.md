@@ -63,9 +63,9 @@ Assumptions:
 
 
 ## Example 1 minimum.tfvars
-## This example shows the minimum set of variables required to create Amazon MQ broker of type RabbitMQ. This include default values for variables not specified
-## To test plan use "terraform plan -var-file=minimum.tfvars -out=minimum.out
-## To apply use "terraform apply "minimum.out"
+This example shows the minimum set of variables required to create Amazon MQ broker of type RabbitMQ. This include default values for variables not specified
+To test plan use "terraform plan -var-file=minimum.tfvars -out=minimum.out
+To apply use "terraform apply "minimum.out"
 
 ```bash
 profile = "dev-ops"
@@ -80,9 +80,9 @@ broker_owner = "mq-test-tf"
 ```
 
 ## Example 2 alternative.tfvars
-## This example shows the alternative set of variables used to create Amazon MQ. This also includes some variables where default values are overriden
-## To test plan use "terraform plan -var-file=alternative.tfvars -out=alternative.out
-## To apply use "terraform apply "alternative.out"
+This example shows the alternative set of variables used to create Amazon MQ. This also includes some variables where default values are overriden
+To test plan use "terraform plan -var-file=alternative.tfvars -out=alternative.out
+To apply use "terraform apply "alternative.out"
 
 ```bash
 profile = "dev-ops"
