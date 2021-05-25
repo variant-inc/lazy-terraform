@@ -1,5 +1,5 @@
 module "tags" {
-  source = "github.com/variant-inc/lazy-terraform//submodules/tags"
+  source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1"
   # source = "../submodules/tags" # For testing
 
   user_tags = var.user_tags
@@ -8,7 +8,7 @@ module "tags" {
 
 # Create security group
 module "security_group" {
-  source = "github.com/variant-inc/lazy-terraform//submodules/security_group"
+  source = "github.com/variant-inc/lazy-terraform//submodules/security_group?ref=v1"
   # source = "../submodules/security_group" # For testing
 
   tags          = module.tags.tags
@@ -21,7 +21,7 @@ module "security_group" {
 
 # Get subnets for ES cluster nodes
 module "subnets" {
-  source = "github.com/variant-inc/lazy-terraform//submodules/subnets"
+  source = "github.com/variant-inc/lazy-terraform//submodules/subnets?ref=v1"
   # source = "../submodules/subnets" # For testing
 
   vpc_id = var.vpc_id
