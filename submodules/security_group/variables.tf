@@ -15,6 +15,14 @@ variable "protocol" {
 
 variable "tags" {
   description = "Tags for security group"
+  type = object({
+    octopus-project_name = string
+    octopus-space_name   = string
+    team                 = string
+    purpose              = string
+    owner                = string
+    name                 = string
+  })
 }
 
 variable "name" {

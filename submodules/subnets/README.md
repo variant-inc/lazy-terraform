@@ -19,7 +19,7 @@ Module to create security group
 
 ```bash
   module "subnets" {
-    source = "github.com/variant-inc/lazy-terraform//submodules/subnets"
+    source = "github.com/variant-inc/lazy-terraform//submodules/subnets?ref=v1"
 
     vpc_id = "vpc-123456789"
   }

@@ -13,7 +13,7 @@ Module to create tags
 
 ```bash
   module "tags" {
-    source = "github.com/variant-inc/lazy-terraform//submodules/tags"
+    source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1"
 
     user_tags= {
       octopus-project_name= "actions-test"

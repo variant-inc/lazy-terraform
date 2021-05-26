@@ -29,7 +29,7 @@ Module to deploy EC2 instance and required resources in a lazy fashion
 
 ```bash
 module "cache_cluster" {
-  source = "github.com/variant-inc/lazy-terraform//redis_elasticache"
+  source = "github.com/variant-inc/lazy-terraform//redis_elasticache?ref=v1"
   region="us-east-1"
   profile ="0601924719241_AWSAdministratorAccess"
   domain_name = "test"

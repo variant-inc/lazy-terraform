@@ -23,7 +23,7 @@ Module to create security group
 
 ```bash
   module "security_group" {
-    source = "github.com/variant-inc/lazy-terraform//submodules/security_group"
+    source = "github.com/variant-inc/lazy-terraform//submodules/security_group?ref=v1"
 
     tags = {
       octopus-project_name= "actions-test"
@@ -31,6 +31,7 @@ Module to create security group
       team= "devops"
       purpose= "elk module test"
       owner= "Samir"
+      name = "Test"
     }
     name = "Test"
     vpc_id = "vpc-123456789"
