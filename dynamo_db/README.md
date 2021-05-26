@@ -232,3 +232,8 @@ module "dynamodb_table" {
 }
 
 ```
+
+## Output Variables
+
+- aws_dynamodb_table.table
+  - string
