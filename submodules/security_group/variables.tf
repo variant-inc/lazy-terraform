@@ -13,15 +13,14 @@ variable "protocol" {
   default     = "tcp"
 }
 
-variable "tags" {
-  description = "Tags for security group"
+variable "user_tags" {
+  description = "User Tags for security group"
   type = object({
     octopus-project_name = string
     octopus-space_name   = string
     team                 = string
     purpose              = string
     owner                = string
-    name                 = string
   })
 }
 

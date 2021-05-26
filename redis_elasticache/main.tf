@@ -11,7 +11,7 @@ module "security_group" {
   source = "github.com/variant-inc/lazy-terraform//submodules/security_group?ref=v1"
   # source = "../submodules/security_group" # For testing
 
-  tags          = module.tags.tags
+  user_tags     = var.user_tags
   port          = "6379"
   protocol      = "tcp"
   inbound_cidrs = var.inbound_cidrs
