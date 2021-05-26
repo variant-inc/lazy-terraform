@@ -203,3 +203,32 @@ local_secondary_indexes = [
     non_key_attributes = []
   }]
 ```
+
+## To test as module
+
+```bash
+module "dynamodb_table" {
+  source = "git::https://github.com/variant-inc/lazy-terraform.git//dynamo_db?ref=feature/CLOUD-272-module-for-dynamo-db"
+
+    profile = "108141096600_AWSAdministratorAccess"
+    region = "us-west-2"
+    table_name = "naveen-new-12"
+    billing_mode = "PAY_PER_REQUEST"
+    hash_key = "UserId"
+    hash_key_type = "S"
+    team = "devops"
+    owner = "devops"
+    purpose = "testing"
+    octopus_project = "devops"
+    octopus_space = "devops"
+
+    range_key = "Name"
+    attributes = [
+        {
+        name = "Name",
+        type = "S",
+        }
+    ]
+}
+
+```
