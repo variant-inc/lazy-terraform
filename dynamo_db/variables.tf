@@ -70,13 +70,13 @@ variable "attributes" {
 }
 
 variable "global_secondary_indexes" {
-  description = "To add global secondary indexes, maximum of 5 global secondary indexes can be defined for the table"
+  description = "GSI for the table; subject to the normal limits on the number of GSIs, projected attributes, etc. Maximum of 5 global secondary indexes can be defined for the table"
   type = any          
   default = null
 }
 
 variable "local_secondary_indexes" {
-  description = "To add local secondary indexes, maximum of 5 global secondary indexes can be defined for the table"
+  description = "LSI on the table; these can only be allocated at creation so you cannot change this definition after you have created the resource, maximum of 5 global secondary indexes can be defined for the table"
   type = any          
   default = null
 }
