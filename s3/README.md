@@ -43,4 +43,5 @@ dynamodb_table = "lazy_tf_state"
 s3_backend_region = "us-west-2"
 octopus_project_space = "test-space"
 octopus_project_name = "test-project"
+role_arn = "arn:aws:iam::123456789013:role/role_name"
 ```
