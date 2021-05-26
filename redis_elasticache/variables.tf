@@ -3,11 +3,6 @@ variable "profile" {
   default     = "default"
 }
 
-variable "region" {
-  description = "AWS Default Region"
-  default     = "us-east-1"
-}
-
 variable "domain_name" {
   description = "Elastic Search Domain Name"
 }
