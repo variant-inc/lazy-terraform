@@ -8,6 +8,7 @@ Module to create security group
 - Security Group Rules
 - Tags
 
+<!-- markdownlint-disable MD013 -->
 ## Input Variables
 
 | Name          | Type                                                                                                                                                                                                                                                          | Default Value | Example                                                                                                                                                                                                                            |
@@ -18,6 +19,7 @@ Module to create security group
 | protocol      | string                                                                                                                                                                                                                                                        | "tcp"         |                                                                                                                                                                                                                                    |
 | user_tags     | object({ <br />    octopus-project_name = string<br />    octopus-space_name   = string<br />    team                 = string<br />    purpose              = string<br />    owner                = string<br />    name                 = string<br />  }) |               | {<br />            octopus-project_name= "actions-test"<br />            octopus-space_name = "Default"<br />            team= "devops"<br />            purpose= "elk module test"<br />            owner= "Samir"<br />        } |  | {<br />            octopus-project_name= "actions-test"<br />            octopus-space_name = "Default"<br />            team= "devops"<br />            purpose= "elk module test"<br />            owner= "Samir"<br />        } |
 | name          | string                                                                                                                                                                                                                                                        |               | "Test"                                                                                                                                                                                                                             |
+<!-- markdownlint-enable MD013 -->
 
 ## Example .tf file module reference
 
@@ -35,4 +37,24 @@ Module to create security group
     name = "Test"
     vpc_id = "vpc-123456789"
   }
+```
+
+## Get Security Group
+
+```bash
+module "security_group" {
+  source = "github.com/variant-inc/lazy-terraform//submodules/security_group?ref=v1"
+  # source = "../submodules/security_group" # For testing
+
+  user_tags     = var.user_tags
+  port          = "6379"
+  protocol      = "tcp"
+  inbound_cidrs = var.inbound_cidrs
+  name          = "${var.domain_name}-ec"
+  vpc_id        = var.vpc_id
+}
+
+output "security_group_id" {
+  value = module.security_group.security_group.id
+}
 ```
