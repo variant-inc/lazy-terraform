@@ -124,7 +124,9 @@ local_secondary_indexes = [
 
 ```bash
 module "dynamodb_table" {
-  source = "git::https://github.com/variant-inc/lazy-terraform.git//dynamo_db?ref=feature/CLOUD-272-module-for-dynamo-db"
+  source = "git::https://github.com/variant-inc/lazy-terraform.git//dynamo_db?ref=v1"
+  #If testing on branch
+  # source = "git::https://github.com/variant-inc/lazy-terraform.git//dynamo_db?ref=feature/CLOUD-272-module-for-dynamo-db"
 
     profile = "108141096600_AWSAdministratorAccess"
     region = "us-west-2"
