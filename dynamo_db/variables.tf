@@ -1,9 +1,3 @@
-variable "region" {
-  type = string
-  default = "us-east-1"
-  description = "Region where table need to be created"
-}
-
 variable "profile" {
   type = string
   description = "Profile where table need to be created"

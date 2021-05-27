@@ -1,14 +1,16 @@
 module "tags" {
-    source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1"
+  source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1"
 
-    user_tags= {
-      octopus-project_name = var.octopus_project
-      octopus-space_name = var.octopus_space
-      team = var.team
-      purpose = var.purpose
-      owner = var.owner
-    }
-    name = "dynamodb-terraform"
+  user_tags = {
+    team    = var.team
+    purpose = var.purpose
+    owner   = var.owner
+  }
+  octopus_tags = {
+    project = var.octopus_project
+    space   = var.octopus_space
+  }
+  name = "dynamodb-terraform"
 }
 
 locals {
