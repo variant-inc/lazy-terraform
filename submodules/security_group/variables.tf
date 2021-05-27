@@ -15,7 +15,7 @@ variable "protocol" {
 
 variable "tags" {
   description = "User Tags for security group"
-  type = object()
+  type = object({})
 }
 
 variable "name" {

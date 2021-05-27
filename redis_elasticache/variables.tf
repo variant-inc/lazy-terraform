@@ -51,12 +51,10 @@ variable "user_tags" {
   })
 }
 
-variable "octopus_project" {
-  description = "Octopus Project Name"
-  type = string
-}
-
-variable "octopus_space" {
-  description = "Octopus Space Name"
-  type = string
+variable "octopus_tags" {
+  description = "Octopus Tags"
+  type = object({
+    project = string
+    space   = string
+  })
 }
