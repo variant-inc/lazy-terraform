@@ -10,8 +10,6 @@ Module to create tags
 | user_tags       | object({ <br />team = string<br /> purpose = string<br /> owner = string<br /> }) |               | {<br />  team= "devops"<br /> purpose= "elk module test"<br /> owner= "Samir"<br /> } |
 | octopus_tags    | object({ <br />project = string<br /> space = string<br />  })                    |               | {<br />  project = "actions-test"<br /> space   = "Default"<br /> }                   |
 | name            | string                                                                      |               | "Test"                                                                                |
-| octopus_project | string                                                                      |               | "actions-test"                                                                        |
-| octopus_space   | string                                                                      |               | "Default"                                                                             |
 <!-- markdownlint-enable MD013 MD033 -->
 
 ## Example .tf file module reference
@@ -20,12 +18,12 @@ Module to create tags
   module "tags" {
     source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1"
 
-    octopus_tags = {
+    user_tags = {
       team = "devops"
       purpose = "elk module test"
       owner = "Samir"
     }
-    octopus = {
+    octopus_tags = {
       project = "actions-test"
       space   = "Default"
     }
@@ -46,7 +44,7 @@ module "tags" {
     purpose= "elk module test"
     owner= "Samir"
   }
-  octopus = {
+  octopus_tags = {
     project = "actions-test"
     space   = "Default"
   }
