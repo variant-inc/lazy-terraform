@@ -26,6 +26,12 @@ Module to create dynamo db table using lazy terraform scripts
 | write_capacity                 | string          | (Optional) The number of write units for this table. If the billing_mode is PROVISIONED, this field is required.                                      |        2          |                   |
 <!-- markdownlint-enable MD013 MD033 -->
 
+In case if it fails for region in any of the below testing, please run below command in your local
+
+```bash
+export AWS_DEFAULT_REGION=us-west-2 to set the region
+```
+
 ## Example .tfvars without indexes
 
 ```bash
