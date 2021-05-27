@@ -1,12 +1,3 @@
-# Get Mandatory Tags
-module "tags" {
-  source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1"
-  # source = "../submodules/tags" # For testing
-
-  user_tags = var.user_tags
-  name      = var.name
-}
-
 # Get Open VPN security group for ES securtiy group
 data "aws_instances" "openvpn" {
   instance_tags = {
@@ -40,7 +31,7 @@ resource "aws_security_group" "security_group" {
   name        = "${var.name}-sg"
   description = "Security group for ${var.name}"
   vpc_id      = var.vpc_id
-  tags        = module.tags.tags
+  tags        = var.tags
 }
 
 resource "aws_security_group_rule" "security_group_rules" {

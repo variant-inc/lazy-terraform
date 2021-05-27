@@ -2,8 +2,9 @@ module "tags" {
   source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1"
   # source = "../submodules/tags" # For testing
 
-  user_tags = var.user_tags
-  name      = var.domain_name
+  user_tags    = var.user_tags
+  name         = var.domain_name
+  octopus_tags = var.octopus_tags
 }
 
 # Create security group
