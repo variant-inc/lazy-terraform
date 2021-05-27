@@ -30,7 +30,6 @@ Module to create dynamo db table using lazy terraform scripts
 
 ```bash
 profile = "133444455555_AWSAdministratorAccess"
-region = "us-west-2"
 table_name = "naveen-ops-11"
 #Controls how you are charged for read and write throughput and how you manage capacity. The valid values are PROVISIONED and PAY_PER_REQUEST."
 billing_mode = "PAY_PER_REQUEST"
@@ -59,7 +58,6 @@ attributes = [
 
 ```bash
 profile = "133444455555_AWSAdministratorAccess"
-region = "us-west-2"
 table_name = "naveen-ops-11"
 #Controls how you are charged for read and write throughput and how you manage capacity. The valid values are PROVISIONED and PAY_PER_REQUEST."
 billing_mode = "PAY_PER_REQUEST"
@@ -129,7 +127,6 @@ module "dynamodb_table" {
   # source = "git::https://github.com/variant-inc/lazy-terraform.git//dynamo_db?ref=feature/CLOUD-272-module-for-dynamo-db"
 
     profile = "108141096600_AWSAdministratorAccess"
-    region = "us-west-2"
     table_name = "naveen-new-12"
     billing_mode = "PAY_PER_REQUEST"
     hash_key = "UserId"
