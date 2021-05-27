@@ -43,8 +43,6 @@ variable "inbound_cidrs" {
 variable "user_tags" {
   description = "Mandatory tags fot the elk resources"
   type = object({
-    octopus-project_name = string
-    octopus-space_name   = string
     team                 = string
     purpose              = string
     owner                = string
