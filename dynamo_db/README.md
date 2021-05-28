@@ -36,6 +36,15 @@ export AWS_DEFAULT_REGION=us-west-2 to set the region
 
 ```bash
 profile = "133444455555_AWSAdministratorAccess"
+user_tags = {
+  team = "devops"
+  purpose = "dynamo"
+  owner = "naveen"
+  }
+octopus_tags = {
+  project = "actions-test"
+  space   = "Default"
+}
 table_name = "naveen-ops-11"
 #Controls how you are charged for read and write throughput and how you manage capacity. The valid values are PROVISIONED and PAY_PER_REQUEST."
 billing_mode = "PAY_PER_REQUEST"
@@ -44,11 +53,6 @@ billing_mode = "PAY_PER_REQUEST"
 # write_capacity =2
 hash_key = "UserId"
 hash_key_type = "S"
-team = "devops"
-owner = "devops"
-purpose = "testing"
-octopus_project = "devops"
-octopus_space = "devops"
 
 #if you have a range key, add it to below attributes section, can also be used to add any non-key attributes. Attributes section can be skipped, if you don't have range key or any non-key attributes.
 range_key = "Name"
@@ -64,6 +68,15 @@ attributes = [
 
 ```bash
 profile = "133444455555_AWSAdministratorAccess"
+user_tags = {
+  team = "devops"
+  purpose = "dynamo"
+  owner = "naveen"
+  }
+octopus_tags = {
+  project = "actions-test"
+  space   = "Default"
+}
 table_name = "naveen-ops-11"
 #Controls how you are charged for read and write throughput and how you manage capacity. The valid values are PROVISIONED and PAY_PER_REQUEST."
 billing_mode = "PAY_PER_REQUEST"
@@ -72,11 +85,6 @@ billing_mode = "PAY_PER_REQUEST"
 # write_capacity =2
 hash_key = "UserId"
 hash_key_type = "S"
-team = "devops"
-owner = "devops"
-purpose = "testing"
-octopus_project = "devops"
-octopus_space = "devops"
 
 #if you have a range key, add it to below attributes section, can also be used to add any non-key attributes. Attributes section can be skipped, if you don't have range key or any non-key attributes.
 range_key = "Name"
@@ -137,11 +145,15 @@ module "dynamodb_table" {
     billing_mode = "PAY_PER_REQUEST"
     hash_key = "UserId"
     hash_key_type = "S"
-    team = "devops"
-    owner = "devops"
-    purpose = "testing"
-    octopus_project = "devops"
-    octopus_space = "devops"
+    user_tags = {
+      team = "devops"
+      purpose = "dynamo"
+      owner = "naveen"
+      }
+    octopus_tags = {
+      project = "actions-test"
+      space   = "Default"
+    }
 
     range_key = "Name"
     attributes = [

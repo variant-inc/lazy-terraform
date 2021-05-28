@@ -2,32 +2,21 @@ variable "profile" {
   type = string
   description = "Profile where table need to be created"
 }
-
-variable "purpose" {
-  type = string
-  description = "Purpose for creation of the table"
+variable "user_tags" {
+  description = "Mandatory tags for all resources"
+  type = object({
+    team    = string
+    purpose = string
+    owner   = string
+  })
 }
 
-variable "owner" {
-  type = string
-  description = "Owner of the table"
-}
-
-variable "team" {
-  type = string
-  description = "team own this table"
-}
-
-variable "octopus_project" {
-  type = string
-  description = "octopus project"
-  default     = ""
-}
-
-variable "octopus_space" {
-  type = string
-  description = "octopus space"
-  default     = ""
+variable "octopus_tags" {
+  description = "Octopus Tags"
+  type = object({
+    project = string
+    space   = string
+  })
 }
 
 variable "billing_mode" {
