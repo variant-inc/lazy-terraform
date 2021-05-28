@@ -9,11 +9,8 @@ Module to create dynamo db table using lazy terraform scripts
 | Name                          | Type            | Description                                                                  | Default Value | Example                           |
 | ----------------------------- | --------------- | ---------------------------------------------------------------------------- | --------------| ----------------                  |
 | profile                       | string          | Environment where table need to be created                                   |               | prod, devops, dev                 |
-| purpose                       | string          | Purpose of creation of the table                                             |               |                                   |
-| owner                         | string          | Owner of the table                                                           |               |                                   |
-| team                          | string          | team own this table                                                          |               |                                   |
-| octopus_project               | string          | octopus project                                                              |               |                                   |
-| octopus_space                 | string          | octopus space                                                                |               |                                   |
+| user_tags                     |   object({team = string purpose = string owner   = string }) | Mandatory user tags             |               |                                   |
+| octopus_tags                  | object({ project = string space   = string })          | octopus tags                          |               |                                   |
 | billing_mode                  | string          | Controls how you are charged for read and write throughput and how you manage capacity. The valid values are PROVISIONED and PAY_PER_REQUEST.              | PAY_PER_REQUEST|                                  |
 | hash_key                      | string          | The attribute to use as the hash (partition) key. Must also be defined as an attribute                                                                |               |                                       |
 | hash_key_type                 | string          | hash key type , valid values S, N and B                                      |                  | "S", "N", "B"                   |

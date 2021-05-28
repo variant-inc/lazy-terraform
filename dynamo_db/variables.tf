@@ -3,7 +3,7 @@ variable "profile" {
   description = "Profile where table need to be created"
 }
 variable "user_tags" {
-  description = "Mandatory tags for all resources"
+  description = "Mandatory user tags"
   type = object({
     team    = string
     purpose = string
