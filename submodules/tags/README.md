@@ -34,6 +34,14 @@ Module to create tags
 
 ## Get Tags
 
+Make sure that you add the following to variables since it will be auto filled by octopus
+
+```bash
+variable "octopus_tags" {
+  type = map(string)
+}
+```
+
 ```bash
 module "tags" {
   source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1"
@@ -44,10 +52,7 @@ module "tags" {
     purpose= "elk module test"
     owner= "Samir"
   }
-  octopus_tags = {
-    project = "actions-test"
-    space   = "Default"
-  }
+  octopus_tags = var.octopus_tags
 
   name            = var.domain_name
 }
