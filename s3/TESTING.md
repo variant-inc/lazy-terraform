@@ -41,7 +41,6 @@ Saving to: ‘STDOUT’
 "Parameter validation failed:\nInvalid bucket name \"naveen-ops-8%%\": Bucket name must match the regex \"^[a-zA-Z0-9.\\-_]{1,255}$\" or be an ARN matching the regex \"^arn:(aws).*:(s3|s3-object-lambda):[a-z\\-0-9]+:[0-9]{12}:accesspoint[/:][a-zA-Z0-9\\-]{1,63}$|^arn:(aws).*:s3-outposts:[a-z\\-0-9]+:[0-9]{12}:outpost[/:][a-zA-Z0-9\\-]{1,63}[/:]accesspoint[/:][a-zA-Z0-9\\-]{1,63}$\""
      0K                                                       100% 91.8M=0s
 
-
 To test as source module
 
 module "test_s3_module" {
@@ -58,5 +57,9 @@ module "test_s3_module" {
     octopus_project_name = "test-project"
 
 }
+
+To delete the bucket , run below terraform destroy command
+
+terraform destroy
 
 ```
