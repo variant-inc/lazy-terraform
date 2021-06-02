@@ -1,10 +1,3 @@
-# Get Open VPN security group for ES securtiy group
-data "aws_instances" "openvpn" {
-  instance_tags = {
-    openvpn = "true"
-  }
-}
-
 locals {
   default_sg_rules = {
     "ec_redis_ingress" : {
@@ -44,16 +37,4 @@ resource "aws_security_group_rule" "security_group_rules" {
   protocol          = each.value.protocol
   security_group_id = aws_security_group.security_group.id
   cidr_blocks       = each.value.cidr_blocks
-}
-
-resource "aws_security_group_rule" "openvpn" {
-  count = length(data.aws_instances.openvpn.private_ips)
-
-  description       = "openvpn"
-  type              = "ingress"
-  from_port         = var.port
-  to_port           = var.port
-  protocol          = var.protocol
-  security_group_id = aws_security_group.security_group.id
-  cidr_blocks       = ["${data.aws_instances.openvpn.private_ips[count.index]}/32"]
 }
