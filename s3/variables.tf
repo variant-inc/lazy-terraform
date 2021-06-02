@@ -51,4 +51,5 @@ variable "octopus_project_name" {
 }
 variable "role_arn" {
   type = string
+  default = ""
 }
