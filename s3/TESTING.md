@@ -1,10 +1,10 @@
 # How to test a PR
 
-```text
 Testing Steps
 
 Sample terraform.tfvars
 
+```bash
 profile = "devops"
 region = "us-west-2"
 bucket_name = "naveen-ops-1"
@@ -19,6 +19,7 @@ dynamodb_table = "lazy_tf_state"
 s3_backend_region = "us-west-2"
 octopus_project_space = "test-space"
 octopus_project_name = "test-project"
+```
 
 **Positive scenario:**
 
@@ -43,6 +44,7 @@ Saving to: ‘STDOUT’
 
 To test as source module
 
+```bash
 module "test_s3_module" {
     source = "git::https://github.com/variant-inc/lazy-terraform.git//s3?ref=feature/CLOUD-199-TF-module-for-s3"
     profile = "devops"
@@ -58,8 +60,10 @@ module "test_s3_module" {
 
 }
 
-To delete the bucket , run below terraform destroy command
+```
 
+To delete the bucket, run below terraform destroy command
+
+```bash
 terraform destroy
-
 ```
