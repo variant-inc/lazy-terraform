@@ -77,10 +77,6 @@ module "security_group" {
 module "db" {
   source = "terraform-aws-modules/rds/aws"
 
-  depends_on = [
-    null_resource.db_disable_deletion
-  ]
-
   db_subnet_group_description     = local.description
   db_subnet_group_name            = var.identifier
   db_subnet_group_use_name_prefix = false
@@ -152,6 +148,9 @@ resource "aws_secretsmanager_secret_version" "password" {
 }
 
 resource "null_resource" "db_disable_deletion" {
+  depends_on = [
+    module.db
+  ]
   triggers = {
     "name" = var.identifier
   }

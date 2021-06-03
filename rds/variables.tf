@@ -119,10 +119,10 @@ variable "env" {
 
 variable "user_tags" {
   description = "Mandatory tags fot the elk resources"
-  type = object({})
+  type = map(string)
 }
 
 variable "octopus_tags" {
   description = "Octopus Tags"
-  type = object({})
+  type = map(string)
 }
