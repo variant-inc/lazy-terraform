@@ -1,3 +1,6 @@
+data "aws_kms_alias" "rds" {
+  name = "alias/aws/rds"
+}
 module "tags" {
   source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1"
 
@@ -126,8 +129,8 @@ module "db" {
 
   ## performance monitoring
   performance_insights_enabled          = var.env == "prod" ? true : var.performance_insights_enabled
-  performance_insights_retention_period = var.env == "prod" ? 30 : 7
-  performance_insights_kms_key_id       = "aws/rds"
+  performance_insights_retention_period = var.env == "prod" ? 731 : 7
+  performance_insights_kms_key_id       = data.aws_kms_alias.rds.arn
 
   timeouts = {
     "create" : "140m",
@@ -143,7 +146,7 @@ resource "aws_secretsmanager_secret" "db" {
   recovery_window_in_days = 0
 }
 
-resource "aws_secretsmanager_secret_version" "example" {
+resource "aws_secretsmanager_secret_version" "password" {
   secret_id     = aws_secretsmanager_secret.db.id
   secret_string = module.db.db_master_password
 }

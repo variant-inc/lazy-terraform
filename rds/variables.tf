@@ -76,7 +76,7 @@ variable "instance_class" {
 
 variable "iops" {
   description = "The amount of provisioned IOPS. Setting this implies a storage_type of 'io1'"
-  default     = 0
+  default     = 1000
 }
 
 variable "max_allocated_storage" {
@@ -119,17 +119,10 @@ variable "env" {
 
 variable "user_tags" {
   description = "Mandatory tags fot the elk resources"
-  type = object({
-    team    = string
-    purpose = string
-    owner   = string
-  })
+  type = object({})
 }
 
 variable "octopus_tags" {
   description = "Octopus Tags"
-  type = object({
-    project = string
-    space   = string
-  })
+  type = object({})
 }

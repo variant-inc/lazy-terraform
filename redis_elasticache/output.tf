@@ -3,9 +3,10 @@ output "cache_nodes" {
   description = "List of node objects including id, address, port and availability_zone"
 }
 
-output "arn" {
-  value       = aws_elasticache_cluster.cluster.arn
-  description = "The ARN of the created ElastiCache Cluster"
+output "result" {
+  value       = aws_elasticache_cluster.cluster
+  description = "The output of aws_elasticache_cluster.cluster"
+  sensitive   = true
 }
 
 output "engine_version_actual" {

@@ -42,17 +42,10 @@ variable "inbound_cidrs" {
 
 variable "user_tags" {
   description = "Mandatory tags fot the elk resources"
-  type = object({
-    team                 = string
-    purpose              = string
-    owner                = string
-  })
+  type = object({})
 }
 
 variable "octopus_tags" {
   description = "Octopus Tags"
-  type = object({
-    project = string
-    space   = string
-  })
+  type = object({})
 }
