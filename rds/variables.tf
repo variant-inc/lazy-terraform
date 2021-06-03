@@ -102,6 +102,21 @@ variable "username" {
   default     = "variant"
 }
 
+variable "performance_insights_enabled" {
+  description = "Specifies whether Performance Insights are enabled"
+  default     = false
+}
+
+variable "env" {
+  description = "Type of RDS instance. Prod will have monitoring enabled always"
+  default     = "dev"
+
+  validation {
+    condition     = contains(["prod", "dev"], var.env)
+    error_message = "Supported values are [\"prod\", \"dev\"]."
+  }
+}
+
 variable "user_tags" {
   description = "Mandatory tags fot the elk resources"
   type = object({

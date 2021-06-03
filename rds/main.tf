@@ -31,6 +31,19 @@ locals {
       value = 0
     }
   ]
+  postgres_log_exports = ["postgresql", "upgrade"]
+
+  # mysql_parameters = [
+  #   {
+  #     name         = "binlog_format"
+  #     value        = "ROW"
+  #   },
+  #   {
+  #     name  = "binlog_checksum"
+  #     value = "NONE"
+  #   }
+  # ]
+  # mysql_log_exports = ["audit", "error", "general", "slowquery"]
 
   parameters = var.engine == "postgres" ? local.postgres_parameters : []
 
@@ -38,6 +51,7 @@ locals {
   sg_ingress_rule = var.engine == "postgres" ? "postgresql-tcp" : "all-all"
 
   # tags = { for k, v in module.tags.tags: k => v if k != "name" }
+
 }
 
 # Create security group
@@ -59,6 +73,10 @@ module "security_group" {
 # Creating db module
 module "db" {
   source = "terraform-aws-modules/rds/aws"
+
+  depends_on = [
+    null_resource.db_disable_deletion
+  ]
 
   db_subnet_group_description     = local.description
   db_subnet_group_name            = var.identifier
@@ -92,6 +110,30 @@ module "db" {
   subnet_ids                          = module.subnets.subnets.ids
   username                            = var.username
   vpc_security_group_ids              = [module.security_group.security_group_id]
+
+  # prod
+  multi_az            = var.env == "prod" ? true : var.multi_az
+  skip_final_snapshot = var.env == "prod" ? false : true
+
+  ## monitoring
+  create_monitoring_role = true
+  monitoring_role_name   = "${var.identifier}-rds"
+  monitoring_interval    = var.env == "prod" ? 0 : 60
+
+  enabled_cloudwatch_logs_exports = var.env == "prod" ? (
+    var.engine == "postgres" ? local.postgres_log_exports : []
+  ) : []
+
+  ## performance monitoring
+  performance_insights_enabled          = var.env == "prod" ? true : var.performance_insights_enabled
+  performance_insights_retention_period = var.env == "prod" ? 30 : 7
+  performance_insights_kms_key_id       = "aws/rds"
+
+  timeouts = {
+    "create" : "140m",
+    "delete" : "140m",
+    "update" : "180m"
+  }
 }
 
 resource "aws_secretsmanager_secret" "db" {
@@ -104,4 +146,14 @@ resource "aws_secretsmanager_secret" "db" {
 resource "aws_secretsmanager_secret_version" "example" {
   secret_id     = aws_secretsmanager_secret.db.id
   secret_string = module.db.db_master_password
+}
+
+resource "null_resource" "db_disable_deletion" {
+  triggers = {
+    "name" = var.identifier
+  }
+  provisioner "local-exec" {
+    when    = destroy
+    command = "aws rds modify-db-instance --db-instance-identifier ${self.triggers.name} --no-deletion-protection || true"
+  }
 }
