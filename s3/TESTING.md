@@ -11,7 +11,6 @@ bucket_name = "naveen-ops-2132385"
 lazy_api_host = "https://lazy.apps.ops-drivevariant.com"
 # lazy_api_host = "https://lazyapi-test.apps.ops-drivevariant.com"
 lazy_api_key = "00o2TvfA8DjInc-RuQ1tC6nwqOnsqZ-3bsVyTuBHGK"
-bucket = "lazy-tf-state20210107203535113800000001"
 user_tags = {
 team = "devops4"
 purpose = "s3-test3"
