@@ -10,6 +10,11 @@ locals {
     {
       name  = "wal_sender_timeout"
       value = 0
+    },
+    {
+      name  = "shared_preload_libraries"
+      value = "pglogical"
+      apply_method = "pending-reboot"
     }
   ]
   postgres_log_exports = ["postgresql", "upgrade"]

@@ -32,25 +32,6 @@ module "security_group" {
   egress_cidr_blocks = ["0.0.0.0/0"]
   egress_rules       = ["all-all"]
 }
-```
-
-## Get Security Group
-
-```bash
-module "security_group" {
-  source = "terraform-aws-modules/security-group/aws"
-
-  name        = "${var.identifier}-rds"
-  description = "Security group for ${var.identifier} RDS"
-  vpc_id      = module.vpc.vpc.id
-  tags        = module.tags.tags
-
-  ingress_cidr_blocks = var.inbound_cidrs
-  ingress_rules       = [local.sg_ingress_rule]
-
-  egress_cidr_blocks = ["0.0.0.0/0"]
-  egress_rules       = ["all-all"]
-}
 
 output "security_group_id" {
   value = module.security_group.security_group_id
