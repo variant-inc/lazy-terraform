@@ -7,18 +7,21 @@ Sample terraform.tfvars
 ```bash
 profile = "devops"
 region = "us-west-2"
-bucket_name = "naveen-ops-1"
-purpose = "devops"
-team = "devops"
-owner = "devops"
+bucket_name = "naveen-ops-2132385"
 lazy_api_host = "https://lazy.apps.ops-drivevariant.com"
-lazy_api_key = "add_lazy_api_key_here"
+# lazy_api_host = "https://lazyapi-test.apps.ops-drivevariant.com"
+lazy_api_key = "00o2TvfA8DjInc-RuQ1tC6nwqOnsqZ-3bsVyTuBHGK"
 bucket = "lazy-tf-state20210107203535113800000001"
-key = "s3/default"
-dynamodb_table = "lazy_tf_state"
-s3_backend_region = "us-west-2"
-octopus_project_space = "test-space"
-octopus_project_name = "test-project"
+user_tags = {
+team = "devops4"
+purpose = "s3-test3"
+owner = "naveen3"
+}
+octopus_tags = {
+  project = "actions-test3"
+  space   = "Default3"
+}
+replication=false
 ```
 
 **Positive scenario:**
