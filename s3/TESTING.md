@@ -1,10 +1,10 @@
 # How to test a PR
 
-```text
 Testing Steps
 
 Sample terraform.tfvars
 
+```bash
 profile = "devops"
 region = "us-west-2"
 bucket_name = "naveen-ops-1"
@@ -19,6 +19,7 @@ dynamodb_table = "lazy_tf_state"
 s3_backend_region = "us-west-2"
 octopus_project_space = "test-space"
 octopus_project_name = "test-project"
+```
 
 **Positive scenario:**
 
@@ -41,9 +42,9 @@ Saving to: ‘STDOUT’
 "Parameter validation failed:\nInvalid bucket name \"naveen-ops-8%%\": Bucket name must match the regex \"^[a-zA-Z0-9.\\-_]{1,255}$\" or be an ARN matching the regex \"^arn:(aws).*:(s3|s3-object-lambda):[a-z\\-0-9]+:[0-9]{12}:accesspoint[/:][a-zA-Z0-9\\-]{1,63}$|^arn:(aws).*:s3-outposts:[a-z\\-0-9]+:[0-9]{12}:outpost[/:][a-zA-Z0-9\\-]{1,63}[/:]accesspoint[/:][a-zA-Z0-9\\-]{1,63}$\""
      0K                                                       100% 91.8M=0s
 
-
 To test as source module
 
+```bash
 module "test_s3_module" {
     source = "git::https://github.com/variant-inc/lazy-terraform.git//s3?ref=feature/CLOUD-199-TF-module-for-s3"
     profile = "devops"
@@ -59,4 +60,10 @@ module "test_s3_module" {
 
 }
 
+```
+
+To delete the bucket, run below terraform destroy command
+
+```bash
+terraform destroy
 ```
