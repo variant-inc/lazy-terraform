@@ -126,3 +126,8 @@ variable "octopus_tags" {
   description = "Octopus Tags"
   type = map(string)
 }
+
+variable "vpc_id" {
+  description = "VPC to create the cluster in. If it is empty, then cluster will be created in `default-vpc`"
+  default = ""
+}

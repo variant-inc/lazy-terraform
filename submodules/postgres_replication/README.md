@@ -2,6 +2,8 @@
 
 Module to create required tables for replication
 
+> To run the module in a local machine, make sure that postgresql-client is installed
+
 ## Input Variables
 
 | Name        | Type   | Default Value | Example                                       |

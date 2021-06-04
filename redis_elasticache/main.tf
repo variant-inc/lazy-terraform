@@ -1,3 +1,7 @@
+locals {
+  vpc_id = var.vpc_id == "" ? module.vpc.vpc.id : var.vpc_id
+}
+
 module "tags" {
   source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1"
   # source = "../submodules/tags" # For testing
@@ -13,7 +17,7 @@ module "security_group" {
 
   name          = "${var.domain_name}-ec"
   description = "Security group for ${var.identifier} ElastiCache"
-  vpc_id      = module.vpc.vpc.id
+  vpc_id      = local.vpc_id
   tags        = module.tags.tags
 
   ingress_cidr_blocks = var.inbound_cidrs
@@ -23,12 +27,16 @@ module "security_group" {
   egress_rules       = ["all-all"]
 }
 
+module "vpc" {
+  source = "github.com/variant-inc/lazy-terraform//submodules/vpc?ref=v1"
+}
+
 # Get subnets for ES cluster nodes
 module "subnets" {
   source = "github.com/variant-inc/lazy-terraform//submodules/subnets?ref=v1"
   # source = "../submodules/subnets" # For testing
 
-  vpc_id = var.vpc_id
+  vpc_id = local.vpc_id
 }
 
 # ES related resources

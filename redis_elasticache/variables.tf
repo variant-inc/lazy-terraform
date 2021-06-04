@@ -32,7 +32,8 @@ EOT
 }
 
 variable "vpc_id" {
-  description = "VPC to create the cluster in"
+  description = "VPC to create the cluster in. If it is empty, then cluster will be created in `default-vpc`"
+  default     = ""
 }
 
 variable "inbound_cidrs" {
@@ -42,10 +43,10 @@ variable "inbound_cidrs" {
 
 variable "user_tags" {
   description = "Mandatory tags fot the elk resources"
-  type = map(string)
+  type        = map(string)
 }
 
 variable "octopus_tags" {
   description = "Octopus Tags"
-  type = map(string)
+  type        = map(string)
 }

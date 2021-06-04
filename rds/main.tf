@@ -1,25 +1,3 @@
-data "aws_kms_alias" "rds" {
-  name = "alias/aws/rds"
-}
-module "tags" {
-  source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1"
-
-  user_tags    = var.user_tags
-  name         = var.identifier
-  octopus_tags = var.octopus_tags
-}
-
-module "vpc" {
-  source = "github.com/variant-inc/lazy-terraform//submodules/vpc?ref=v1"
-}
-
-# Get subnets for ES cluster nodes
-module "subnets" {
-  source = "github.com/variant-inc/lazy-terraform//submodules/subnets?ref=v1"
-
-  vpc_id = module.vpc.vpc.id
-}
-
 locals {
   description = "Used by ${var.identifier} for ${var.user_tags.purpose}"
 
@@ -53,8 +31,29 @@ locals {
   # https://github.com/terraform-aws-modules/terraform-aws-security-group/blob/master/rules.tf#L7-L176
   sg_ingress_rule = var.engine == "postgres" ? "postgresql-tcp" : "all-all"
 
-  # tags = { for k, v in module.tags.tags: k => v if k != "name" }
+  vpc_id = var.vpc_id == "" ? module.vpc.vpc.id : var.vpc_id
+}
 
+data "aws_kms_alias" "rds" {
+  name = "alias/aws/rds"
+}
+module "tags" {
+  source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1"
+
+  user_tags    = var.user_tags
+  name         = var.identifier
+  octopus_tags = var.octopus_tags
+}
+
+module "vpc" {
+  source = "github.com/variant-inc/lazy-terraform//submodules/vpc?ref=v1"
+}
+
+# Get subnets for ES cluster nodes
+module "subnets" {
+  source = "github.com/variant-inc/lazy-terraform//submodules/subnets?ref=v1"
+
+  vpc_id = local.vpc_id
 }
 
 # Create security group
@@ -63,7 +62,7 @@ module "security_group" {
 
   name        = "${var.identifier}-rds"
   description = "Security group for ${var.identifier} RDS"
-  vpc_id      = module.vpc.vpc.id
+  vpc_id      = local.vpc_id
   tags        = module.tags.tags
 
   ingress_cidr_blocks = var.inbound_cidrs
