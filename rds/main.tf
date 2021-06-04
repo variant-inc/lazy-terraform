@@ -10,11 +10,6 @@ locals {
     {
       name  = "wal_sender_timeout"
       value = 0
-    },
-    {
-      name  = "shared_preload_libraries"
-      value = "pglogical"
-      apply_method = "pending-reboot"
     }
   ]
   postgres_log_exports = ["postgresql", "upgrade"]
@@ -92,6 +87,7 @@ module "db" {
   family                          = var.family
 
   identifier                          = var.identifier
+  name                                = var.identifier
   allocated_storage                   = var.allocated_storage
   allow_major_version_upgrade         = var.allow_major_version_upgrade
   apply_immediately                   = var.apply_immediately
@@ -162,4 +158,17 @@ resource "null_resource" "db_disable_deletion" {
     when    = destroy
     command = "aws rds modify-db-instance --db-instance-identifier ${self.triggers.name} --no-deletion-protection || true"
   }
+}
+
+module "postgres_replication" {
+  source = "github.com/variant-inc/lazy-terraform//submodules/postgres_replication?ref=feature%2FCLOUD-66-rds-db-instances-should-have-en"
+
+  depends_on = [
+    module.db
+  ]
+
+  db_host     = module.db.db_instance_address
+  db_name     = module.db.db_instance_name
+  db_password = module.db.db_master_password
+  db_user     = module.db.db_instance_username
 }

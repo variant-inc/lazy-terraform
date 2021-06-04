@@ -9,7 +9,7 @@ resource "null_resource" "replication" {
     command     = "psql -f replication.sql"
 
     environment = {
-      PGPASSWORD = var.db_password
+      PGPASSWORD = nonsensitive(var.db_password)
       PGUSER     = var.db_user
       PGHOST     = var.db_host
       PGPORT     = var.db_port

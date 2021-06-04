@@ -36,10 +36,3 @@ EXECUTE PROCEDURE public.awsdms_intercept_ddl();
 
 grant all on public.awsdms_ddl_audit to public;
 grant all on public.awsdms_ddl_audit_c_key_seq to public;
-
-create extension IF NOT EXISTS pglogical;
-
-SELECT * FROM pg_create_logical_replication_slot('replication_slot', 'pglogical');
-
-select pglogical.create_replication_set('ireplication_slot', true, false, false, true);
-select pglogical.create_replication_set('replication_slot', false, true, true, false);

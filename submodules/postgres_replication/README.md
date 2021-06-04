@@ -29,6 +29,6 @@ Module to create required tables for replication
     db_host = "test.cfubiw5nehry.us-west-2.rds.amazonaws.com"
     db_name = "test"
     db_password = "FZugy6QkT2"
-    db_name = "variant"
+    db_user = "variant"
   }
 ```
