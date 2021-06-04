@@ -161,7 +161,10 @@ resource "null_resource" "db_disable_deletion" {
 }
 
 module "postgres_replication" {
-  source = "github.com/variant-inc/lazy-terraform//submodules/postgres_replication?ref=feature%2FCLOUD-66-rds-db-instances-should-have-en"
+  source = "github.com/variant-inc/lazy-terraform//submodules/postgres_replication?ref=v1"
+
+  ## For testing use below
+  # source = "github.com/variant-inc/lazy-terraform//submodules/postgres_replication?ref=feature%2FCLOUD-66-rds-db-instances-should-have-en"
 
   depends_on = [
     module.db
