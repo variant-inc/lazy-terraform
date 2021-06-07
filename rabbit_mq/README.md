@@ -49,7 +49,7 @@ For `maintenance_window`, pass input as below
       time_of_day = "05:00"
   }
 ```
-Region will be picked up from the environment variable AWS_DEFAULT_REGION 
+Region will be picked up from the environment variable AWS_DEFAULT_REGION
 
 ## Example minimum.tfvars
 This example shows the minimum set of variables required to create Amazon MQ broker of type RabbitMQ. This include default values for variables not specified
