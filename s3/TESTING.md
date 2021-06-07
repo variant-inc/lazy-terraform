@@ -10,7 +10,7 @@ region = "us-west-2"
 bucket_name = "naveen-ops-2132385"
 lazy_api_host = "https://lazy.apps.ops-drivevariant.com"
 # lazy_api_host = "https://lazyapi-test.apps.ops-drivevariant.com"
-lazy_api_key = "00o2TvfA8DjInc-RuQ1tC6nwqOnsqZ-3bsVyTuBHGK"
+lazy_api_key = "#################"
 user_tags = {
 team = "devops4"
 purpose = "s3-test3"
@@ -22,6 +22,9 @@ octopus_tags = {
 }
 replication=false
 ```
+
+**Positive scenario:**
+
 
 **Positive scenario:**
 
@@ -53,7 +56,7 @@ module "test_s3_module" {
         region = "us-west-2"
         bucket_name = "navin-ops-11"
         lazy_api_host = "https://lazy.apps.ops-drivevariant.com"
-        lazy_api_key = "00o2TvfA8DjInc-RuQ1tC6nwqOnsqZ-3bsVyTuBHGK"
+        lazy_api_key = "####################"
         user_tags = {
         team = "devops4"
         purpose = "s3-test3"
