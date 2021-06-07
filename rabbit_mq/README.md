@@ -29,6 +29,7 @@ Assumptions:
 | maintenance_window        | Maintenance Window                  | object |           | `see below`    |
 | inbound_cidrs             | Inbound CIDS for SG                 | string | 0.0.0.0/0          |     |
 | maintenance_window        | Maintenance Window                  | object |           | `see below`    |
+| publicly_accessible       | To set if RMQ is publicly accessible| boolean | false          | true / false    |
 
 For `user_tags`, refer <https://github.com/variant-inc/lazy-terraform/tree/master/submodules/tags>
 
@@ -48,6 +49,7 @@ For `maintenance_window`, pass input as below
       time_of_day = "05:00"
   }
 ```
+Region will be picked up from the environment variable AWS_DEFAULT_REGION 
 
 ## Example minimum.tfvars
 This example shows the minimum set of variables required to create Amazon MQ broker of type RabbitMQ. This include default values for variables not specified
