@@ -7,19 +7,24 @@ Sample terraform.tfvars
 ```bash
 profile = "devops"
 region = "us-west-2"
-bucket_name = "naveen-ops-1"
-purpose = "devops"
-team = "devops"
-owner = "devops"
+bucket_name = "naveen-ops-2132385"
 lazy_api_host = "https://lazy.apps.ops-drivevariant.com"
-lazy_api_key = "add_lazy_api_key_here"
-bucket = "lazy-tf-state20210107203535113800000001"
-key = "s3/default"
-dynamodb_table = "lazy_tf_state"
-s3_backend_region = "us-west-2"
-octopus_project_space = "test-space"
-octopus_project_name = "test-project"
+# lazy_api_host = "https://lazyapi-test.apps.ops-drivevariant.com"
+lazy_api_key = "#################"
+user_tags = {
+team = "devops4"
+purpose = "s3-test3"
+owner = "naveen3"
+}
+octopus_tags = {
+  project = "actions-test3"
+  space   = "Default3"
+}
+replication=false
 ```
+
+**Positive scenario:**
+
 
 **Positive scenario:**
 
@@ -46,17 +51,22 @@ To test as source module
 
 ```bash
 module "test_s3_module" {
-    source = "git::https://github.com/variant-inc/lazy-terraform.git//s3?ref=feature/CLOUD-199-TF-module-for-s3"
-    profile = "devops"
-    region = "us-west-2"
-    bucket_name = "navin-ops-11"
-    purpose = "devops"
-    team = "devops"
-    owner = "devops"
-    lazy_api_host = "https://lazy.apps.ops-drivevariant.com"
-    lazy_api_key = "00o2TvfA8DjInc-RuQ1tC6nwqOnsqZ-3bsVyTuBHGK"
-    octopus_project_space = "test-space"
-    octopus_project_name = "test-project"
+    source = "git::https://github.com/variant-inc/lazy-terraform.git//s3?ref=feature/CLOUD-402-add-tags-to-s3"
+        profile = "devops"
+        region = "us-west-2"
+        bucket_name = "navin-ops-11"
+        lazy_api_host = "https://lazy.apps.ops-drivevariant.com"
+        lazy_api_key = "####################"
+        user_tags = {
+        team = "devops4"
+        purpose = "s3-test3"
+        owner = "naveen3"
+        }
+        octopus_tags = {
+        project = "actions-test3"
+        space   = "Default3"
+        }
+        replication=true
 
 }
 
