@@ -15,21 +15,6 @@ variable "bucket_name" {
   description = "Name given to s3 bucket"
 }
 
-variable "purpose" {
-  type = string
-  description = "Purpose of the bucket,used for tags"
-}
-
-variable "owner" {
-  type = string
-  description = "Owner of the bucket,used for tags"
-}
-
-variable "team" {
-  type = string
-  description = "team own this bucket,used for tags"
-}
-
 variable "lazy_api_host" {
   type = string
   default = "https://lazy.apps.ops-drivevariant.com"
@@ -40,15 +25,27 @@ variable "lazy_api_key" {
   sensitive = true
 }
 
-variable "octopus_project_space" {
-  type = string
-  default = ""
-}
-
-variable "octopus_project_name" {
-  type = string
-  default = ""
-}
 variable "role_arn" {
   type = string
+  default = ""
+}
+variable "replication"{
+  type = bool
+  default = false
+}
+variable "user_tags" {
+  description = "Mandatory user tags"
+  type = object({
+    team    = string
+    purpose = string
+    owner   = string
+  })
+}
+
+variable "octopus_tags" {
+  description = "Octopus Tags"
+  type = object({
+    project = string
+    space   = string
+  })
 }
