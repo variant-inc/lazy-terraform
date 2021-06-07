@@ -29,7 +29,7 @@ module "security_group" {
 module "subnets" {
   source = "github.com/variant-inc/lazy-terraform//submodules/subnets?ref=v1"
   vpc_id = module.vpc.vpc.id
-  type   = "public"
+  type   = var.publicly_accessible ? "public" : "private"
 }
 
 # Create a resource to generate random password
@@ -75,6 +75,6 @@ resource "aws_mq_broker" "mq" {
   publicly_accessible = var.publicly_accessible
   tags                = module.tags.tags
   security_groups     = var.publicly_accessible ? null : [module.security_group.security_group_id]
-  subnet_ids          = var.publicly_accessible ? null : var.deployment_mode != "SINGLE_INSTANCE" ? module.subnets.subnets.ids : [random_shuffle.random_subnet.result[0]]
+  subnet_ids          = (var.publicly_accessible ? null : (var.deployment_mode != "SINGLE_INSTANCE" ? module.subnets.subnets.ids : [random_shuffle.random_subnet.result[0]]))
 }
 
