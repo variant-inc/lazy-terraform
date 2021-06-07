@@ -55,7 +55,7 @@ resource "random_shuffle" "random_subnet" {
 # Create a resource for AWS RabbitMQ Broker
 resource "aws_mq_broker" "mq" {
   broker_name        = var.broker_name
-  engine_type        = var.engine_type
+  engine_type        = "RabbitMQ"
   engine_version     = var.engine_version
   host_instance_type = var.broker_instance_type
   user {

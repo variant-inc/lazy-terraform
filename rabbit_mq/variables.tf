@@ -1,8 +1,3 @@
-variable "region" {
-  description = "AWS Default Region"
-  default     = "us-east-1"
-}
-
 variable "profile" {
   type        = string
   default     = "default"
@@ -24,29 +19,16 @@ variable "broker_name" {
   description = "Name of the Amazon MQ Broker"
 }
 
-variable "engine_type" {
-  default     = "RabbitMQ"
-  description = "This terraform module will currently support only RabbitMQ"
-}
-
 variable "engine_version" {
   type        = string
   default     = "3.8.11"
   description = "This is the engine version for RabbitMQ"
-  validation {
-    condition     = contains(["3.8.6", "3.8.11"], lower(var.engine_version))
-    error_message = "Unsupported engine version for AWS MQ where engine type is RabbitMQ."
-  }
 }
 
 variable "broker_instance_type" {
   type        = string
   default     = "mq.m5.large"
   description = "This is the broker instance type for RabbitMQ"
-  validation {
-    condition     = contains(["mq.m5.large", "mq.m5.xlarge", "mq.m5.2xlarge", "mq.m5.4xlarge"], lower(var.broker_instance_type))
-    error_message = "Unsupported broker instance type for AWS MQ where engine type is RabbitMQ."
-  }
 }
 
 variable "username" {
@@ -57,7 +39,7 @@ variable "username" {
 
 variable "auto_minor_version_upgrade" {
   type        = bool
-  default     = false
+  default     = true
   description = "Whether to automatically upgrade to new minor versions of brokers as Amazon MQ makes releases available"
 }
 
@@ -65,10 +47,6 @@ variable "deployment_mode" {
   type        = string
   default     = "CLUSTER_MULTI_AZ"
   description = "Deployment mode of the broker"
-  validation {
-    condition     = contains(["SINGLE_INSTANCE", "CLUSTER_MULTI_AZ", "ACTIVE_STANDBY_MULTI_AZ"], upper(var.deployment_mode))
-    error_message = "Unsupported deployment mode for AWS MQ where engine type is RabbitMQ."
-  }
 }
 
 variable "cloudwatch_general_logs" {
@@ -96,7 +74,7 @@ variable "inbound_cidrs" {
 
 variable "publicly_accessible" {
   type    = bool
-  default = true
+  default = false
 }
 
 
