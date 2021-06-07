@@ -63,6 +63,6 @@ broker_owner = "mq-test-tf"
 user_tags= {
             team= "devops"
             purpose= "rabbitmq module test"
-            owner= "sandeep"
+            owner= "Sandeep"
         }
 ```
