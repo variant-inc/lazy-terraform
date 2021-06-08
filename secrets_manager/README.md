@@ -32,7 +32,7 @@ variable "octopus_tags" {
 ```bash
 module "secret" {
   source = "github.com/variant-inc/lazy-terraform//secrets_manager?ref=v1"
-  # For branch
+  #For branch
   #source = "github.com/variant-inc/lazy-terraform//secrets_manager?ref=feature/CLOUD-409-secrets-manager"
 
   name="dummy-secret5"
