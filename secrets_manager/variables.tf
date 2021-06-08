@@ -20,7 +20,7 @@ variable "secret_value" {
 }
 
 variable "user_tags" {
-  description = "Mandatory tags fot the elk resources"
+  description = "User tags"
   type = map(string)
 }
 
