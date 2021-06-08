@@ -159,22 +159,3 @@ resource "null_resource" "db_disable_deletion" {
     command = "aws rds modify-db-instance --db-instance-identifier ${self.triggers.name} --no-deletion-protection || true"
   }
 }
-
-## Removing for now until data-ops provides a proper working documentation
-# module "postgres_replication" {
-#   source = "github.com/variant-inc/lazy-terraform//submodules/postgres_replication?ref=v1"
-
-#   count = var.engine == "postgres" ? 1 : 0
-
-#   ## For testing use below
-#   # source = "github.com/variant-inc/lazy-terraform//submodules/postgres_replication?ref=feature%2FCLOUD-66-rds-db-instances-should-have-en"
-
-#   depends_on = [
-#     module.db
-#   ]
-
-#   db_host     = module.db.db_instance_address
-#   db_name     = module.db.db_instance_name
-#   db_password = module.db.db_master_password
-#   db_user     = module.db.db_instance_username
-# }
