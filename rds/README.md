@@ -51,6 +51,11 @@ variable "octopus_tags" {
 ## Example .tf file module reference
 
 ```bash
+variable "octopus_tags" {
+  description = "Octopus Tags"
+  type = map(string)
+}
+
 module "cache_cluster" {
   source = "github.com/variant-inc/lazy-terraform//rds?ref=v1"
 
@@ -63,6 +68,7 @@ module "cache_cluster" {
   env = "prod"
   storage_type = "io1"
   apply_immediately = true
+  octopus_tags = var.octopus_tags # If run from octopus, this will be auto populated
 }
 ```
 
