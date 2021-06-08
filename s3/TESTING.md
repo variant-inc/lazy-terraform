@@ -23,8 +23,8 @@ octopus_tags = {
 replication=false
 ```
 
-**Positive scenario:**
-
+**prerequisites:**
+Run export AWS_DEFAULT_REGION="us-east-1" to set the region
 
 **Positive scenario:**
 
