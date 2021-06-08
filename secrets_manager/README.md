@@ -31,9 +31,9 @@ variable "octopus_tags" {
 
 ```bash
 module "secret" {
-  source = "github.com/variant-inc/lazy-terraform//secrets_manager?ref=v1"
+  source = "git::https://github.com/variant-inc/lazy-terraform//secrets_manager?ref=v1"
   #For branch
-  #source = "github.com/variant-inc/lazy-terraform//secrets_manager?ref=feature/CLOUD-409-secrets-manager"
+  #source = "git::https://github.com/variant-inc/lazy-terraform//secrets_manager?ref=feature/CLOUD-409-secrets-manager"
 
   name="dummy-secret5"
   secret_value="GGRRThhg"
