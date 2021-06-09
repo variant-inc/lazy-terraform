@@ -4,12 +4,14 @@ Module to create s3 bucket
 
 ## Features
 
-This module internally uses null resource to invoke lazy s3 api's to create bucket. Which also has ability to update the tags after the bucket is created.
+This module internally uses null resource to invoke lazy s3 api's to create bucket also has ability to update the tags after the bucket is created.
+
 When terraform destroy is run it internally calls lazy s3 delete endpoint for bucket deletion.
 
 ## Limitations
 
 When bucket name is changed after s3 bucket is created, terraform will try to delete the bucket and will create a new bucket.
+
 Any other attributes changed other than bucket name and tags will not take any affect.
 
 ## Input Variables
