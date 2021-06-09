@@ -59,10 +59,6 @@ variable "lazy_api_key" {
   sensitive = true
 }
 
-variable "user_tags" {
-  description = "User tags"
-  type = map(string)
-}
 
 module "test_s3_module" {
     source = "git::https://github.com/variant-inc/lazy-terraform.git//s3?ref=v1"
@@ -71,7 +67,11 @@ module "test_s3_module" {
         bucket_name = "navin-ops-39"
         lazy_api_key = var.lazy_api_key # If run from octopus, this will be auto set
         lazy_api_host = var.lazy_api_host # If run from octopus, this will be auto set
-        user_tags = var.user_tags
+        user_tags = {
+                team = "devops2"
+                purpose = "s3-test3"
+                owner = "naveen3"
+                }
         octopus_tags = var.octopus_tags # If run from octopus, this will be auto set
         replication=true
 }
