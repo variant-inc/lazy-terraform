@@ -12,22 +12,38 @@ Module to deploy EC2 instance and required resources in a lazy fashion
 
 ## Input Variables
 
- | Name               | Type          | Default                                        | Example           |
- | ------------------ | ------------- | ---------------------------------------------- | ----------------- |
- | profile            | string        | default                                        |                   |
- | domain_name        | string        |                                                | eng-cache         |
- | family             | string        | redis6.x                                       |                   |
- | node_type          | string        | cache.m6g.large                                | cache.m6g.xlarge  |
- | engine_version     | string        | 6.x                                            |                   |
- | maintenance_window | string        | sun:05:00-sun:09:00                            |                   |
- | vpc_id             | string        |                                                | vpc-26r9f023fh2f3 |
- | inbound_cidrs      | array(string) | ["0.0.0.0/0"]                                  |                   |
- | user_tags          | object        |                                                | `see below`       |
- | octopus_tags       | object        | (Required only if not running through octopus) |                   |
+ | Name               | Type          | Default             | Example           |
+ | ------------------ | ------------- | ------------------- | ----------------- |
+ | profile            | string        | default             |                   |
+ | domain_name        | string        |                     | eng-cache         |
+ | family             | string        | redis6.x            |                   |
+ | node_type          | string        | cache.m6g.large     | cache.m6g.xlarge  |
+ | engine_version     | string        | 6.x                 |                   |
+ | maintenance_window | string        | sun:05:00-sun:09:00 |                   |
+ | vpc_id             | string        | (optional)          | vpc-26r9f023fh2f3 |
+ | inbound_cidrs      | array(string) | ["0.0.0.0/0"]       |                   |
+ | user_tags          | object        |                     | `see below`       |
+ | octopus_tags       | object        |                     | `see below`       |
+
+For `user_tags`, refer <https://github.com/variant-inc/lazy-terraform/tree/master/submodules/tags>
+
+`octopus_tags` are auto set at octopus. Set the variable as
+
+```bash
+variable "octopus_tags" {
+  description = "Octopus Tags"
+  type = map(string)
+}
+```
 
 ## Example .tf file module reference
 
 ```bash
+variable "octopus_tags" {
+  description = "Octopus Tags"
+  type = map(string)
+}
+
 module "cache_cluster" {
   source = "github.com/variant-inc/lazy-terraform//redis_elasticache?ref=v1"
 
@@ -38,6 +54,7 @@ module "cache_cluster" {
     purpose= "elk module test"
     owner= "Samir"
   }
+  octopus_tags = var.octopus_tags # If run from octopus, this will be auto populated
 }
 ```
 
