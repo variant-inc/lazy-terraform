@@ -34,18 +34,11 @@ variable "replication"{
   default = false
 }
 variable "user_tags" {
-  description = "Mandatory user tags"
-  type = object({
-    team    = string
-    purpose = string
-    owner   = string
-  })
+  description = "User tags"
+  type = map(string)
 }
 
 variable "octopus_tags" {
   description = "Octopus Tags"
-  type = object({
-    project = string
-    space   = string
-  })
+  type = map(string)
 }
