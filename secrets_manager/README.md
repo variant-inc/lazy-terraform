@@ -33,8 +33,11 @@ variable "octopus_tags" {
 **prerequisites:**
 
 set below environment variables as per the needs, before running the module.
+
+```bash
 export AWS_DEFAULT_REGION="us-east-1"
 export AWS_PROFILE="devops"
+```
 
 ```bash
 
