@@ -30,3 +30,20 @@ variable "policy_json" {
     }))
   })
 }
+
+variable "user_tags" {
+  description = "Mandatory user tags"
+  type = object({
+    team    = string
+    purpose = string
+    owner   = string
+  })
+}
+
+variable "octopus_tags" {
+  description = "Octopus Tags"
+  type = object({
+    project = string
+    space   = string
+  })
+}
