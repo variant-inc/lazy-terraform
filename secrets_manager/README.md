@@ -5,6 +5,7 @@ Module to create secrets in secrets manager
 ## Resources
 
 - Tags
+- Secrets Manager
 
 ## Input Variables
 
@@ -29,7 +30,19 @@ variable "octopus_tags" {
 
 ## Example .tf file module reference
 
+**prerequisites:**
+
+set below environment variables as per the needs, before running the module.
+export AWS_DEFAULT_REGION="us-east-1"
+export AWS_DEFAULT_REGION="devops"
+
 ```bash
+
+variable "octopus_tags" {
+  description = "Octopus Tags"
+  type = map(string)
+}
+
 module "secret" {
   source = "git::https://github.com/variant-inc/lazy-terraform//secrets_manager?ref=v1"
   #For branch
@@ -43,9 +56,6 @@ module "secret" {
     purpose= "secrets manager test"
     owner= "naveen"
   }
-  octopus_tags = {
-    project = "actions-test3"
-    space   = "Default3"
-    }
+  octopus_tags = var.octopus_tags # If run from octopus, this will be auto set
 }
 ```
