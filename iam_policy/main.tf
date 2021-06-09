@@ -3,7 +3,7 @@ module "tags" {
 
   user_tags = var.user_tags
   octopus_tags = var.octopus_tags
-  name = "iam_policy_terraform"
+  name = var.policy_name
 }
 
 resource "aws_iam_policy" "iam-policy" {
