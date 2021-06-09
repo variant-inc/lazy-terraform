@@ -1,3 +1,7 @@
+locals {
+  vpc_id = var.vpc_id == "" ? module.vpc.vpc.id : var.vpc_id
+}
+
 module "tags" {
   source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1"
   # source = "../submodules/tags" # For testing
@@ -9,15 +13,22 @@ module "tags" {
 
 # Create security group
 module "security_group" {
-  source = "github.com/variant-inc/lazy-terraform//submodules/security_group?ref=v1"
-  # source = "../submodules/security_group" # For testing
+  source = "terraform-aws-modules/security-group/aws"
 
-  tags          = module.tags.tags
-  port          = "6379"
-  protocol      = "tcp"
-  inbound_cidrs = var.inbound_cidrs
   name          = "${var.domain_name}-ec"
-  vpc_id        = var.vpc_id
+  description = "Security group for ${var.identifier} ElastiCache"
+  vpc_id      = local.vpc_id
+  tags        = module.tags.tags
+
+  ingress_cidr_blocks = var.inbound_cidrs
+  ingress_rules       = ["redis-tcp"]
+
+  egress_cidr_blocks = ["0.0.0.0/0"]
+  egress_rules       = ["all-all"]
+}
+
+module "vpc" {
+  source = "github.com/variant-inc/lazy-terraform//submodules/vpc?ref=v1"
 }
 
 # Get subnets for ES cluster nodes
@@ -25,7 +36,7 @@ module "subnets" {
   source = "github.com/variant-inc/lazy-terraform//submodules/subnets?ref=v1"
   # source = "../submodules/subnets" # For testing
 
-  vpc_id = var.vpc_id
+  vpc_id = local.vpc_id
 }
 
 # ES related resources
@@ -50,7 +61,7 @@ resource "aws_elasticache_cluster" "cluster" {
   parameter_group_name = aws_elasticache_parameter_group.cluster.id
   engine_version       = var.engine_version
   maintenance_window   = var.maintenance_window
-  security_group_ids   = [module.security_group.security_group.id]
+  security_group_ids   = [module.security_group.security_group_id]
   subnet_group_name    = aws_elasticache_subnet_group.cluster.name
   tags                 = module.tags.tags
 }
