@@ -5,7 +5,7 @@ Module to create secrets in secrets manager
 ## Resources
 
 - Tags
-- Secrets Manager
+- Secrets Manager Secret
 
 ## Input Variables
 
@@ -34,7 +34,7 @@ variable "octopus_tags" {
 
 set below environment variables as per the needs, before running the module.
 export AWS_DEFAULT_REGION="us-east-1"
-export AWS_DEFAULT_REGION="devops"
+export AWS_PROFILE="devops"
 
 ```bash
 
