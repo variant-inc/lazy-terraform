@@ -9,7 +9,7 @@ Module to create s3 bucket
  | region                       | string        |                     |                   |                    |
  | profile                      | string        |                     |                   |                    |
  | bucket_name                  | string        |                     |                   |                    |
- | lazy_api_host                | string        | https://lazy.apps.ops-drivevariant.com  |                    | auto set at octopus|
+ | lazy_api_host                | string        | "https://lazy.apps.ops-drivevariant.com"  |                    | auto set at octopus|
  | lazy_api_key                 | string        |                     |                   |auto set at octopus |
  | role_arn                     | string        |      ""             |                   |                    |
  | user_tags                    | object        |                     |user_tags = {team = "devops4" purpose = "s3-test3" owner = "naveen3"}| For `user_tags`, refer <https://github.com/variant-inc/lazy-terraform/tree/master/submodules/tags>   |
