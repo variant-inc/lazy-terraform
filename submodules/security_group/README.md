@@ -11,50 +11,29 @@ Module to create security group
 <!-- markdownlint-disable MD013 -->
 ## Input Variables
 
-| Name          | Type          | Default Value | Example                                                                                                                                                              |
-| ------------- | ------------- | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| vpc_id        | string        |               | vpc-123456789                                                                                                                                                        |
-| inbound_cidrs | array[string] | ["0.0.0.0/0]  |                                                                                                                                                                      |
-| port          | string        | "443"         |                                                                                                                                                                      |
-| protocol      | string        | "tcp"         |                                                                                                                                                                      |
-| tags          | object        |               | {<br /> octopus-project_name= "actions-test"<br /> octopus-space_name = "Default"<br /> team= "devops"<br /> purpose= "elk module test"<br /> owner= "Samir"<br /> } |
-| name          | string        |               | "Test"                                                                                                                                                               |
-<!-- markdownlint-enable MD013 -->
+Refer <https://registry.terraform.io/modules/terraform-aws-modules/security-group/aws/latest?tab=inputs>
+
+For pre-defined rules, refer <https://github.com/terraform-aws-modules/terraform-aws-security-group/blob/master/rules.tf#L7-L176>
 
 ## Example .tf file module reference
 
 ```bash
-  module "security_group" {
-    source = "github.com/variant-inc/lazy-terraform//submodules/security_group?ref=v1"
-
-    tags = {
-      "octopus/project_name" = "actions-test"
-      "octopus/space_name" = "Default"
-      "team" = "devops"
-      "purpose" = "elk module test"
-      "owner" = "Samir"
-    }
-    name = "Test"
-    vpc_id = "vpc-123456789"
-  }
-```
-
-## Get Security Group
-
-```bash
 module "security_group" {
-  source = "github.com/variant-inc/lazy-terraform//submodules/security_group?ref=v1"
-  # source = "../submodules/security_group" # For testing
+  source = "terraform-aws-modules/security-group/aws"
 
-  tags          = var.tags
-  port          = "6379"
-  protocol      = "tcp"
-  inbound_cidrs = var.inbound_cidrs
-  name          = "${var.domain_name}-ec"
-  vpc_id        = var.vpc_id
+  name        = "${var.identifier}-rds"
+  description = "Security group for ${var.identifier} RDS"
+  vpc_id      = module.vpc.vpc.id
+  tags        = module.tags.tags
+
+  ingress_cidr_blocks = var.inbound_cidrs
+  ingress_rules       = [local.sg_ingress_rule]
+
+  egress_cidr_blocks = ["0.0.0.0/0"]
+  egress_rules       = ["all-all"]
 }
 
 output "security_group_id" {
-  value = module.security_group.security_group.id
+  value = module.security_group.security_group_id
 }
 ```
