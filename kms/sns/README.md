@@ -1,4 +1,4 @@
-# VPC
+# KMS for SNS
 
 Module to create KMS for SNS topics
 

@@ -1,4 +1,4 @@
-# VPC
+# SNS
 
 Module to create SNS topics
 
