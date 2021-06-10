@@ -78,3 +78,12 @@ resource "aws_mq_broker" "mq" {
   subnet_ids          = (var.publicly_accessible ? null : (var.deployment_mode != "SINGLE_INSTANCE" ? module.subnets.subnets.ids : [random_shuffle.random_subnet.result[0]]))
 }
 
+resource "aws_secretsmanager_secret" "broker_password" {
+  name        = "${var.broker_name}-rmq-password"
+  description = "Admin password for ${var.broker_name} RabbitMQ Broker"
+}
+
+resource "aws_secretsmanager_secret_version" "broker_password" {
+  secret_id     = aws_secretsmanager_secret.broker_password.id
+  secret_string = random_password.password.result
+}
