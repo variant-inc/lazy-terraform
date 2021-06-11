@@ -61,14 +61,14 @@ module "cache_cluster" {
 
   identifier = "test"
   user_tags = {
-    team= "devops"
-    purpose= "elk module test"
-    owner= "Samir"
+    team    = "devops"
+    purpose = "elk module test"
+    owner   = "Samir"
   }
-  env = "prod"
-  storage_type = "io1"
+  env               = "prod"
+  storage_type      = "io1"
   apply_immediately = true
-  octopus_tags = var.octopus_tags # If run from octopus, this will be auto populated
+  octopus_tags      = var.octopus_tags # If run from octopus, this will be auto populated
 }
 ```
 

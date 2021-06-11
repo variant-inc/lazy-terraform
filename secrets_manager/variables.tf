@@ -16,15 +16,15 @@ variable "name" {
 variable "secret_value" {
   description = "Secret value to store"
   type        = string
-  sensitive = true
+  sensitive   = true
 }
 
 variable "user_tags" {
   description = "User tags"
-  type = map(string)
+  type        = map(string)
 }
 
 variable "octopus_tags" {
   description = "Octopus Tags"
-  type = map(string)
+  type        = map(string)
 }
