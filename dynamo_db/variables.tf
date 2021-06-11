@@ -1,5 +1,5 @@
 variable "profile" {
-  type = string
+  type        = string
   description = "Profile where table need to be created"
 }
 variable "user_tags" {
@@ -26,42 +26,42 @@ variable "billing_mode" {
 }
 
 variable "hash_key" {
-  type = string
+  type        = string
   description = "The attribute to use as the hash (partition) key. Must also be defined as an attribute"
 }
 
 variable "hash_key_type" {
-  type = string
+  type        = string
   description = "hash key type"
 }
 
 variable "range_key" {
-  type = string
+  type        = string
   description = "The attribute to use as the range (sort) key. Must also be defined as an attribute"
-  default = null
+  default     = null
 }
 
 variable "table_name" {
-  type = string
+  type        = string
   description = "Name of the DynamoDB table"
 }
 
 variable "attributes" {
   description = "List of nested attribute definitions. Only required for hash_key and range_key attributes. Each attribute has two properties: name - (Required) The name of the attribute, type - (Required) Attribute type, which must be a scalar type: S, N, or B for (S)tring, (N)umber or (B)inary data"
-  type = list(object({ name = string, type = string }))
-    default = null
+  type        = list(object({ name = string, type = string }))
+  default     = null
 }
 
 variable "global_secondary_indexes" {
   description = "GSI for the table; subject to the normal limits on the number of GSIs, projected attributes, etc. Maximum of 5 global secondary indexes can be defined for the table"
-  type = any          
-  default = null
+  type        = any
+  default     = null
 }
 
 variable "local_secondary_indexes" {
   description = "LSI on the table; these can only be allocated at creation so you cannot change this definition after you have created the resource, maximum of 5 global secondary indexes can be defined for the table"
-  type = any          
-  default = null
+  type        = any
+  default     = null
 }
 
 variable "read_capacity" {

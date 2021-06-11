@@ -41,18 +41,18 @@ variable "octopus_tags" {
 ```bash
 variable "octopus_tags" {
   description = "Octopus Tags"
-  type = map(string)
+  type        = map(string)
 }
 
 module "cache_cluster" {
   source = "github.com/variant-inc/lazy-terraform//redis_elasticache?ref=v1"
 
   domain_name = "test"
-  vpc_id = "vpc-0812cf48c9ea4e042"
+  vpc_id      = "vpc-0812cf48c9ea4e042"
   user_tags = {
-    team= "devops"
-    purpose= "elk module test"
-    owner= "Samir"
+    team    = "devops"
+    purpose = "elk module test"
+    owner   = "Samir"
   }
   octopus_tags = var.octopus_tags # If run from octopus, this will be auto populated
 }
@@ -66,6 +66,6 @@ data "aws_elasticache_cluster" "cluster" {
 }
 
 output "cluster_address" {
-  value = aws_elasticache_cluster.cluster.cache_nodes.0.address
+  value      = aws_elasticache_cluster.cluster.cache_nodes.0.address
 }
 ```

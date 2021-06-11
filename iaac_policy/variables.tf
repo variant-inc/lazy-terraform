@@ -15,7 +15,7 @@ variable "region" {
 
 variable "iam_policy_json" {
   description = "Contains policy"
-  type        = list
+  type        = list(any)
 }
 
 variable "iam_path" {
