@@ -5,26 +5,26 @@ Testing Steps
 Sample terraform.tfvars
 
 ```bash
-profile = "devops"
-region = "us-west-2"
-bucket_name = "naveen-ops-2132385"
+profile       = "devops"
+region        = "us-west-2"
+bucket_name   = "naveen-ops-2132385"
 lazy_api_host = "https://lazy.apps.ops-drivevariant.com"
 # lazy_api_host = "https://lazyapi-test.apps.ops-drivevariant.com"
-lazy_api_key = "#################"
-user_tags = {
-team = "devops4"
-purpose = "s3-test3"
-owner = "naveen3"
-}
-octopus_tags = {
-  project = "actions-test3"
-  space   = "Default3"
-}
-replication=false
+lazy_api_key  = "#################"
+user_tags     = {
+                  team = "devops4"
+                  purpose = "s3-test3"
+                  owner = "naveen3"
+                }
+octopus_tags  = {
+                  project = "actions-test3"
+                  space   = "Default3"
+                }
+replication  = false
 ```
 
-**Positive scenario:**
-
+**prerequisites:**
+Run export AWS_DEFAULT_REGION="us-east-1" to set the region
 
 **Positive scenario:**
 
@@ -50,24 +50,34 @@ Saving to: ‘STDOUT’
 To test as source module
 
 ```bash
-module "test_s3_module" {
-    source = "git::https://github.com/variant-inc/lazy-terraform.git//s3?ref=feature/CLOUD-402-add-tags-to-s3"
-        profile = "devops"
-        region = "us-west-2"
-        bucket_name = "navin-ops-11"
-        lazy_api_host = "https://lazy.apps.ops-drivevariant.com"
-        lazy_api_key = "####################"
-        user_tags = {
-        team = "devops4"
-        purpose = "s3-test3"
-        owner = "naveen3"
-        }
-        octopus_tags = {
-        project = "actions-test3"
-        space   = "Default3"
-        }
-        replication=true
+variable "octopus_tags" {
+  description = "Octopus Tags"
+  type        = map(string)
+}
 
+variable "lazy_api_host" {
+  type        = string
+}
+
+variable "lazy_api_key" {
+  type        = string
+  sensitive   = true
+}
+
+module "test_s3_module" {
+  source        = "git::https://github.com/variant-inc/lazy-terraform.git//s3?ref=v1"
+  profile       = "devops"
+  region        = "us-west-2"
+  bucket_name   = "navin-ops-39"
+  lazy_api_key  = var.lazy_api_key # If run from octopus, this will be auto set
+  lazy_api_host = var.lazy_api_host # If run from octopus, this will be auto set
+  user_tags     = { 
+                    team    = "devops2"
+                    purpose = "s3-test3"
+                    owner   = "naveen3"
+                  }
+  octopus_tags  = var.octopus_tags # If run from octopus, this will be auto set
+  replication   = true
 }
 
 ```

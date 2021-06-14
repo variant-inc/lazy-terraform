@@ -55,16 +55,16 @@ Region will be picked up from the environment variable AWS_DEFAULT_REGION
 This example shows the minimum set of variables required to create Amazon MQ broker of type RabbitMQ. This include default values for variables not specified
 
 ```bash
-broker_name = "mq-test-broker"
-broker_instance_type = "mq.m5.2xlarge"
-username = "mqtestadmin"
+broker_name                = "mq-test-broker"
+broker_instance_type       = "mq.m5.2xlarge"
+username                   = "mqtestadmin"
 auto_minor_version_upgrade = true
-deployment_mode = "CLUSTER_MULTI_AZ"
-broker_purpose = "mq-test"
-broker_owner = "mq-test-tf"
-user_tags= {
-            team= "devops"
-            purpose= "rabbitmq module test"
-            owner= "sandeep"
-        }
+deployment_mode            = "CLUSTER_MULTI_AZ"
+broker_purpose             = "mq-test"
+broker_owner               = "mq-test-tf"
+user_tags = {
+  team    = "devops"
+  purpose = "rabbitmq module test"
+  owner   = "sandeep"
+}
 ```
