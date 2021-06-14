@@ -21,19 +21,28 @@ Module to create IAM Policy in a lazy fasion
 ```bash
 profile = "devops"
 region  = "us-west-2"
-policy_description  = "This is a test policy"
-policy_name         = "Test_Policy_Lee_TF"
-policy_json         = {
-                        "Version"   : "2012-10-17",
-                        "Statement" : [
-                            {
-                                "Sid"       : "VisualEditor0",
-                                "Effect"    : "Allow",
-                                "Action"    : "sts:AssumeRole",
-                                "Resource"  : "*"
-                            }
-                        ]
-                    }
+policy_description = "This is a test policy"
+policy_name = "Test_Policy_Lee_TF"
+policy_json = {
+    "Version"   : "2012-10-17",
+    "Statement" : [
+        {
+            "Sid"       : "VisualEditor0",
+            "Effect"    : "Allow",
+            "Action"    : "sts:AssumeRole",
+            "Resource"  : "*"
+        }
+    ]
+}
+user_tags = {
+    team = "devops"
+    purpose = "iam"
+    owner = "lee"
+}
+octopus_tags = {
+    project = "iaac_octopus"
+    space = "DevOps"
+}
 ```
 
 ## Test as module
