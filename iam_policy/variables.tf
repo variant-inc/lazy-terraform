@@ -33,10 +33,10 @@ variable "policy_json" {
 
 variable "user_tags" {
   description = "Mandatory user tags"
-  type = map(string)
+  type        = map(string)
 }
 
 variable "octopus_tags" {
   description = "Octopus Tags"
-  type = map(string)
+  type        = map(string)
 }
