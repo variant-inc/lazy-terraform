@@ -10,10 +10,11 @@ Module to create security group
 
 ## Input Variables
 
-| Name          | Type          | Default Value | Example |
-| ------------- | ------------- | ------------- | ------- |
-| vpc_id | string |  | vpc-123456789        |
-| type          | string        | "private"         |         |
+| Name   | Type   | Default Value | Example       |
+| ------ | ------ | ------------- | ------------- |
+| vpc_id | string |               | vpc-123456789 |
+| type   | string | "private"     |               |
+
 
 ## Example .tf file module reference
 

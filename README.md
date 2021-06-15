@@ -2,37 +2,34 @@
 
 Terraform scripts for lazy folks
 
-## Prerequisites
+## Usage
 
-1. Install Powershell
-2. Install `powershell-yaml` module by running `Install-Module powershell-yaml`
+All modules can be imported by tags. For example, to create a SNS topic module, import the module to your tf file as below
 
-## How to run
+```bash
+module "sns" {
+  source = "github.com/variant-inc/lazy-terraform//sns?ref=v1"
 
-`./terraform.ps1 -Path ./octopus_server_efs/`
+  name = "some-topic"
 
-Create a filename called `.terraform.<env>.yaml` in the root dir of the cloned repository which will contain the following vars
-
-```yaml
-tfS3Bucket: lazy-tf-state
-tfDynamodbTable: lazy_tf_state
-tfKmsKeyId: arn:aws:kms:us-east-1:1234567890:key/1234567890-b3cd-447c-9cd2-7a9d095a143a
-region: us-east-1
+  user_tags = {
+    team = "devops"
+    purpose = "elk module test"
+    owner = "Samir"
+  }
+  octopus_tags = var.octopus_tags
+}
 ```
 
-where
+## Notes
 
-| Name            | Description                                     |
-| --------------- | ----------------------------------------------- |
-| tfS3Bucket      | Name of S3 bucket to store the state            |
-| tfDynamodbTable | Name of the dynamodb which stores the lock file |
-| tfKmsKeyId      | KMS Key ARN for encrypting S3 bucket            |
-| region          | Region where bucket & dynamodb are located      |
+1. `octopus_tags` variable is auto filled if run through octopus. Use the variable snippet provided below.
 
-Modify lines 8-10 in [terraform.ps1](./terraform.ps1)
+    ```bash
+    variable "octopus_tags" {
+      description = "Octopus Tags"
+      type = map(string)
+    }
+    ```
 
-```powershell
-$tfS3Key = "efs/octopus-server" ## Name of the state key
-$env = "ops" ## env name which is same as `.terraform.<env>.yaml`
-$awsProfile = "108141096600_AWSAdministratorAccess" ## Profile name in `/.aws/credentials
-```
+2. If creating a module that isn't supported by lazy-terraform, make sure that you add the appropriate tags by following the [tags module](submodules/tags/README.md)
