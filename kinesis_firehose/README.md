@@ -3,7 +3,7 @@
 Module to deploy Amazon Kinesis Firehose Module where destination is extended_s3
 
 Assumptions:
-- Firehose stream is encrypted at REST where key_type is AWS_OWNED_CMK 
+- Firehose stream is encrypted at REST where key_type is AWS_OWNED_CMK
 - Firehose destination is extended_s3
 - Input is via PUT object
 
