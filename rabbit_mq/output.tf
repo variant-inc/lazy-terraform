@@ -11,7 +11,7 @@ output "broker_url" {
 }
 
 output "broker_user" {
-  value     = aws_mq_broker.mq.user
+  value = aws_mq_broker.mq.user
 }
 
 output "broker_amqp_endpoint" {

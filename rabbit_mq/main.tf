@@ -79,8 +79,9 @@ resource "aws_mq_broker" "mq" {
 }
 
 resource "aws_secretsmanager_secret" "broker_password" {
-  name        = "${var.broker_name}-rmq-password"
-  description = "Admin password for ${var.broker_name} RabbitMQ Broker"
+  name        = "${var.broker_name}-amq-password"
+  description = "Password for root user ${var.username} on AMQ broker ${var.broker_name}"
+  tags        = module.tags.tags
 }
 
 resource "aws_secretsmanager_secret_version" "broker_password" {
