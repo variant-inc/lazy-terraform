@@ -56,7 +56,7 @@ variable "octopus_tags" {
   type = map(string)
 }
 
-module "cache_cluster" {
+module "cluster" {
   source = "github.com/variant-inc/lazy-terraform//rds?ref=v1"
 
   identifier = "test"
@@ -75,11 +75,11 @@ module "cache_cluster" {
 ## Get Cluster details
 
 ```bash
-data "aws_elasticache_cluster" "cluster" {
-  cluster_id = "my-cluster-id"
+data "aws_db_instance" "database" {
+  db_instance_identifier = "my-test-database"
 }
 
-output "cluster_address" {
-  value = aws_elasticache_cluster.cluster.cache_nodes.0.address
+output "cluster" {
+  value = data.aws_db_instance.database
 }
 ```
