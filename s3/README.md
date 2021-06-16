@@ -72,6 +72,10 @@ variable "lazy_api_key" {
   sensitive   = true
 }
 
+variable "aws_role_to_assume" {
+  type        = string
+}
+
 module "test_s3_module" {
   source        = "git::https://github.com/variant-inc/lazy-terraform.git//s3?ref=v1"
   profile       = "devops"
@@ -86,5 +90,6 @@ module "test_s3_module" {
                   }
   octopus_tags  = var.octopus_tags # If run from octopus, this will be auto set
   replication   = true
+  role_arn      = var.aws_role_to_assume # If run from octopus, this will be auto set
 }
 ```
