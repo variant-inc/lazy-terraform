@@ -1,7 +1,9 @@
 variable "profile" {
   type        = string
   description = "Profile where table need to be created"
+  default     = "default"
 }
+
 variable "user_tags" {
   description = "Mandatory user tags"
   type = object({
