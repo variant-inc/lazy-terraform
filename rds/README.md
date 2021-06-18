@@ -22,6 +22,7 @@ Module to create RDS. Currently only `postgres` is supported.
  | engine                       | string        | postgres            |                   |
  | engine_version               | string        | 13                  |                   |
  | identifier                   | string        |                     | eng-rds           |
+ | name                         | string        |                     | rds               |
  | instance_class               | string        | db.r6g.large        |                   |
  | username                     | string        | variant             |                   |
  | allow_major_version_upgrade  | bool          | false               |                   |

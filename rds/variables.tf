@@ -69,6 +69,12 @@ variable "identifier" {
   type        = string
 }
 
+variable "name" {
+  description = "The name of the RDS database that has to be created"
+  type        = string
+  default     = null
+}
+
 variable "instance_class" {
   description = "The instance type of the RDS instance"
   default     = "db.r6g.large"
@@ -119,15 +125,15 @@ variable "env" {
 
 variable "user_tags" {
   description = "Mandatory tags fot the elk resources"
-  type = map(string)
+  type        = map(string)
 }
 
 variable "octopus_tags" {
   description = "Octopus Tags"
-  type = map(string)
+  type        = map(string)
 }
 
 variable "vpc_id" {
   description = "VPC to create the cluster in. If it is empty, then cluster will be created in `default-vpc`"
-  default = ""
+  default     = ""
 }
