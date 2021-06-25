@@ -20,15 +20,18 @@ Module to create s3, dynamodb & KMS for terraform s3 backend
 ## Example .tfvars
 
 ```text
-profile = "profile"
-region = "us-east-1"
-environment = "stage"
-
-dynamodb_table_name = "engineering_tf_state"
-replica_bucket_prefix = "engineering-tf-state-replica"
-state_bucket_prefix = "engineering-tf-state"
-
-tag_purpose = "Terraform State Files"
-tag_owner = "DevOps"
-tag_team = "DevOps"
+{
+  "name": "data-tf",
+  "user_tags": {
+    "purpose": "TF for data",
+    "team": "cloudops",
+    "owner": "cloudops"
+  },
+  "octopus_tags": {
+    "project": "n/a",
+    "space": "n/a"
+  },
+  "lazy_api_key": "",
+  "profile": "prod"
+}
 ```

@@ -8,26 +8,26 @@ variable "region" {
   default     = "us-east-1"
 }
 
-variable "dynamodb_table_name" {
+variable "name" {
+  description = "Name of the dyanmodb table and prefix of s3 bucket"
 }
 
-variable "replica_bucket_prefix" {
+variable "user_tags" {
+  description = "User tags"
+  type        = map(string)
 }
 
-variable "state_bucket_prefix" {
+variable "octopus_tags" {
+  description = "Octopus Tags"
+  type        = map(string)
 }
 
-variable "tag_purpose" {
-  type = string
-  description = "Purpose Tag"
+variable "lazy_api_host" {
+  type    = string
+  default = "https://lazy.apps.ops-drivevariant.com"
 }
 
-variable "tag_team" {
-  type = string
-  description = "Team Tag"
-}
-
-variable "tag_owner" {
-  type = string
-  description = "Owner Tag"
+variable "lazy_api_key" {
+  type      = string
+  sensitive = true
 }
