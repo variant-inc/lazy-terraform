@@ -56,6 +56,14 @@ module "subnets" {
   vpc_id = local.vpc_id
 }
 
+module "eks_vpc" {
+  count = var.whitelist_eks ? 1 : 0
+
+  source = "github.com/variant-inc/lazy-terraform//submodules/eks-vpc?ref=v1"
+
+  cluster_name = "variant-dev"
+}
+
 # Create security group
 module "security_group" {
   source = "terraform-aws-modules/security-group/aws"
@@ -65,8 +73,10 @@ module "security_group" {
   vpc_id      = local.vpc_id
   tags        = module.tags.tags
 
-  ingress_cidr_blocks = var.inbound_cidrs
-  ingress_rules       = [local.sg_ingress_rule]
+  ingress_cidr_blocks = var.whitelist_eks ? concat(
+    var.inbound_cidrs, module.eks_vpc.cidr_ranges
+  ) : var.inbound_cidrs
+  ingress_rules = [local.sg_ingress_rule]
 
   egress_cidr_blocks = ["0.0.0.0/0"]
   egress_rules       = ["all-all"]
@@ -158,4 +168,42 @@ resource "null_resource" "db_disable_deletion" {
     when    = destroy
     command = "aws rds modify-db-instance --db-instance-identifier ${self.triggers.name} --no-deletion-protection || true"
   }
+}
+
+module "replica" {
+  count = var.env == "prod" ? 1 : 0
+
+  source = "./modules/replica"
+
+  family                          = var.family
+  allow_major_version_upgrade     = var.allow_major_version_upgrade
+  apply_immediately               = var.apply_immediately
+  backup_window                   = var.backup_window
+  maintenance_window              = var.maintenance_window
+  engine_version                  = var.engine_version
+  identifier                      = var.identifier
+  instance_class                  = var.instance_class
+  iops                            = var.iops
+  max_allocated_storage           = var.max_allocated_storage
+  storage_type                    = var.storage_type
+  multi_az                        = var.multi_az
+  performance_insights_enabled    = var.performance_insights_enabled
+  user_tags                       = var.user_tags
+  octopus_tags                    = var.octopus_tags
+  primary_db_arn                  = module.db.db_instance_id
+  paramters                       = local.parameters
+  sg_ingress_rule                 = local.sg_ingress_rule
+  enabled_cloudwatch_logs_exports = var.engine == "postgres" ? local.postgres_log_exports : []
+}
+
+module "postgres" {
+  count = var.engine == "postgres" ? 1 : 0
+
+  source = "./modules/postgres"
+
+  host     = module.db.db_instance_address
+  username = var.username
+  password = module.db.db_master_password
+  name     = var.name
+  tags     = module.tags.tags
 }

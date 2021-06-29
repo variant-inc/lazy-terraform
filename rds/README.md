@@ -14,11 +14,10 @@ Module to create RDS. Currently only `postgres` is supported.
 
  | Name                         | Type          | Default             | Example           |
  | ---------------------------- | ------------- | ------------------- | ----------------- |
- | profile                      | string        | default             |                   |
  | allocated_storage            | number        | 100                 | eng-cache         |
  | family                       | string        | postgres13          |                   |
  | inbound_cidrs                | array(string) | ["0.0.0.0/0"]       |                   |
- | env                          | dev/prod      | dev                 |                   |
+ | env                          | non-prod/prod | non-prod            |                   |
  | engine                       | string        | postgres            |                   |
  | engine_version               | string        | 13                  |                   |
  | identifier                   | string        |                     | eng-rds           |
@@ -35,6 +34,7 @@ Module to create RDS. Currently only `postgres` is supported.
  | multi_az                     | bool          | false               |                   |
  | vpc_id                       | string        | (optional)          | vpc-26r9f023fh2f3 |
  | performance_insights_enabled | bool          | false               |                   |
+ | whitelist                    | bool          | true                |                   |
  | user_tags                    | object        |                     | `see below`       |
  | octopus_tags                 | object        |                     | `see below`       |
 
