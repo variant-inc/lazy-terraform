@@ -28,6 +28,8 @@ module "subnets" {
 
 # Create security group
 module "security_group" {
+  count = var.enabled ? 1: 0
+
   source = "terraform-aws-modules/security-group/aws"
 
   name        = "${var.identifier}-rds"
@@ -44,6 +46,8 @@ module "security_group" {
 
 # Creating db module
 module "db_east_2" {
+  count = var.enabled ? 1: 0
+
   source = "terraform-aws-modules/rds/aws"
 
   replicate_source_db = var.primary_db_arn
@@ -74,7 +78,7 @@ module "db_east_2" {
   storage_encrypted                   = true
   storage_type                        = var.storage_type
   subnet_ids                          = module.subnets.subnets.ids
-  vpc_security_group_ids              = [module.security_group.security_group_id]
+  vpc_security_group_ids              = [module.security_group[0].security_group_id]
 
   multi_az            = true
   skip_final_snapshot = false

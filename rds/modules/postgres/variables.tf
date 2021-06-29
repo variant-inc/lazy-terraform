@@ -24,3 +24,13 @@ variable "tags" {
   type        = map(string)
 }
 
+variable "enabled" {
+  description = "Enable Postgres User Creation"
+  type        = bool
+}
+
+variable "identifier" {
+  description = "The name of the RDS instance, if omitted, Terraform will assign a random, unique identifier"
+  type        = string
+}
+

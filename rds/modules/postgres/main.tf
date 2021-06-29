@@ -1,4 +1,4 @@
-local {
+locals {
   roles_ro = [
     "ba",
     "tableau",
@@ -8,14 +8,14 @@ local {
 }
 
 resource "random_password" "roles_ro_password" {
-  count = length(local.roles_ro)
+  count = var.enabled ? length(local.roles_ro) : 0
 
   length  = 16
   special = false
 }
 
 resource "postgresql_role" "roles_ro" {
-  count = length(local.roles_ro)
+  count = var.enabled ? length(local.roles_ro) : 0
 
   name             = element(local.roles_ro, count.index)
   login            = true
@@ -24,7 +24,11 @@ resource "postgresql_role" "roles_ro" {
 }
 
 resource "postgresql_grant" "readonly_tables" {
-  count = length(local.roles_ro)
+  depends_on = [
+    postgresql_role.roles_ro
+  ]
+
+  count = var.enabled ? length(local.roles_ro) : 0
 
   database    = var.name
   role        = element(local.roles_ro, count.index)
@@ -34,6 +38,8 @@ resource "postgresql_grant" "readonly_tables" {
 }
 
 resource "aws_secretsmanager_secret" "ro_roles" {
+  count = var.enabled ? 1 : 0
+
   name                    = "${var.identifier}-rds-roles"
   tags                    = var.tags
   description             = "Read Only Roles with password for ${var.identifier}-rds"
@@ -41,6 +47,8 @@ resource "aws_secretsmanager_secret" "ro_roles" {
 }
 
 resource "aws_secretsmanager_secret_version" "ro_roles" {
-  secret_id     = aws_secretsmanager_secret.ro_roles.id
-  secret_string = jsonencode(zipmap(roles_ro, random_password.roles_ro_password.*.result))
+  count = var.enabled ? 1 : 0
+
+  secret_id     = aws_secretsmanager_secret.ro_roles[0].id
+  secret_string = jsonencode(zipmap(local.roles_ro, random_password.roles_ro_password.*.result))
 }

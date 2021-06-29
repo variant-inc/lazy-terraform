@@ -106,3 +106,8 @@ variable "enabled_cloudwatch_logs_exports" {
   description = "Enabled Cloudwatch Logs Exports"
   type        = list(string)
 }
+
+variable "enabled" {
+  description = "Enable Postgres User Creation"
+  type        = bool
+}

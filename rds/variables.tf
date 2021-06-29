@@ -67,7 +67,6 @@ variable "identifier" {
 variable "name" {
   description = "The name of the RDS database that has to be created"
   type        = string
-  default     = null
 }
 
 variable "instance_class" {

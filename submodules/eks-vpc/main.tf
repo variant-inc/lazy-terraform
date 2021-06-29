@@ -3,5 +3,5 @@ data "aws_eks_cluster" "cluster" {
 }
 
 data "aws_vpc" "vpc" {
-  id = data.aws_eks_cluster.cluster.vpc_config.vpc_id
+  id = data.aws_eks_cluster.cluster.vpc_config[0].vpc_id
 }

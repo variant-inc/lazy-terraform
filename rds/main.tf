@@ -59,7 +59,8 @@ module "subnets" {
 module "eks_vpc" {
   count = var.whitelist_eks ? 1 : 0
 
-  source = "github.com/variant-inc/lazy-terraform//submodules/eks-vpc?ref=v1"
+  # source = "github.com/variant-inc/lazy-terraform//submodules/eks-vpc?ref=v1"
+  source = "../submodules/eks-vpc"
 
   cluster_name = "variant-dev"
 }
@@ -74,7 +75,7 @@ module "security_group" {
   tags        = module.tags.tags
 
   ingress_cidr_blocks = var.whitelist_eks ? concat(
-    var.inbound_cidrs, module.eks_vpc.cidr_ranges
+    var.inbound_cidrs, module.eks_vpc[0].cidr_ranges
   ) : var.inbound_cidrs
   ingress_rules = [local.sg_ingress_rule]
 
@@ -171,10 +172,9 @@ resource "null_resource" "db_disable_deletion" {
 }
 
 module "replica" {
-  count = var.env == "prod" ? 1 : 0
-
   source = "./modules/replica"
 
+  enabled                         = var.env == "prod"
   family                          = var.family
   allow_major_version_upgrade     = var.allow_major_version_upgrade
   apply_immediately               = var.apply_immediately
@@ -191,19 +191,28 @@ module "replica" {
   user_tags                       = var.user_tags
   octopus_tags                    = var.octopus_tags
   primary_db_arn                  = module.db.db_instance_id
-  paramters                       = local.parameters
+  parameters                      = local.parameters
   sg_ingress_rule                 = local.sg_ingress_rule
   enabled_cloudwatch_logs_exports = var.engine == "postgres" ? local.postgres_log_exports : []
 }
 
 module "postgres" {
-  count = var.engine == "postgres" ? 1 : 0
-
   source = "./modules/postgres"
 
-  host     = module.db.db_instance_address
-  username = var.username
-  password = module.db.db_master_password
-  name     = var.name
-  tags     = module.tags.tags
+  host       = module.db.db_instance_address
+  username   = var.username
+  password   = module.db.db_master_password
+  name       = var.name
+  tags       = module.tags.tags
+  enabled    = var.engine == "postgres"
+  identifier = var.identifier
+}
+
+module "route53" {
+  count = var.env == "prod" ? 1 : 0
+
+  source = "../route53"
+
+  sub_domain = "${var.identifier}.rds"
+  records    = [module.db.db_instance_address]
 }
