@@ -12,7 +12,6 @@ resource "aws_iam_role" "role" {
   force_detach_policies = true
   assume_role_policy    = var.trust_octopus_worker ? data.aws_iam_policy_document.assume_role.json : null
 
-  #Note: Inline policy json will come from lazy-api / tfvars
   dynamic "inline_policy" {
     for_each = var.inline_policies
     content {
