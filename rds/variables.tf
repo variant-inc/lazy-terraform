@@ -136,3 +136,13 @@ variable "whitelist_eks" {
   description = "Whitelist EKS Cluster"
   default     = true
 }
+
+variable "cluster_name" {
+  description = "Cluster Name. Required if whitelist_eks is true"
+  default     = ""
+}
+
+variable "domain" {
+  description = "Domain for creating route53. Required if env is 'prod'"
+  type        = string
+}

@@ -5,17 +5,22 @@ terraform {
 
 variable "env" {
 }
+variable "domain" {
+  type = string
+}
 
 module "rds" {
   source = "../"
 
-  identifier = "test"
+  identifier = "test-ops"
   user_tags = {
     team    = "devops"
     purpose = "elk module test"
     owner   = "Samir"
   }
+  cluster_name      = "variant-ops"
   name              = "test"
+  domain            = var.domain
   env               = var.env
   storage_type      = "gp2"
   apply_immediately = true

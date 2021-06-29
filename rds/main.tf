@@ -62,7 +62,7 @@ module "eks_vpc" {
   # source = "github.com/variant-inc/lazy-terraform//submodules/eks-vpc?ref=v1"
   source = "../submodules/eks-vpc"
 
-  cluster_name = "variant-dev"
+  cluster_name = var.cluster_name
 }
 
 # Create security group
@@ -208,11 +208,14 @@ module "postgres" {
   identifier = var.identifier
 }
 
-module "route53" {
-  count = var.env == "prod" ? 1 : 0
+data "aws_route53_zone" "zone" {
+  name = var.domain
+}
 
-  source = "../route53"
-
-  sub_domain = "${var.identifier}.rds"
-  records    = [module.db.db_instance_address]
+resource "aws_route53_record" "route" {
+  zone_id = data.aws_route53_zone.zone.zone_id
+  name    = "${var.identifier}.rds.${data.aws_route53_zone.zone.name}"
+  type    = "CNAME"
+  ttl     = "300"
+  records = [module.db.db_instance_address]
 }
