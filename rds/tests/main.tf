@@ -8,15 +8,18 @@ variable "env" {
 variable "domain" {
   type = string
 }
+variable "octopus_tags" {
+  type = map(string)
+}
 
 module "rds" {
   source = "../"
 
   identifier = "test-ops"
   user_tags = {
-    team    = "devops"
-    purpose = "elk module test"
-    owner   = "Samir"
+    team    = "cloudops"
+    purpose = "rds module test"
+    owner   = "cloudops"
   }
   cluster_name      = "variant-ops"
   name              = "test"
@@ -24,5 +27,5 @@ module "rds" {
   env               = var.env
   storage_type      = "gp2"
   apply_immediately = true
-  octopus_tags      = { project = "project_name", space = "space_name" }
+  octopus_tags      = var.octopus_tags
 }
