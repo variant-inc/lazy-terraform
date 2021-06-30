@@ -4,6 +4,7 @@ ce terraform init
 $tests = @("test1", "test2")
 
 $tests | ForEach-Object {
+  SetAWSCredentials
   $TF_VARIABLES | ConvertTo-Json -Depth 100
   ce terraform plan -no-color -input=false `
     -var-file "vars/${_}.json"

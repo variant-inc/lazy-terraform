@@ -33,7 +33,7 @@ resource "postgresql_grant" "readonly_tables" {
   database    = var.name
   role        = element(local.roles_ro, count.index)
   schema      = "public"
-  object_type = "database"
+  object_type = "table"
   privileges  = ["SELECT"]
 }
 

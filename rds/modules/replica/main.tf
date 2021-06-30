@@ -84,7 +84,7 @@ module "db_east_2" {
   skip_final_snapshot = false
 
   ## monitoring
-  create_monitoring_role = true
+  create_monitoring_role = false
   monitoring_role_name   = "${var.identifier}-rds"
   monitoring_interval    = 0
 
