@@ -28,4 +28,5 @@ module "rds" {
   storage_type      = "gp2"
   apply_immediately = true
   octopus_tags      = var.octopus_tags
+  instance_class    = "db.t3.micro"
 }

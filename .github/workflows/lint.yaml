@@ -3,6 +3,8 @@ name: Linter
 
 on:
   push:
+    branches-ignore:
+      - master
 
 jobs:
   lint:
