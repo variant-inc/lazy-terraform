@@ -107,7 +107,7 @@ module "db" {
   copy_tags_to_snapshot               = true
   create_random_password              = true
   tags                                = module.tags.tags
-  deletion_protection                 = true
+  deletion_protection                 = false
   engine                              = var.engine
   engine_version                      = var.engine_version
   iam_database_authentication_enabled = true
@@ -158,19 +158,6 @@ resource "aws_secretsmanager_secret_version" "password" {
   secret_string = module.db.db_master_password
 }
 
-resource "null_resource" "db_disable_deletion" {
-  depends_on = [
-    module.db
-  ]
-  triggers = {
-    "name" = var.identifier
-  }
-  provisioner "local-exec" {
-    when    = destroy
-    command = "aws rds modify-db-instance --db-instance-identifier ${self.triggers.name} --no-deletion-protection || true"
-  }
-}
-
 module "replica" {
   count  = var.env == "prod" ? 1 : 0
   source = "./modules/replica"
@@ -201,17 +188,17 @@ module "replica" {
   monitoring_role_arn             = module.db.enhanced_monitoring_iam_role_arn
 }
 
-# module "postgres" {
-#   source = "./modules/postgres"
+module "postgres" {
+  source = "./modules/postgres"
 
-#   host       = module.db.db_instance_address
-#   username   = var.username
-#   password   = module.db.db_master_password
-#   name       = var.name
-#   tags       = module.tags.tags
-#   enabled    = var.engine == "postgres"
-#   identifier = var.identifier
-# }
+  host       = module.db.db_instance_address
+  username   = var.username
+  password   = module.db.db_master_password
+  name       = var.name
+  tags       = module.tags.tags
+  enabled    = var.engine == "postgres"
+  identifier = var.identifier
+}
 
 data "aws_route53_zone" "zone" {
   name = var.domain
