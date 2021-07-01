@@ -71,7 +71,7 @@ variable "name" {
 
 variable "instance_class" {
   description = "The instance type of the RDS instance"
-  default     = "db.r6g.large"
+  type        = string
 }
 
 variable "iops" {
@@ -109,7 +109,6 @@ variable "performance_insights_enabled" {
 
 variable "env" {
   description = "Type of RDS instance. Prod will have monitoring enabled always"
-  default     = "non-prod"
 
   validation {
     condition     = contains(["prod", "non-prod"], var.env)

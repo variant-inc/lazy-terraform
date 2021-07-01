@@ -17,12 +17,12 @@ Module to create RDS. Currently only `postgres` is supported.
  | allocated_storage            | number        | 100                 | eng-cache         |
  | family                       | string        | postgres13          |                   |
  | inbound_cidrs                | array(string) | ["0.0.0.0/0"]       |                   |
- | env                          | non-prod/prod | non-prod            |                   |
+ | env                          | non-prod/prod |                     | non-prod          |
  | engine                       | string        | postgres            |                   |
  | engine_version               | string        | 13                  |                   |
  | identifier                   | string        |                     | eng-rds           |
  | name                         | string        |                     | rds               |
- | instance_class               | string        | db.r6g.large        |                   |
+ | instance_class               | string        |                     | db.r6g.large      |
  | username                     | string        | variant             |                   |
  | allow_major_version_upgrade  | bool          | false               |                   |
  | apply_immediately            | bool          | false               |                   |
