@@ -2,9 +2,13 @@
 
 Module to create RDS. Currently only `postgres` is supported.
 
-## Policies
+## Resources
 
-Required policies for the repo can be found here. [Link Here](./policies)
+- Security Group
+- Tags
+- Subnets
+- Null Resource
+- DB Module
 
 ## Input Variables
 

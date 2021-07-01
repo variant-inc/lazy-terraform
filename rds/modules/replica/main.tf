@@ -69,6 +69,7 @@ module "db_east_2" {
   backup_window                       = var.backup_window
   copy_tags_to_snapshot               = true
   tags                                = module.tags.tags
+  engine                              = var.engine
   engine_version                      = var.engine_version
   iam_database_authentication_enabled = true
   instance_class                      = var.instance_class

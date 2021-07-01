@@ -180,6 +180,7 @@ module "replica" {
   apply_immediately               = var.apply_immediately
   backup_window                   = var.backup_window
   maintenance_window              = var.maintenance_window
+  engine                          = var.engine
   engine_version                  = var.engine_version
   identifier                      = var.identifier
   instance_class                  = var.instance_class
@@ -190,7 +191,7 @@ module "replica" {
   performance_insights_enabled    = var.performance_insights_enabled
   user_tags                       = var.user_tags
   octopus_tags                    = var.octopus_tags
-  primary_db_arn                  = module.db.db_instance_id
+  primary_db_arn                  = module.db.db_instance_arn
   parameters                      = local.parameters
   sg_ingress_rule                 = local.sg_ingress_rule
   enabled_cloudwatch_logs_exports = var.engine == "postgres" ? local.postgres_log_exports : []

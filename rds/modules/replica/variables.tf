@@ -111,3 +111,8 @@ variable "enabled" {
   description = "Enable Postgres User Creation"
   type        = bool
 }
+
+variable "engine" {
+  description = "The database engine to use https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_CreateDBInstance.html"
+  default     = "postgres"
+}

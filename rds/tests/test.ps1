@@ -1,7 +1,7 @@
 ce tfswitch
 ce terraform init
 
-$tests = @("test1", "test2")
+$tests = @("test2")
 
 $tests | ForEach-Object {
   SetAWSCredentials
@@ -18,6 +18,7 @@ $tests | ForEach-Object {
     }
     finally
     {
+      SetAWSCredentials
       ce terraform destroy -auto-approve -no-color -input=false `
         -var-file "vars/${_}.json"
     }
