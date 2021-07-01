@@ -25,12 +25,14 @@ module "bucket" {
   region      = var.region
   bucket_name = local.bucket_name
 
-  lazy_api_key  = var.lazy_api_key  # If run from octopus, this will be auto set
-  lazy_api_host = var.lazy_api_host # If run from octopus, this will be auto set
+  # If run from octopus, this will be auto set
+  lazy_api_key  = var.lazy_api_key
+  lazy_api_host = var.lazy_api_host
   user_tags     = var.user_tags
-  octopus_tags  = var.octopus_tags # If run from octopus, this will be auto set
+  octopus_tags  = var.octopus_tags
   replication   = false
-  role_arn      = "arn:aws:iam::660075424663:role/lazy-octopus-devops"
+
+  role_arn      = ""
 }
 
 module "dynamodb_table" {
