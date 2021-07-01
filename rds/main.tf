@@ -59,8 +59,7 @@ module "subnets" {
 module "eks_vpc" {
   count = var.whitelist_eks ? 1 : 0
 
-  # source = "github.com/variant-inc/lazy-terraform//submodules/eks-vpc?ref=v1"
-  source = "../submodules/eks-vpc"
+  source = "github.com/variant-inc/lazy-terraform//submodules/eks-vpc?ref=v1"
 
   cluster_name = var.cluster_name
 }
