@@ -1,26 +1,26 @@
-ce tfswitch
-ce terraform init
+tfswitch
+terraform init
 
 $tests = @("test2")
 
 $tests | ForEach-Object {
-  SetAWSCredentials
+  # SetAWSCredentials
   $TF_VARIABLES | ConvertTo-Json -Depth 100
-  ce terraform plan -no-color -input=false `
-    -var-file "vars/${_}.json"
+  # terraform plan -no-color -input=false `
+  #   -var-file "vars/${_}.json"
 
+    terraform destroy -auto-approve -no-color -input=false `
+      -var-file "vars/${_}.json"
   if ($TF_APPLY -ieq "true")
   {
     try
     {
-      ce terraform apply -auto-approve -no-color -input=false `
-        -var-file "vars/${_}.json"
     }
     finally
     {
-      SetAWSCredentials
-      ce terraform destroy -auto-approve -no-color -input=false `
-        -var-file "vars/${_}.json"
+      # SetAWSCredentials
+      # ce terraform destroy -auto-approve -no-color -input=false `
+      #   -var-file "vars/${_}.json"
     }
   }
 }

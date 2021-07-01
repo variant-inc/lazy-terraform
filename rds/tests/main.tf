@@ -3,6 +3,15 @@ terraform {
   required_version = ">= 0.15.0"
 }
 
+provider "aws" {}
+provider "aws" {
+  alias  = "replica"
+  region = "us-east-2"
+}
+
+variable "assume_role_arn" {
+  default = null
+}
 variable "env" {
 }
 variable "domain" {
@@ -14,6 +23,10 @@ variable "octopus_tags" {
 
 module "rds" {
   source = "../"
+
+  providers = {
+    aws.replica = aws.replica
+  }
 
   identifier = "test-ops"
   user_tags = {

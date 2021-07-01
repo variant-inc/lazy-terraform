@@ -128,7 +128,7 @@ module "db" {
   ## monitoring
   create_monitoring_role = true
   monitoring_role_name   = "${var.identifier}-rds"
-  monitoring_interval    = var.env == "prod" ? 0 : 60
+  monitoring_interval    = var.env == "prod" ? 1 : 60
 
   enabled_cloudwatch_logs_exports = var.env == "prod" ? (
     var.engine == "postgres" ? local.postgres_log_exports : []
@@ -172,9 +172,13 @@ resource "null_resource" "db_disable_deletion" {
 }
 
 module "replica" {
+  count  = var.env == "prod" ? 1 : 0
   source = "./modules/replica"
 
-  enabled                         = var.env == "prod"
+  providers = {
+    aws = aws.replica
+  }
+
   family                          = var.family
   allow_major_version_upgrade     = var.allow_major_version_upgrade
   apply_immediately               = var.apply_immediately
@@ -188,26 +192,26 @@ module "replica" {
   max_allocated_storage           = var.max_allocated_storage
   storage_type                    = var.storage_type
   multi_az                        = var.multi_az
-  performance_insights_enabled    = var.performance_insights_enabled
   user_tags                       = var.user_tags
   octopus_tags                    = var.octopus_tags
   primary_db_arn                  = module.db.db_instance_arn
   parameters                      = local.parameters
   sg_ingress_rule                 = local.sg_ingress_rule
   enabled_cloudwatch_logs_exports = var.engine == "postgres" ? local.postgres_log_exports : []
+  monitoring_role_arn             = module.db.enhanced_monitoring_iam_role_arn
 }
 
-module "postgres" {
-  source = "./modules/postgres"
+# module "postgres" {
+#   source = "./modules/postgres"
 
-  host       = module.db.db_instance_address
-  username   = var.username
-  password   = module.db.db_master_password
-  name       = var.name
-  tags       = module.tags.tags
-  enabled    = var.engine == "postgres"
-  identifier = var.identifier
-}
+#   host       = module.db.db_instance_address
+#   username   = var.username
+#   password   = module.db.db_master_password
+#   name       = var.name
+#   tags       = module.tags.tags
+#   enabled    = var.engine == "postgres"
+#   identifier = var.identifier
+# }
 
 data "aws_route53_zone" "zone" {
   name = var.domain

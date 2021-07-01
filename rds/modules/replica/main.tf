@@ -1,5 +1,5 @@
 locals {
-  description = "Used by ${var.identifier} for ${var.user_tags.purpose}"
+  description          = "Used by ${var.identifier} for ${var.user_tags.purpose}"
   postgres_log_exports = ["postgresql", "upgrade"]
 }
 
@@ -28,8 +28,6 @@ module "subnets" {
 
 # Create security group
 module "security_group" {
-  count = var.enabled ? 1: 0
-
   source = "terraform-aws-modules/security-group/aws"
 
   name        = "${var.identifier}-rds"
@@ -46,9 +44,8 @@ module "security_group" {
 
 # Creating db module
 module "db_east_2" {
-  count = var.enabled ? 1: 0
-
-  source = "terraform-aws-modules/rds/aws"
+  # source = "terraform-aws-modules/rds/aws"
+  source = "github.com/riccardo-salamanna/terraform-aws-rds"
 
   replicate_source_db = var.primary_db_arn
 
@@ -65,8 +62,6 @@ module "db_east_2" {
   identifier                          = var.identifier
   allow_major_version_upgrade         = var.allow_major_version_upgrade
   apply_immediately                   = var.apply_immediately
-  backup_retention_period             = 7
-  backup_window                       = var.backup_window
   copy_tags_to_snapshot               = true
   tags                                = module.tags.tags
   engine                              = var.engine
@@ -79,15 +74,17 @@ module "db_east_2" {
   storage_encrypted                   = true
   storage_type                        = var.storage_type
   subnet_ids                          = module.subnets.subnets.ids
-  vpc_security_group_ids              = [module.security_group[0].security_group_id]
+  vpc_security_group_ids              = [module.security_group.security_group_id]
+  cross_region_replica                = true
+  kms_key_id                          = data.aws_kms_alias.rds.arn
 
   multi_az            = true
-  skip_final_snapshot = false
+  skip_final_snapshot = true
 
   ## monitoring
   create_monitoring_role = false
-  monitoring_role_name   = "${var.identifier}-rds"
-  monitoring_interval    = 0
+  monitoring_role_arn    = var.monitoring_role_arn
+  monitoring_interval    = 1
 
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
 

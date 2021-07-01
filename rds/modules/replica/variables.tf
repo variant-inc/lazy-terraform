@@ -72,11 +72,6 @@ variable "multi_az" {
   default     = false
 }
 
-variable "performance_insights_enabled" {
-  description = "Specifies whether Performance Insights are enabled"
-  default     = false
-}
-
 variable "user_tags" {
   description = "Mandatory tags for resources"
   type        = map(string)
@@ -107,12 +102,12 @@ variable "enabled_cloudwatch_logs_exports" {
   type        = list(string)
 }
 
-variable "enabled" {
-  description = "Enable Postgres User Creation"
-  type        = bool
-}
-
 variable "engine" {
   description = "The database engine to use https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_CreateDBInstance.html"
   default     = "postgres"
+}
+
+variable "monitoring_role_arn" {
+  description = "The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to CloudWatch Logs. Must be specified if monitoring_interval is non-zero."
+  type        = string
 }
