@@ -44,12 +44,13 @@ Create a folder name with a name as of the module
 - outputs.tf - All outputs of the module
 - variables.tf - Variables needed by the module
 - README.md - should contain Input Parameters and Example
-- policies - Policy Sentry Policies required by the module
+- policies - Policy Sentry Policies required by the module <https://policy-sentry.readthedocs.io/en/latest/>. You can find some examples in rds module. [Link Here](./rds/policies)
 - tests - Tests that should be run on the module
 
 ## Tests
 
-Tests should contain a test.ps1 which will say how to execute the tests. There should be a terraform main.tf which will contain the module that should be tested
+1. Add terraform files that will use the module to create the resources to `tests` directory.
+2. If there are multiple tests with different vars, add a `vars` folder inside the `tests` directory with tfvars files.
 
 ## Best Reference
 

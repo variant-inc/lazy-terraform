@@ -16,6 +16,7 @@ $name = $TEST_MODULE
 
 $policies = @()
 
+## Create Policies from Policy Sentry and create a role out of it
 New-Item -ItemType Directory -Force -Path $TestsPath/terraform/policies
 Get-ChildItem $ModulePath/policies/*.yml | ForEach-Object {
   $filePath = "$TestsPath/terraform/policies/$($_.BaseName).json"
@@ -83,12 +84,62 @@ try
 
   Start-Sleep -Seconds 10
 
+  ## Start Tests
   $AWS_ROLE_TO_ASSUME = (ce terraform output -json -no-color role | ConvertFrom-Json).arn
-  SetAWSCredentials
   if (![string]::IsNullOrEmpty($TEST_MODULE))
   {
     Set-Location $currentPath/$TEST_MODULE/tests
-    & $currentPath/$TEST_MODULE/tests/tests.ps1
+    ce tfswitch
+    ce terraform init
+    $TF_VARIABLES | ConvertTo-Json -Depth 100
+
+    ## If vars folder present, use those vars
+    if (Test-Path $currentPath/$TEST_MODULE/tests/vars)
+    {
+      Get-ChildItem $currentPath/$TEST_MODULE/tests/vars | ForEach-Object {
+        $tests | ForEach-Object {
+          SetAWSCredentials
+          ce terraform plan -no-color -input=false `
+            -var-file $_.FullName
+
+          if ($TF_APPLY -ieq "true")
+          {
+            try
+            {
+              SetAWSCredentials
+              ce terraform apply -auto-approve -no-color -input=false `
+                -var-file $_.FullName
+            }
+            finally
+            {
+              SetAWSCredentials
+              ce terraform destroy -auto-approve -no-color -input=false `
+                -var-file $_.FullName
+            }
+          }
+        }
+      }
+    }
+    ## If vars folder not found, then run without it
+    else
+    {
+      SetAWSCredentials
+      ce terraform plan -no-color -input=false
+
+      if ($TF_APPLY -ieq "true")
+      {
+        try
+        {
+          SetAWSCredentials
+          ce terraform apply -auto-approve -no-color -input=false
+        }
+        finally
+        {
+          SetAWSCredentials
+          ce terraform destroy -auto-approve -no-color -input=false
+        }
+      }
+    }
   }
 }
 finally
