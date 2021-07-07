@@ -16,6 +16,7 @@ $name = $TEST_MODULE
 
 $policies = @()
 
+## Create Policies from Policy Sentry and create a role out of it
 New-Item -ItemType Directory -Force -Path $TestsPath/terraform/policies
 Get-ChildItem $ModulePath/policies/*.yml | ForEach-Object {
   $filePath = "$TestsPath/terraform/policies/$($_.BaseName).json"
@@ -83,111 +84,62 @@ try
 
   Start-Sleep -Seconds 10
 
+  ## Start Tests
   $AWS_ROLE_TO_ASSUME = (ce terraform output -json -no-color role | ConvertFrom-Json).arn
-  SetAWSCredentials
   if (![string]::IsNullOrEmpty($TEST_MODULE))
   {
     Set-Location $currentPath/$TEST_MODULE/tests
-    & $currentPath/$TEST_MODULE/tests/tests.ps1
-  }
-}
-finally
-{
-  $AWS_ROLE_TO_ASSUME = $ADMIN_ROLE_ARN
-  Set-Location $TestsPath/terraform
-  SetAWSCredentials
-  ce terraform destroy -auto-approve -no-color -input=false
-}$ErrorActionPreference = "Stop"
-$InformationPreference = "Continue"
-$currentPath = $(Get-Location).Path
+    ce tfswitch
+    ce terraform init
+    $TF_VARIABLES | ConvertTo-Json -Depth 100
 
-Write-Information "Region is $ENV:AWS_DEFAULT_REGION"
-
-aws sts get-caller-identity
-
-ce pip3 install -U -q --no-color --user policy_sentry
-
-$ModulePath = Get-Item $currentPath/$TEST_MODULE
-$TestsPath = "$currentPath/tests"
-$ADMIN_ROLE_ARN = $AWS_ROLE_TO_ASSUME
-
-$name = $TEST_MODULE
-
-$policies = @()
-
-New-Item -ItemType Directory -Force -Path $TestsPath/terraform/policies
-Get-ChildItem $ModulePath/policies/*.yml | ForEach-Object {
-  $filePath = "$TestsPath/terraform/policies/$($_.BaseName).json"
-  $policies += @{
-    name      = $_.BaseName
-    file_path = $filePath
-  }
-
-  if ($_.FullName -imatch "skip" )
-  {
-    $policy = ce /home/octopus/.local/bin/policy_sentry write-policy `
-      -i $_.FullName | ConvertFrom-Json
-  }
-  else
-  {
-    $policy = ce /home/octopus/.local/bin/policy_sentry write-policy `
-      -i $_.FullName -m | ConvertFrom-Json
-  }
-
-  $policy.Statement | ForEach-Object {
-    if ($_.Sid -ieq "MultMultNone")
+    ## If vars folder present, use those vars
+    if (Test-Path $currentPath/$TEST_MODULE/tests/vars)
     {
-      $_.Action = $_.Action `
-        -replace '(.*:.{1,7}).*', '$1*' `
-        -replace '\*\*', '*' | Select-Object -Unique
+      Get-ChildItem $currentPath/$TEST_MODULE/tests/vars | ForEach-Object {
+        $tests | ForEach-Object {
+          SetAWSCredentials
+          ce terraform plan -no-color -input=false `
+            -var-file $_.FullName
+
+          if ($TF_APPLY -ieq "true")
+          {
+            try
+            {
+              SetAWSCredentials
+              ce terraform apply -auto-approve -no-color -input=false `
+                -var-file $_.FullName
+            }
+            finally
+            {
+              SetAWSCredentials
+              ce terraform destroy -auto-approve -no-color -input=false `
+                -var-file $_.FullName
+            }
+          }
+        }
+      }
     }
-    elseif ($_.Sid -ieq "SkipResourceConstraints")
-    {
-      $_.Action = $_.Action | Select-Object -Unique
-    }
+    ## If vars folder not found, then run without it
     else
     {
-      $_.Action = $_.Action `
-        -replace '(.*:.).*', '$1*' `
-        -replace '\*\*', '*' | Select-Object -Unique
+      SetAWSCredentials
+      ce terraform plan -no-color -input=false
+
+      if ($TF_APPLY -ieq "true")
+      {
+        try
+        {
+          SetAWSCredentials
+          ce terraform apply -auto-approve -no-color -input=false
+        }
+        finally
+        {
+          SetAWSCredentials
+          ce terraform destroy -auto-approve -no-color -input=false
+        }
+      }
     }
-  }
-
-  $policy | ConvertTo-Json -Depth 100 -Compress | Out-File `
-    -FilePath $filePath
-
-}
-
-$variables = @{
-  name                 = "tf-$name"
-  policies             = $policies
-  attachReadOnlyPolicy = $true
-}
-
-$variables | ConvertTo-Json
-
-$tfvarsFile = "$TestsPath/terraform/terraform.tfvars.json"
-New-Item $tfvarsFile -Force
-Set-Content $tfvarsFile ($variables | ConvertTo-Json)
-
-Set-Location $TestsPath/terraform
-ce terraform init
-
-$variables | ConvertTo-Json
-
-try
-{
-  ce terraform apply -auto-approve -no-color -input=false
-  ce aws sts get-caller-identity
-
-  Start-Sleep -Seconds 10
-
-  $AWS_ROLE_TO_ASSUME = (ce terraform output -json -no-color role | ConvertFrom-Json).arn
-  SetAWSCredentials
-  if (![string]::IsNullOrEmpty($TEST_MODULE))
-  {
-    Set-Location $currentPath/$TEST_MODULE/tests
-    & $currentPath/$TEST_MODULE/tests/tests.ps1
   }
 }
 finally

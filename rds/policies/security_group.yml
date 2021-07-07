@@ -1,0 +1,7 @@
+mode: crud
+name: security-group
+# Specify resource ARNs
+write:
+  - "arn:aws:ec2:*:*:security-group/*"
+tagging:
+  - "arn:aws:ec2:*:*:security-group/*"
