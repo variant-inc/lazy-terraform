@@ -44,8 +44,8 @@ module "security_group" {
 
 # Creating db module
 module "db_east_2" {
-  # source = "terraform-aws-modules/rds/aws"
-  source = "github.com/riccardo-salamanna/terraform-aws-rds"
+  source  = "terraform-aws-modules/rds/aws"
+  version = "~> 3.0"
 
   replicate_source_db = var.primary_db_arn
 
