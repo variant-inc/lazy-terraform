@@ -1,0 +1,14 @@
+mode: crud
+name: rds
+# Specify resource ARNs
+write:
+  - "arn:aws:rds:*:*:*:test-*"
+tagging:
+  - "arn:aws:rds:*:*:*:test-*"
+permissions-management:
+  - "arn:aws:rds:*:*:*:test-*"
+# Actions that do not support resource constraints
+wildcard-only:
+  # Service-wide - like 's3' or 'ec2'
+  service-write:
+    - rds

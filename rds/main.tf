@@ -56,6 +56,14 @@ module "subnets" {
   vpc_id = local.vpc_id
 }
 
+module "eks_vpc" {
+  count = var.whitelist_eks ? 1 : 0
+
+  source = "github.com/variant-inc/lazy-terraform//submodules/eks-vpc?ref=v1"
+
+  cluster_name = var.cluster_name
+}
+
 # Create security group
 module "security_group" {
   source = "terraform-aws-modules/security-group/aws"
@@ -65,8 +73,10 @@ module "security_group" {
   vpc_id      = local.vpc_id
   tags        = module.tags.tags
 
-  ingress_cidr_blocks = var.inbound_cidrs
-  ingress_rules       = [local.sg_ingress_rule]
+  ingress_cidr_blocks = var.whitelist_eks ? concat(
+    var.inbound_cidrs, module.eks_vpc[0].cidr_ranges
+  ) : var.inbound_cidrs
+  ingress_rules = [local.sg_ingress_rule]
 
   egress_cidr_blocks = ["0.0.0.0/0"]
   egress_rules       = ["all-all"]
@@ -96,7 +106,7 @@ module "db" {
   copy_tags_to_snapshot               = true
   create_random_password              = true
   tags                                = module.tags.tags
-  deletion_protection                 = true
+  deletion_protection                 = false
   engine                              = var.engine
   engine_version                      = var.engine_version
   iam_database_authentication_enabled = true
@@ -117,7 +127,7 @@ module "db" {
   ## monitoring
   create_monitoring_role = true
   monitoring_role_name   = "${var.identifier}-rds"
-  monitoring_interval    = var.env == "prod" ? 0 : 60
+  monitoring_interval    = var.env == "prod" ? 1 : 60
 
   enabled_cloudwatch_logs_exports = var.env == "prod" ? (
     var.engine == "postgres" ? local.postgres_log_exports : []
@@ -147,15 +157,56 @@ resource "aws_secretsmanager_secret_version" "password" {
   secret_string = module.db.db_master_password
 }
 
-resource "null_resource" "db_disable_deletion" {
-  depends_on = [
-    module.db
-  ]
-  triggers = {
-    "name" = var.identifier
+module "replica" {
+  count  = var.env == "prod" ? 1 : 0
+  source = "./modules/replica"
+
+  providers = {
+    aws = aws.replica
   }
-  provisioner "local-exec" {
-    when    = destroy
-    command = "aws rds modify-db-instance --db-instance-identifier ${self.triggers.name} --no-deletion-protection || true"
-  }
+
+  family                          = var.family
+  allow_major_version_upgrade     = var.allow_major_version_upgrade
+  apply_immediately               = var.apply_immediately
+  backup_window                   = var.backup_window
+  maintenance_window              = var.maintenance_window
+  engine                          = var.engine
+  engine_version                  = var.engine_version
+  identifier                      = var.identifier
+  instance_class                  = var.instance_class
+  iops                            = var.iops
+  max_allocated_storage           = var.max_allocated_storage
+  storage_type                    = var.storage_type
+  multi_az                        = var.multi_az
+  user_tags                       = var.user_tags
+  octopus_tags                    = var.octopus_tags
+  primary_db_arn                  = module.db.db_instance_arn
+  parameters                      = local.parameters
+  sg_ingress_rule                 = local.sg_ingress_rule
+  enabled_cloudwatch_logs_exports = var.engine == "postgres" ? local.postgres_log_exports : []
+  monitoring_role_arn             = module.db.enhanced_monitoring_iam_role_arn
+}
+
+module "postgres" {
+  source = "./modules/postgres"
+
+  host       = module.db.db_instance_address
+  username   = var.username
+  password   = module.db.db_master_password
+  name       = var.name
+  tags       = module.tags.tags
+  enabled    = var.engine == "postgres"
+  identifier = var.identifier
+}
+
+data "aws_route53_zone" "zone" {
+  name = var.domain
+}
+
+resource "aws_route53_record" "route" {
+  zone_id = data.aws_route53_zone.zone.zone_id
+  name    = "${var.identifier}.rds.${data.aws_route53_zone.zone.name}"
+  type    = "CNAME"
+  ttl     = "300"
+  records = [module.db.db_instance_address]
 }
