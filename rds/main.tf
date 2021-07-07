@@ -193,7 +193,7 @@ module "postgres" {
   host       = module.db.db_instance_address
   username   = var.username
   password   = module.db.db_master_password
-  name       = var.name
+  name       = "postgres"
   tags       = module.tags.tags
   enabled    = var.engine == "postgres"
   identifier = var.identifier
