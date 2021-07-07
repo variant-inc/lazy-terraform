@@ -14,6 +14,7 @@ resource "aws_kms_key" "sns" {
   description             = "KMS Key for SNS Topics"
   deletion_window_in_days = 7
   tags                    = module.tags.tags
+  enable_key_rotation     = true
 
   policy = <<EOT
 {

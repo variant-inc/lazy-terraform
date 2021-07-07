@@ -1,16 +1,6 @@
-variable "allocated_storage" {
-  description = "The allocated storage in gigabytes"
-  default     = "100"
-}
-
 variable "family" {
   description = "The family of the DB parameter group"
   default     = "postgres13"
-}
-
-variable "inbound_cidrs" {
-  description = "CIDR block to expect requests to originate from ie the source/destination in es' security group"
-  default     = []
 }
 
 variable "allow_major_version_upgrade" {
@@ -44,16 +34,6 @@ EOT
   default     = "sun:05:00-sun:09:00"
 }
 
-variable "engine" {
-  description = "The database engine to use https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_CreateDBInstance.html"
-  default     = "postgres"
-
-  validation {
-    condition     = contains(["postgres"], var.engine)
-    error_message = "Supported values are [\"postgres\"]."
-  }
-}
-
 variable "engine_version" {
   description = "The engine version to use"
   default     = "13"
@@ -64,15 +44,9 @@ variable "identifier" {
   type        = string
 }
 
-variable "name" {
-  description = "The name of the RDS database that has to be created"
-  type        = string
-  default     = null
-}
-
 variable "instance_class" {
   description = "The instance type of the RDS instance"
-  type        = string
+  default     = "db.r6g.large"
 }
 
 variable "iops" {
@@ -98,27 +72,8 @@ variable "multi_az" {
   default     = false
 }
 
-variable "username" {
-  description = "Username for the master DB user"
-  default     = "variant"
-}
-
-variable "performance_insights_enabled" {
-  description = "Specifies whether Performance Insights are enabled"
-  default     = false
-}
-
-variable "env" {
-  description = "Type of RDS instance. Prod will have monitoring enabled always"
-
-  validation {
-    condition     = contains(["prod", "non-prod"], var.env)
-    error_message = "Supported values are [\"prod\", \"non-prod\"]."
-  }
-}
-
 variable "user_tags" {
-  description = "Mandatory tags fot the elk resources"
+  description = "Mandatory tags for resources"
   type        = map(string)
 }
 
@@ -127,22 +82,32 @@ variable "octopus_tags" {
   type        = map(string)
 }
 
-variable "vpc_id" {
-  description = "VPC to create the cluster in. If it is empty, then cluster will be created in `default-vpc`"
-  default     = ""
+variable "primary_db_arn" {
+  description = "ARN of the primary db"
+  type        = string
 }
 
-variable "whitelist_eks" {
-  description = "Whitelist EKS Cluster"
-  default     = true
+variable "parameters" {
+  description = "Paramters for DB"
+  type        = list(map(string))
 }
 
-variable "cluster_name" {
-  description = "Cluster Name. Required if whitelist_eks is true"
-  default     = ""
+variable "sg_ingress_rule" {
+  description = "Ingress Rule"
+  type        = string
 }
 
-variable "domain" {
-  description = "Domain for creating route53. Required if env is 'prod'"
+variable "enabled_cloudwatch_logs_exports" {
+  description = "Enabled Cloudwatch Logs Exports"
+  type        = list(string)
+}
+
+variable "engine" {
+  description = "The database engine to use https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_CreateDBInstance.html"
+  default     = "postgres"
+}
+
+variable "monitoring_role_arn" {
+  description = "The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to CloudWatch Logs. Must be specified if monitoring_interval is non-zero."
   type        = string
 }

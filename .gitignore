@@ -33,3 +33,6 @@ override.tf.json
 .terraform.*.yaml
 
 tfplan
+
+test/**
+tests/**/policies
