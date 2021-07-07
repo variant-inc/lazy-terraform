@@ -17,6 +17,7 @@ variable "password" {
 variable "name" {
   description = "Database Name"
   type        = string
+  default     = "postgres"
 }
 
 variable "tags" {
