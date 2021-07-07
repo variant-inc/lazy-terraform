@@ -21,7 +21,8 @@ data "aws_iam_policy_document" "assume_role" {
     principals {
       type = "AWS"
       identifiers = [
-        data.aws_iam_role.octopus.arn
+        data.aws_iam_role.octopus.arn,
+        "arn:aws:iam::108141096600:user/lazy/lazy_octopus"
       ]
     }
   }

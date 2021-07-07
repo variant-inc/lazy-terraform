@@ -32,7 +32,7 @@ module "bucket" {
   octopus_tags  = var.octopus_tags
   replication   = false
 
-  role_arn      = ""
+  role_arn      = var.role_arn
 }
 
 module "dynamodb_table" {

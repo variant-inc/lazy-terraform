@@ -1,8 +1,3 @@
-variable "profile" {
-  description = "AWS Account Number"
-  default     = "default"
-}
-
 variable "region" {
   description = "AWS Default Region"
   default     = "us-east-1"
@@ -13,21 +8,28 @@ variable "name" {
 }
 
 variable "user_tags" {
-  description = "User tags"
+  description = "Mandatory User tags"
   type        = map(string)
 }
 
 variable "octopus_tags" {
-  description = "Octopus Tags"
+  description = "Mandatory Octopus Tags"
   type        = map(string)
 }
 
 variable "lazy_api_host" {
-  type    = string
-  default = "https://lazy.apps.ops-drivevariant.com"
+  description = "Lazy API URL. Auto Filled by Octopus"
+  type        = string
+  default     = "https://lazy.apps.ops-drivevariant.com"
 }
 
 variable "lazy_api_key" {
-  type      = string
-  sensitive = true
+  description = "Lazy API Key. Auto Filled by Octopus"
+  type        = string
+  sensitive   = true
+}
+
+variable "role_arn" {
+  description = "Role used by boto3 to create/destroy s3 bucket"
+  type        = string
 }

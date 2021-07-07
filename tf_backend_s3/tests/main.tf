@@ -19,16 +19,15 @@ variable "lazy_api_key" {
   sensitive = true
 }
 
-variable "aws_role_to_assume" {
+variable "role_arn" {
   type = string
 }
 
-module "test_s3_module" {
+module "tf_backend" {
   source = "../"
 
-  profile = "devops"
   region  = "us-east-1"
-  name    = "navin-ops-39"
+  name    = "test-ops-39"
 
   user_tags = {
     team    = "devops2"
@@ -40,4 +39,5 @@ module "test_s3_module" {
   lazy_api_key  = var.lazy_api_key
   lazy_api_host = var.lazy_api_host
   octopus_tags  = var.octopus_tags
+  role_arn      = var.role_arn
 }

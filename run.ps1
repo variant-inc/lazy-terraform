@@ -86,6 +86,7 @@ try
 
   ## Start Tests
   $AWS_ROLE_TO_ASSUME = (ce terraform output -json -no-color role | ConvertFrom-Json).arn
+  $env:TF_VAR_role_arn = $AWS_ROLE_TO_ASSUME
   if (![string]::IsNullOrEmpty($TEST_MODULE))
   {
     Set-Location $currentPath/$TEST_MODULE/tests
@@ -145,6 +146,7 @@ try
 finally
 {
   $AWS_ROLE_TO_ASSUME = $ADMIN_ROLE_ARN
+  $env:TF_VAR_role_arn = $AWS_ROLE_TO_ASSUME
   Set-Location $TestsPath/terraform
   SetAWSCredentials
   ce terraform destroy -auto-approve -no-color -input=false
