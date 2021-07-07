@@ -84,7 +84,8 @@ module "security_group" {
 
 # Creating db module
 module "db" {
-  source = "terraform-aws-modules/rds/aws"
+  source  = "terraform-aws-modules/rds/aws"
+  version = "~> 3.0"
 
   db_subnet_group_description     = local.description
   db_subnet_group_name            = var.identifier
