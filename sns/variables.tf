@@ -1,8 +1,3 @@
-variable "profile" {
-  description = "AWS profile"
-  default     = "default"
-}
-
 variable "name" {
   description = "Name of the SNS topic"
 }

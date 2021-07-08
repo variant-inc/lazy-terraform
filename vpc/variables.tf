@@ -9,7 +9,7 @@ variable "cidr" {
 
 variable "name" {
   description = "Name of the VPC"
-  default     = "default"
+  default     = "default-vpc"
 }
 
 variable "user_tags" {
