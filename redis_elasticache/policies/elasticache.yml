@@ -1,0 +1,6 @@
+mode: crud
+name: elasticache
+write:
+  - "arn:aws:elasticache:*:*:*:test-*"
+tagging:
+  - "arn:aws:elasticache:*:*:*:test-*"

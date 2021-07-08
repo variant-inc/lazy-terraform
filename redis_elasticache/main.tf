@@ -1,5 +1,5 @@
 locals {
-  vpc_id = var.vpc_id == "" ? module.vpc.vpc.id : var.vpc_id
+  vpc_id = var.vpc_id == "" ? module.vpc[0].vpc.id : var.vpc_id
 }
 
 module "tags" {
@@ -11,23 +11,36 @@ module "tags" {
   octopus_tags = var.octopus_tags
 }
 
+module "eks_vpc" {
+  count = var.whitelist_eks ? 1 : 0
+
+  source = "github.com/variant-inc/lazy-terraform//submodules/eks-vpc?ref=v1"
+
+  cluster_name = var.cluster_name
+}
+
 # Create security group
 module "security_group" {
   source = "terraform-aws-modules/security-group/aws"
 
-  name          = "${var.domain_name}-ec"
-  description = "Security group for ${var.identifier} ElastiCache"
+  name        = "${var.domain_name}-ec"
+  description = "Security group for ${var.domain_name} ElastiCache"
   vpc_id      = local.vpc_id
   tags        = module.tags.tags
 
-  ingress_cidr_blocks = var.inbound_cidrs
-  ingress_rules       = ["redis-tcp"]
+  ingress_cidr_blocks = var.whitelist_eks ? concat(
+    var.inbound_cidrs, module.eks_vpc[0].cidr_ranges
+  ) : var.inbound_cidrs
+
+  ingress_rules = ["redis-tcp"]
 
   egress_cidr_blocks = ["0.0.0.0/0"]
   egress_rules       = ["all-all"]
 }
 
 module "vpc" {
+  count = var.vpc_id == "" ? 1 : 0
+
   source = "github.com/variant-inc/lazy-terraform//submodules/vpc?ref=v1"
 }
 

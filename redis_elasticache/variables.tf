@@ -1,8 +1,3 @@
-variable "profile" {
-  description = "AWS Account Number"
-  default     = "default"
-}
-
 variable "domain_name" {
   description = "Elastic Search Domain Name"
 }
@@ -49,4 +44,19 @@ variable "user_tags" {
 variable "octopus_tags" {
   description = "Octopus Tags"
   type        = map(string)
+}
+
+variable "whitelist_eks" {
+  description = "Whitelist EKS Cluster"
+  default     = true
+}
+
+variable "cluster_name" {
+  description = "Cluster Name. Required if whitelist_eks is true"
+  default     = ""
+}
+
+variable "domain" {
+  description = "Domain for creating route53. Required if env is 'prod'"
+  type        = string
 }

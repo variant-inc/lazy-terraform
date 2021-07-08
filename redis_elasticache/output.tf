@@ -6,7 +6,6 @@ output "cache_nodes" {
 output "result" {
   value       = aws_elasticache_cluster.cluster
   description = "The output of aws_elasticache_cluster.cluster"
-  sensitive   = true
 }
 
 output "engine_version_actual" {
