@@ -9,6 +9,7 @@ variable "es_version" {
 
 variable "vpc_id" {
   description = "VPC to create the cluster in"
+  default     = null
 }
 
 variable "inbound_cidrs" {
@@ -35,10 +36,25 @@ variable "master_user_options" {
 
 variable "user_tags" {
   description = "Mandatory tags fot the elk resources"
-  type = map(string)
+  type        = map(string)
 }
 
 variable "octopus_tags" {
   description = "Mandatory octopus fot the elk resources"
-  type = map(string)
+  type        = map(string)
+}
+
+variable "whitelist_eks" {
+  description = "Whitelist EKS Cluster"
+  default     = true
+}
+
+variable "cluster_name" {
+  description = "Cluster Name. Required if whitelist_eks is true"
+  default     = ""
+}
+
+variable "domain" {
+  description = "Domain for creating route53. Required if env is 'prod'"
+  type        = string
 }

@@ -1,4 +1,5 @@
 data "aws_caller_identity" "current" {}
+data "aws_region" "current" {}
 
 module "vpc" {
   source = "github.com/variant-inc/lazy-terraform//submodules/vpc?ref=v1"
@@ -13,7 +14,7 @@ locals {
     "audit_logs" : "AUDIT_LOGS"
   }
 
-  vpc_id = var.vpc_id == "" ? module.vpc.vpc.id : var.vpc_id
+  vpc_id = var.vpc_id == null ? module.vpc.vpc.id : var.vpc_id
 }
 
 module "tags" {
@@ -31,16 +32,27 @@ module "subnets" {
   vpc_id = local.vpc_id
 }
 
+module "eks_vpc" {
+  count = var.whitelist_eks ? 1 : 0
+
+  source = "github.com/variant-inc/lazy-terraform//submodules/eks-vpc?ref=v1"
+
+  cluster_name = var.cluster_name
+}
+
 # Create security group
 module "security_group" {
   source = "terraform-aws-modules/security-group/aws"
 
-  name        = "${var.identifier}-elk"
-  description = "Security group for ${var.identifier} ELK"
+  name        = "${var.domain_name}-elk"
+  description = "Security group for ${var.domain_name} ELK"
   vpc_id      = local.vpc_id
   tags        = module.tags.tags
 
-  ingress_cidr_blocks = var.inbound_cidrs
+  ingress_cidr_blocks = var.whitelist_eks ? concat(
+    var.inbound_cidrs, module.eks_vpc[0].cidr_ranges
+  ) : var.inbound_cidrs
+
   ingress_rules = [
     "elasticsearch-rest-tcp",
     "elasticsearch-java-tcp",
@@ -73,7 +85,7 @@ resource "random_password" "password" {
 resource "aws_cloudwatch_log_group" "elk_log_groups" {
   for_each = local.log_publishing_options
   name     = "elk/${var.domain_name}/${each.key}"
-  tags     = local.tags
+  tags     = module.tags.tags
 }
 
 resource "aws_cloudwatch_log_resource_policy" "example" {
@@ -100,7 +112,7 @@ resource "aws_cloudwatch_log_resource_policy" "example" {
 CONFIG
 }
 
-resource "aws_elasticsearch_domain" "variant-elk-cluster" {
+resource "aws_elasticsearch_domain" "cluster" {
   domain_name           = var.domain_name
   elasticsearch_version = var.es_version
   domain_endpoint_options {
@@ -180,11 +192,35 @@ resource "aws_elasticsearch_domain" "variant-elk-cluster" {
         "AWS": "*"
       },
       "Effect": "Allow",
-      "Resource": "arn:aws:es:${var.region}:${data.aws_caller_identity.current.account_id}:domain/${var.domain_name}/*"
+      "Resource": "arn:aws:es:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:domain/${var.domain_name}/*"
     }
   ]
 }
 POLICY
 
   tags = module.tags.tags
+}
+
+resource "aws_secretsmanager_secret" "cluster" {
+  name                    = "${var.domain_name}-elk"
+  tags                    = module.tags.tags
+  description             = "Password for ${var.domain_name}-elk"
+  recovery_window_in_days = 0
+}
+
+resource "aws_secretsmanager_secret_version" "password" {
+  secret_id     = aws_secretsmanager_secret.cluster.id
+  secret_string = lookup(var.master_user_options, "master_user_password", random_password.password.result)
+}
+
+data "aws_route53_zone" "zone" {
+  name = var.domain
+}
+
+resource "aws_route53_record" "route" {
+  zone_id = data.aws_route53_zone.zone.zone_id
+  name    = "${var.domain_name}.elk.${data.aws_route53_zone.zone.name}"
+  type    = "CNAME"
+  ttl     = "300"
+  records = [aws_elasticsearch_domain.cluster.endpoint]
 }
