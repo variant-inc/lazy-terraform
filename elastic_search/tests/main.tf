@@ -13,7 +13,7 @@ variable "octopus_tags" {
   type = map(string)
 }
 
-module "module-test" {
+module "cluster" {
   source = "../"
 
   domain_name  = "test"
@@ -34,4 +34,9 @@ module "module-test" {
   }
   domain       = var.domain
   octopus_tags = var.octopus_tags # If run from octopus, this will be auto populated
+}
+
+output "result" {
+  value     = module.cluster.result
+  sensitive = true
 }

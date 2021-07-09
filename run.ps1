@@ -132,6 +132,7 @@ try
         {
           SetAWSCredentials
           ce terraform apply -auto-approve -no-color -input=false
+              ce terraform output -no-color -json
         }
         finally
         {
