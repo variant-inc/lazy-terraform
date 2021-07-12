@@ -21,7 +21,7 @@ module "cluster" {
 
   cluster_config = {
     dedicated_master_enabled = false
-    instance_count           = 1
+    instance_count           = 2
   }
   master_user_options = {
     master_user_name = "devops-test-user"

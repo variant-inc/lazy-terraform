@@ -6,7 +6,7 @@ module "vpc" {
 }
 
 locals {
-  instance_count = lookup(var.cluster_config, "instance_count", 1)
+  instance_count = tonumber(lookup(var.cluster_config, "instance_count", 1))
   log_publishing_options = {
     "index_slow_logs" : "INDEX_SLOW_LOGS",
     "search_slow_logs" : "SEARCH_SLOW_LOGS",
@@ -66,7 +66,7 @@ module "security_group" {
 # Pick one incase instance number is one
 resource "random_shuffle" "random_subnet" {
   input        = module.subnets.subnets.ids
-  result_count = 1
+  result_count = min(local.instance_count, length(module.subnets.subnets.ids), 3)
 }
 
 resource "random_password" "password" {
@@ -163,11 +163,7 @@ resource "aws_elasticsearch_domain" "cluster" {
     }
   }
   vpc_options {
-    subnet_ids = (
-      (
-        local.instance_count == "1" || local.instance_count == 1
-      ) ? [random_shuffle.random_subnet.result[0]] : module.subnets.subnets.ids
-    )
+    subnet_ids         = random_shuffle.random_subnet.result
     security_group_ids = [module.security_group.security_group_id]
   }
   snapshot_options {
