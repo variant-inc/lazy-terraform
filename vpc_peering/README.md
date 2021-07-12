@@ -1,20 +1,29 @@
 # Terraform VPC Peering Module
 
-This module create a VPC peering connection in the same account
+Refer <https://registry.terraform.io/modules/grem11n/vpc-peering/aws/latest> which seems to be the best one
 
-## Input Variables
+## Examples
 
-- requestor_vpc_id
-  - string
-- acceptor_vpc_id
-  - string
-- environment
-  - string
+```bash
+provider "aws" {
+}
 
-## Example .tfvars
+module "single_account_single_region" {
+  source = "../../"
 
-```text
-requestor_vpc_id = "vpc-123"
-acceptor_vpc_id = "vpc-234"
-environment = "devops"
+  providers = {
+    aws.this = aws
+    aws.peer = aws
+  }
+
+  this_vpc_id = var.this_vpc_id
+  peer_vpc_id = var.peer_vpc_id
+
+  auto_accept_peering = true
+
+  tags = {
+    Name        = "tf-single-account-single-region"
+    Environment = "Test"
+  }
+}
 ```
