@@ -6,6 +6,7 @@ module "vpc" {
 }
 
 locals {
+  instance_type  = lookup(var.cluster_config, "instance_type", "r5.large.elasticsearch")
   instance_count = tonumber(lookup(var.cluster_config, "instance_count", 1))
   log_publishing_options = {
     "index_slow_logs" : "INDEX_SLOW_LOGS",
@@ -137,31 +138,18 @@ resource "aws_elasticsearch_domain" "cluster" {
   node_to_node_encryption {
     enabled = true
   }
-  dynamic "cluster_config" {
-    for_each = var.cluster_config["dedicated_master_enabled"] == true ? [1] : []
-    content {
-      instance_type            = contains("instance_type", var.cluster_config) ? var.cluster_config["instance_type"] : "r5.large.elasticsearch"
-      instance_count           = local.instance_count
-      dedicated_master_enabled = var.cluster_config["dedicated_master_enabled"]
-      dedicated_master_count   = var.cluster_config["dedicated_master_count"]
-      zone_awareness_enabled   = true
-      zone_awareness_config {
-        availability_zone_count = 3
-      }
-    }
 
-  }
-  dynamic "cluster_config" {
-    for_each = var.cluster_config["dedicated_master_enabled"] == false ? [1] : []
-    content {
-      instance_type          = lookup(var.cluster_config, "instance_type", "r5.large.elasticsearch")
-      instance_count         = local.instance_count
-      zone_awareness_enabled = true
-      zone_awareness_config {
-        availability_zone_count = 3
-      }
+  cluster_config {
+    instance_type            = local.instance_type
+    instance_count           = local.instance_count
+    dedicated_master_enabled = var.cluster_config["dedicated_master_enabled"] ? var.cluster_config["dedicated_master_enabled"] : false
+    dedicated_master_count   = var.cluster_config["dedicated_master_enabled"] ? var.cluster_config["dedicated_master_count"] : null
+    zone_awareness_enabled   = true
+    zone_awareness_config {
+      availability_zone_count = length(random_shuffle.random_subnet.result)
     }
   }
+
   vpc_options {
     subnet_ids         = random_shuffle.random_subnet.result
     security_group_ids = [module.security_group.security_group_id]
