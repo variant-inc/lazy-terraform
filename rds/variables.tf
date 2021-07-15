@@ -9,7 +9,7 @@ variable "family" {
 }
 
 variable "inbound_cidrs" {
-  description = "CIDR block to expect requests to originate from ie the source/destination in es' security group"
+  description = "CIDR block to expect requests to originate from ie the source/destination in rds security group"
   default     = []
 }
 

@@ -63,6 +63,8 @@ variable "octopus_tags" {
 module "cluster" {
   source = "github.com/variant-inc/lazy-terraform//rds?ref=v1"
 
+  inbound_cidrs = ["15.0.0.24/32"]
+
   identifier = "test"
   user_tags = {
     team    = "devops"
@@ -87,3 +89,7 @@ output "cluster" {
   value = data.aws_db_instance.database
 }
 ```
+
+## Outputs
+
+To get the data of `db_result`, refer <https://registry.terraform.io/modules/terraform-aws-modules/rds/aws/latest?tab=outputs>

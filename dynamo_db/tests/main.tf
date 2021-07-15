@@ -6,7 +6,7 @@ terraform {
 provider "aws" {}
 
 module "dynamodb_table" {
-  source = "github.com/variant-inc/lazy-terraform//dynamo_db?ref=v1"
+  source = "../"
 
   table_name   = var.table_name
   billing_mode = var.billing_mode
