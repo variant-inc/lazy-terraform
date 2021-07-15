@@ -9,7 +9,7 @@ variable "family" {
 }
 
 variable "inbound_cidrs" {
-  description = "CIDR block to expect requests to originate from ie the source/destination in es' security group"
+  description = "CIDR block to expect requests to originate from ie the source/destination in rds security group"
   default     = []
 }
 
@@ -130,6 +130,11 @@ variable "octopus_tags" {
 variable "vpc_id" {
   description = "VPC to create the cluster in. If it is empty, then cluster will be created in `default-vpc`"
   default     = ""
+}
+
+variable "whitelist_openvpn" {
+  description = "Whitelist OpenVPN. Will be forced to be false when env is prod"
+  default     = false
 }
 
 variable "whitelist_eks" {

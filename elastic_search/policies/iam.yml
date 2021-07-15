@@ -1,0 +1,11 @@
+mode: crud
+name: iam
+tagging:
+  - "arn:aws:iam::*:role/test-*"
+  - "arn:aws:iam::*:policy/test-*"
+permissions-management:
+  - "arn:aws:iam::*:role/test-*"
+  - "arn:aws:iam::*:policy/test-*"
+wildcard-only:
+  service-permissions-management:
+    - iam

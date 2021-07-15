@@ -1,9 +1,9 @@
 module "tags" {
   source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1"
 
-  user_tags = var.user_tags
+  user_tags    = var.user_tags
   octopus_tags = var.octopus_tags
-  name = "dynamodb-terraform"
+  name         = "dynamodb-terraform"
 }
 
 locals {
@@ -17,12 +17,7 @@ resource "aws_dynamodb_table" "table" {
   read_capacity  = local.read_capacity
   write_capacity = local.write_capacity
   hash_key       = var.hash_key
-  range_key      = var.range_key == null ? null : var.range_key
-
-  attribute {
-    name = var.hash_key
-    type = var.hash_key_type
-  }
+  range_key      = var.range_key
 
   dynamic "attribute" {
     for_each = var.attributes == null ? [] : var.attributes

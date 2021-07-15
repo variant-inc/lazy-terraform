@@ -9,7 +9,7 @@ Module to create IAM Policy in a lazy fashion
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | ------------- | ------- |
 | policy_description | string                                                                                                                    | Description of the policy to be created |               |         |
 | policy_name        | string                                                                                                                    | Name of the policy to be created        |               |         |
-| policy_json        | object({Version = string, Statement = list(object({Sid = string, Effect = string, Action = string, Resource = string}))}) | JSON Policy Definition                  |               |         |
+| policy_json        | object({Version = string, Statement = list(object({Sid = string, Effect = string, Action = any, Resource = any}))}) | JSON Policy Definition                  |               |         |
 | user_tags          | map(string)                                                                                                               | Mandatory User Tags                     |               |         |
 | octopus_tags       | map(string)                                                                                                               | Octopus Tags                            |               |         |
 <!-- markdownlint-enable MD013 MD033 -->

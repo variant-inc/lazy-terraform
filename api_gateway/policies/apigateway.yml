@@ -1,0 +1,24 @@
+mode: crud
+name: apigateway
+# Specify resource ARNs
+write:
+  - "arn:aws:apigateway:*:*:/apis*"
+  - "arn:aws:apigateway:*:*:/domainnames*"
+  - "arn:aws:apigateway:*:*:/vpclinks*"
+  - "arn:aws:apigateway:*:*:*:test-*"
+  - "arn:aws:execute-api:*:*:*:test-*"
+tagging:
+  - "arn:aws:apigateway:*:*:/apis*"
+  - "arn:aws:apigateway:*:*:/domainnames*"
+  - "arn:aws:apigateway:*:*:/vpclinks*"
+  - "arn:aws:apigateway:*:*:*:test-*"
+  - "arn:aws:execute-api:*:*:*:test-*"
+permissions-management:
+  - "arn:aws:apigateway:*:*:/apis*"
+  - "arn:aws:apigateway:*:*:/domainnames*"
+  - "arn:aws:apigateway:*:*:/vpclinks*"
+  - "arn:aws:apigateway:*:*:*:test-*"
+  - "arn:aws:execute-api:*:*:*:test-*"
+wildcard-only:
+  service-write:
+    - apigateway

@@ -30,8 +30,6 @@ Create a folder name with a name as of the module
  ┃ ┃ ┣ test1.json
  ┃ ┃ ┗ test2.json
  ┃ ┣ main.tf
- ┃ ┣ test.ps1
- ┃ ┗ tests.ps1
  ┣ main.tf
  ┣ outputs.tf
  ┣ README.md
