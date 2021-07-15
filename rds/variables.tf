@@ -132,6 +132,11 @@ variable "vpc_id" {
   default     = ""
 }
 
+variable "whitelist_openvpn" {
+  description = "Whitelist OpenVPN. Will be forced to be false when env is prod"
+  default     = false
+}
+
 variable "whitelist_eks" {
   description = "Whitelist EKS Cluster"
   default     = true

@@ -38,6 +38,7 @@ Module to create RDS. Currently only `postgres` is supported.
  | user_tags                    | object        |                     | `see below`          |
  | octopus_tags                 | object        |                     | `see below`          |
  | whitelist_eks                | bool          | true                |                      |
+ | whitelist_openvpn            | bool          | false               |                      |
  | cluster_name                 | string        |                     | variant-dev          |
  | domain                       | string        |                     | dev-drivevariant.com |
 

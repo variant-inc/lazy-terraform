@@ -12,7 +12,6 @@ Module to create dynamo db table using lazy terraform scripts
 | octopus_tags             | map(string)                                    |                 |                   |
 | billing_mode             | string                                         | PAY_PER_REQUEST |                   |
 | hash_key                 | string                                         |                 |                   |
-| hash_key_type            | string                                         |                 | "S", "N", "B"     |
 | range_key                | string                                         | null            |                   |
 | table_name               | string                                         |                 |                   |
 | attributes               | list(object({ name = string, type = string })) | null            |                   |
@@ -37,38 +36,7 @@ In case if it fails for region in any of the below testing, please run below com
 ```bash
 export AWS_DEFAULT_REGION=us-west-2 to set the region
 ```
-## To test as module
 
-```bash
-module "dynamodb_table" {
-  source = "github.com/variant-inc/lazy-terraform//dynamo_db?ref=v1"
-    table_name = "naveen-new-12"
-    billing_mode = "PAY_PER_REQUEST"
-    hash_key = "UserId"
-    hash_key_type = "S"
-    user_tags = {
-      team = "devops"
-      purpose = "dynamo"
-      owner = "naveen"
-      }
-    octopus_tags = {
-      project = "actions-test"
-      space   = "Default"
-    }
+## Examples
 
-    range_key = "Name"
-    attributes = [
-        {
-        name = "Name",
-        type = "S",
-        }
-    ]
-}
-
-```
-
-## Output Variables
-
-- aws_dynamodb_table.table
-  - string
-  
+Refer [tests](./tests/main.tf)
