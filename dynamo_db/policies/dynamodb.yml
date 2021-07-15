@@ -1,0 +1,17 @@
+mode: crud
+name: dynamodb
+write:
+  - "arn:*:dynamodb:*:*:table/test-*"
+  - "arn:*:dynamodb:*:*:table/test-*/index/*"
+  - "arn:*:dynamodb:*:*:table/test-*/stream/*"
+  - "arn:*:dynamodb:*:*:table/test-*/backup/*"
+  - "arn:*:dynamodb:*:*:table/test-*/export/*"
+tagging:
+  - "arn:*:dynamodb:*:*:table/test-*"
+  - "arn:*:dynamodb:*:*:table/test-*/index/*"
+  - "arn:*:dynamodb:*:*:table/test-*/stream/*"
+  - "arn:*:dynamodb:*:*:table/test-*/backup/*"
+  - "arn:*:dynamodb:*:*:table/test-*/export/*"
+wildcard-only:
+  service-write:
+    - "dynamodb"
