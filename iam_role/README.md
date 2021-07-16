@@ -11,7 +11,7 @@ Module to create IAM Role in a lazy fasion
 | description                   | string          | Description of the role to be created                                        |               |                                   |
 | trust_octopus_worker          | bool            | Add trust relationship to iaac-octopus-worker in both devops and current environment | False         |                                   |
 | managed_policies              | list(string)    | List of arns of managed policies to attach to new role                       |               |                                   |
-| inline_policies               | list(object({Name = string, policy_json = object({Version = string, Statement = list(object({Sid = string, Effect = string, Action = string, Resource = string}))})}))| List of inline policy definitions |               |                                   |
+| inline_policies               | list(object({Name = string, policy_json = object({Version = string, Statement = list(object({Sid = string, Effect = string, Action = any, Resource = any}))})}))| List of inline policy definitions |               |                                   |
 | user_tags                     | map(string)     | Mandatory User Tags                                                          |               |                                   |
 | octopus_tags                  | map(string)     | Octopus Tags                                                                 |               |                                   |
 <!-- markdownlint-enable MD013 MD033 -->
