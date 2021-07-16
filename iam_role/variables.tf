@@ -39,8 +39,8 @@ variable "inline_policies" {
       Statement = list(object({
         Sid      = string
         Effect   = string
-        Action   = string
-        Resource = string
+        Action   = any
+        Resource = any
       }))
     })
   }))
