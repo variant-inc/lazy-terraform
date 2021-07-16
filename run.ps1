@@ -97,25 +97,24 @@ try
     if (Test-Path $currentPath/$TEST_MODULE/tests/vars)
     {
       Get-ChildItem $currentPath/$TEST_MODULE/tests/vars | ForEach-Object {
-        $tests | ForEach-Object {
-          SetAWSCredentials
-          ce terraform plan -no-color -input=false `
-            -var-file $_.FullName
+        SetAWSCredentials
+        ce terraform plan -no-color -input=false `
+          -var-file $_.FullName
 
-          if ($TF_APPLY -ieq "true")
+        if ($TF_APPLY -ieq "true")
+        {
+          try
           {
-            try
-            {
-              SetAWSCredentials
-              ce terraform apply -auto-approve -no-color -input=false `
-                -var-file $_.FullName
-            }
-            finally
-            {
-              SetAWSCredentials
-              ce terraform destroy -auto-approve -no-color -input=false `
-                -var-file $_.FullName
-            }
+            SetAWSCredentials
+            ce terraform apply -auto-approve -no-color -input=false `
+              -var-file $_.FullName
+            ce terraform output -no-color -json
+          }
+          finally
+          {
+            SetAWSCredentials
+            ce terraform destroy -auto-approve -no-color -input=false `
+              -var-file $_.FullName
           }
         }
       }
@@ -132,6 +131,7 @@ try
         {
           SetAWSCredentials
           ce terraform apply -auto-approve -no-color -input=false
+          ce terraform output -no-color -json
         }
         finally
         {

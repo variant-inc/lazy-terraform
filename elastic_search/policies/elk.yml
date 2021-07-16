@@ -1,0 +1,14 @@
+mode: crud
+name: elk
+# Specify resource ARNs
+write:
+  - "arn:aws:es:*:*:*:domain/test-*"
+tagging:
+  - "arn:aws:es:*:*:*:domain/test-*"
+permissions-management:
+  - "arn:aws:es:*:*:*:domain/test-*"
+# Actions that do not support resource constraints
+wildcard-only:
+  # Service-wide - like 's3' or 'ec2'
+  service-write:
+    - es
