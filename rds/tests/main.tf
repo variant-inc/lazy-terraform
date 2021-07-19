@@ -41,4 +41,6 @@ module "rds" {
   storage_type      = "gp2"
   apply_immediately = true
   octopus_tags      = var.octopus_tags
+  whitelist_openvpn = true
+  instance_class    = "db.r6g.large"
 }

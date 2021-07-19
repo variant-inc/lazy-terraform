@@ -32,6 +32,15 @@ locals {
   sg_ingress_rule = var.engine == "postgres" ? "postgresql-tcp" : "all-all"
 
   vpc_id = var.vpc_id == "" ? module.vpc.vpc.id : var.vpc_id
+
+  inbound_cidrs = concat(var.inbound_cidrs,
+    (
+      var.whitelist_openvpn && var.env != "prod" ? ["${data.aws_instance.openvpn[0].private_ip}/32"] : []
+    ),
+    (
+      var.whitelist_eks ? module.eks_vpc[0].cidr_ranges : []
+    )
+  )
 }
 
 data "aws_kms_alias" "rds" {
@@ -64,6 +73,14 @@ module "eks_vpc" {
   cluster_name = var.cluster_name
 }
 
+data "aws_instance" "openvpn" {
+  count = var.whitelist_openvpn && var.env != "prod" ? 1 : 0
+
+  instance_tags = {
+    openvpn = "true"
+  }
+}
+
 # Create security group
 module "security_group" {
   source = "terraform-aws-modules/security-group/aws"
@@ -73,10 +90,8 @@ module "security_group" {
   vpc_id      = local.vpc_id
   tags        = module.tags.tags
 
-  ingress_cidr_blocks = var.whitelist_eks ? concat(
-    var.inbound_cidrs, module.eks_vpc[0].cidr_ranges
-  ) : var.inbound_cidrs
-  ingress_rules = [local.sg_ingress_rule]
+  ingress_cidr_blocks = local.inbound_cidrs
+  ingress_rules       = [local.sg_ingress_rule]
 
   egress_cidr_blocks = ["0.0.0.0/0"]
   egress_rules       = ["all-all"]
