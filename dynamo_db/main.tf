@@ -19,6 +19,9 @@ resource "aws_dynamodb_table" "table" {
   hash_key       = var.hash_key
   range_key      = var.range_key
 
+  stream_enabled   = true
+  stream_view_type = "NEW_AND_OLD_IMAGES"
+
   dynamic "attribute" {
     for_each = var.attributes == null ? [] : var.attributes
     content {
