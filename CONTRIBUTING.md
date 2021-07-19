@@ -30,8 +30,6 @@ Create a folder name with a name as of the module
  ┃ ┃ ┣ test1.json
  ┃ ┃ ┗ test2.json
  ┃ ┣ main.tf
- ┃ ┣ test.ps1
- ┃ ┗ tests.ps1
  ┣ main.tf
  ┣ outputs.tf
  ┣ README.md
@@ -52,6 +50,17 @@ Create a folder name with a name as of the module
 1. Add terraform files that will use the module to create the resources to `tests` directory.
 2. If there are multiple tests with different vars, add a `vars` folder inside the `tests` directory with tfvars files.
 
+Following variables are set as env Variables by octopus
+
+1. AWS_ACCESS_KEY_ID
+2. AWS_SECRET_ACCESS_KEY
+3. AWS_SESSION_TOKEN
+4. TF_VAR_lazy_api_host
+5. TF_VAR_lazy_api_key
+6. TF_VAR_aws_role_to_assume
+7. TF_VAR_domain (eg: ops-drivevariant.com)
+8. TF_VAR_octopus_tags
+
 ## Best Reference
 
 [rds](./rds)
@@ -60,6 +69,20 @@ Create a folder name with a name as of the module
 
 Project: [lazy-terraform](https://octopus.apps.ops-drivevariant.com/app#/Spaces-2/projects/lazy-terraform/deployments)
 
-1. Click Deploy on the Release equivalent to your branch
+1. Click Deploy on the Release equivalent to your branch. You can choose any one of the environments.
 2. Type the module to be tested in Parameters
 3. Select `Try Apply & Destroy` if you want to run terraform run and destroy
+
+## Post PR Merge to Master
+
+1. Create a new release in github. Version is of syntax - `v<major>.<minor>.<patch>`. Eg: `v1.2.3`
+   1. Increase the patch version if it is bugfix/hotfix.
+   2. Increase the minor version if it is a new feature.
+   3. Increase the major version if it is a breaking change. Only CloudOps team members will do this
+2. Update the v1 tag by the following commands
+
+    ```bash
+    git tag -d v1
+    git tag v1
+    git push origin v1
+    ```

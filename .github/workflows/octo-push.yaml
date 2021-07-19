@@ -3,6 +3,8 @@ name: Build & Push to Octopus
 
 on:
   push:
+    branches-ignore:
+      - master
 
 env:
   MASTER_BRANCH: master

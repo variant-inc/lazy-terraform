@@ -1,0 +1,9 @@
+mode: crud
+name: log
+# Specify resource ARNs
+write:
+  - "arn:aws:logs:*:*:log-group:*"
+  - "arn:aws:logs:*:*:log-group:*:log-stream:*"
+tagging:
+  - "arn:aws:logs:*:*:log-group:*"
+  - "arn:aws:logs:*:*:log-group:*:log-stream:*"

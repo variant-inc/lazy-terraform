@@ -1,0 +1,5 @@
+mode: crud
+name: acm
+skip-resource-constraints:
+  - acm:RequestCertificate
+  - acm:DeleteCertificate

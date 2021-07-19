@@ -1,0 +1,4 @@
+mode: crud
+name: apigateway
+skip-resource-constraints:
+  - iam:CreateServiceLinkedRole
