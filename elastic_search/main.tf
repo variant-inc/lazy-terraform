@@ -16,6 +16,8 @@ locals {
   }
 
   vpc_id = var.vpc_id == null ? module.vpc.vpc.id : var.vpc_id
+
+  dedicated_master_enabled = var.dedicated_master_enabled != null && var.dedicated_master_enabled != ""
 }
 
 module "tags" {
@@ -142,8 +144,8 @@ resource "aws_elasticsearch_domain" "cluster" {
   cluster_config {
     instance_type            = local.instance_type
     instance_count           = local.instance_count
-    dedicated_master_enabled = var.cluster_config["dedicated_master_enabled"] ? var.cluster_config["dedicated_master_enabled"] : false
-    dedicated_master_count   = var.cluster_config["dedicated_master_enabled"] ? var.cluster_config["dedicated_master_count"] : null
+    dedicated_master_enabled = local.dedicated_master_enabled
+    dedicated_master_count   = local.dedicated_master_enabled ? var.cluster_config["dedicated_master_count"] : null
     zone_awareness_enabled   = true
     zone_awareness_config {
       availability_zone_count = length(random_shuffle.random_subnet.result)
