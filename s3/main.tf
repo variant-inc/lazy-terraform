@@ -1,59 +1,75 @@
-
 locals {
   replication_tags = {
-    "replication" = var.replication
+    replication = var.env == "prod"
   }
+
+  name = "${var.bucket_prefix}-${random_string.random.result}"
+  tags = jsonencode(merge(module.tags.tags, local.replication_tags))
 }
 
 module "tags" {
-  source       = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1"
+  source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1"
+
+  name = local.name
+
   user_tags    = var.user_tags
   octopus_tags = var.octopus_tags
-  name         = "s3-terraform"
 }
 
-resource "local_file" "environment_sh" {
+resource "local_file" "env_file" {
   sensitive_content = <<EOF
-export LAZY_API_HOST="${var.lazy_api_host}"
-export LAZY_API_KEY="${var.lazy_api_key}"
-export S3_PROFILE="${var.profile}"
+$LAZY_API_HOST = "${var.lazy_api_host}"
+$LAZY_API_KEY = "${var.lazy_api_key}"
+$BUCKET_NAME ="${local.name}"
+$AWS_ROLE_TO_ASSUME ="${var.role_arn}"
+$AWS_REGION ="${var.region}"
+$TAGS = '${local.tags}'
 EOF
-  filename          = "${path.module}/env.sh"
+  filename          = "${path.module}/env/env.ps1"
 }
 
-resource "local_file" "tags_json" {
-  content  = jsonencode(merge(module.tags.tags, local.replication_tags))
-  filename = "${path.module}/tags.json"
+resource "random_string" "random" {
+  length      = 16
+  special     = false
+  lower       = true
+  upper       = false
+  min_numeric = 3
 }
 
-resource "null_resource" "lazy_s3_api" {
-
+resource "null_resource" "s3_create_delete" {
   triggers = {
-    bucket_name = var.bucket_name
+    bucket_name = local.name
+    role_arn    = var.role_arn
+    region      = var.region
   }
 
   provisioner "local-exec" {
     working_dir = path.module
-    command     = "source env.sh && ./run.sh ${var.lazy_api_host} ${var.lazy_api_key} ${var.region} ${var.profile} ${self.triggers.bucket_name} ${var.role_arn}"
-    interpreter = ["/bin/bash", "-c"]
+    interpreter = ["pwsh", "-c"]
+
+    command = "./scripts/create.ps1"
   }
 
   provisioner "local-exec" {
     when        = destroy
     working_dir = path.module
-    command     = "source env.sh && ./cleanup.sh ${self.triggers.bucket_name}"
-    interpreter = ["/bin/bash", "-c"]
+    interpreter = ["pwsh", "-c"]
+
+    command = "./scripts/delete.ps1"
   }
-  depends_on = [local_file.environment_sh]
+  depends_on = [local_file.env_file]
 }
 
-resource "null_resource" "lazy_s3_tags" {
+resource "null_resource" "s3_update_tags" {
   triggers = {
-    always = "${uuid()}"
+    tags  = local.tags
+    dummy = uuid()
   }
   provisioner "local-exec" {
     working_dir = path.module
-    command     = "./update_tags.sh ${var.lazy_api_host} ${var.lazy_api_key} ${var.profile} ${var.bucket_name}"
+    interpreter = ["pwsh", "-c"]
+
+    command = "./scripts/tags.ps1"
   }
-  depends_on = [null_resource.lazy_s3_api, local_file.tags_json]
+  depends_on = [null_resource.s3_create_delete, local_file.env_file]
 }
