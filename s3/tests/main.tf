@@ -47,3 +47,7 @@ module "test_s3_module" {
     owner   = "naveen3"
   }
 }
+
+output "result" {
+  value = module.test_s3_module
+}

@@ -27,6 +27,7 @@ try
 }
 catch
 {
+  Write-Information "Bucket $BUCKET_NAME already exists"
 }
 
 $Response = Invoke-RestMethod -Uri $lazyS3UpdateUrl `

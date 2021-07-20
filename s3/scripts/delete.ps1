@@ -30,7 +30,7 @@ try
 }
 catch
 {
-  Write-Host $_.Exception
+  Write-Information $_.Exception
   $StatusCode = $_.Exception.Response.StatusCode.value__
 
   if ($StatusCode -ne 404)
