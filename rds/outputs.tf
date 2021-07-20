@@ -10,6 +10,6 @@ output "secret_result" {
 }
 
 output "host_name" {
-  value = "${var.domain_name}.elk.${data.aws_route53_zone.zone.name}"
+  value = "${var.identifier}.rds.${data.aws_route53_zone.zone.name}"
   description = "Recommend using this host name for no interruption"
 }
