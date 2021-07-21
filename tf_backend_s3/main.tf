@@ -1,25 +1,55 @@
-module "remote_state" {
-  source = "nozaq/remote-state-s3-backend/aws"
+module "tags" {
+  source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1"
 
-  dynamodb_table_name         = var.dynamodb_table_name
-  kms_key_enable_key_rotation = false
-  replica_bucket_prefix       = var.replica_bucket_prefix
-  state_bucket_prefix         = var.state_bucket_prefix
-  terraform_iam_policy_create = false
-
-  tags = {
-    owner   = var.tag_owner
-    purpose = var.tag_purpose
-    team    = var.tag_team
-  }
-
-  providers = {
-    aws         = aws
-    aws.replica = aws.replica
-  }
+  user_tags    = var.user_tags
+  name         = var.name
+  octopus_tags = var.octopus_tags
 }
 
-resource "aws_kms_alias" "kms" {
-  name          = "alias/${var.state_bucket_prefix}"
-  target_key_id = module.remote_state.kms_key.arn
+resource "random_string" "random" {
+  length      = 7
+  special     = false
+  lower       = true
+  min_numeric = 3
+  upper       = false
 }
+
+locals {
+  bucket_name = "${var.name}-${random_string.random.result}"
+}
+
+module "bucket" {
+  source  = "github.com/variant-inc/lazy-terraform//s3?ref=v1"
+  profile = "custom"
+
+  region      = var.region
+  bucket_name = local.bucket_name
+
+  # If run from octopus, this will be auto set
+  lazy_api_key  = var.lazy_api_key
+  lazy_api_host = var.lazy_api_host
+  user_tags     = var.user_tags
+  octopus_tags  = var.octopus_tags
+  replication   = false
+
+  role_arn      = var.role_arn
+}
+
+module "dynamodb_table" {
+  source = "github.com/variant-inc/lazy-terraform//dynamo_db?ref=v1"
+
+  table_name    = var.name
+  hash_key      = "LockID"
+  hash_key_type = "S"
+
+  user_tags    = var.user_tags
+  octopus_tags = var.octopus_tags
+
+  attributes = [
+    {
+      name = "LockID",
+      type = "S",
+    }
+  ]
+}
+

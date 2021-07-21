@@ -1,9 +1,6 @@
 output "dynamodb_table" {
-  value = module.remote_state.dynamodb_table.id
-}
-output "kms_key" {
-  value = module.remote_state.kms_key.arn
+  value = module.dynamodb_table.dynamo_db_table.name
 }
 output "state_bucket" {
-  value = module.remote_state.state_bucket.bucket
+  value = local.bucket_name
 }

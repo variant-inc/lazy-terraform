@@ -1,33 +1,35 @@
-variable "profile" {
-  description = "AWS Account Number"
-  default     = "default"
-}
-
 variable "region" {
   description = "AWS Default Region"
   default     = "us-east-1"
 }
 
-variable "dynamodb_table_name" {
+variable "name" {
+  description = "Name of the dyanmodb table and prefix of s3 bucket"
 }
 
-variable "replica_bucket_prefix" {
+variable "user_tags" {
+  description = "Mandatory User tags"
+  type        = map(string)
 }
 
-variable "state_bucket_prefix" {
+variable "octopus_tags" {
+  description = "Mandatory Octopus Tags"
+  type        = map(string)
 }
 
-variable "tag_purpose" {
-  type = string
-  description = "Purpose Tag"
+variable "lazy_api_host" {
+  description = "Lazy API URL. Auto Filled by Octopus"
+  type        = string
+  default     = "https://lazy.apps.ops-drivevariant.com"
 }
 
-variable "tag_team" {
-  type = string
-  description = "Team Tag"
+variable "lazy_api_key" {
+  description = "Lazy API Key. Auto Filled by Octopus"
+  type        = string
+  sensitive   = true
 }
 
-variable "tag_owner" {
-  type = string
-  description = "Owner Tag"
+variable "role_arn" {
+  description = "Role used by boto3 to create/destroy s3 bucket"
+  type        = string
 }

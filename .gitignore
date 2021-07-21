@@ -36,3 +36,5 @@ tfplan
 
 test/**
 tests/**/policies
+
+env.ps1
