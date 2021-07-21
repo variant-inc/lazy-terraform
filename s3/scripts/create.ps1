@@ -24,7 +24,7 @@ if ($AWS_REGION -ieq "us-east-1")
     options = @{
       Bucket = $BUCKET_NAME
     }
-  }
+  } | ConvertTo-Json
 }
 else
 {
@@ -35,13 +35,13 @@ else
         LocationConstraint = $AWS_REGION
       }
     }
-  }
+  } | ConvertTo-Json
 }
 
-$body | ConvertTo-Json
+$body
 
 Write-Output "Lazy API URL $lazyS3CreateUrl"
 $Response = Invoke-RestMethod -Uri $lazyS3CreateUrl `
-  -Headers $headers -Method POST -Body ($body | ConvertTo-Json)
+  -Headers $headers -Method POST -Body $body
 
 $Response | ConvertTo-Json
