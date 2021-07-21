@@ -7,7 +7,8 @@ Module to create s3, dynamodb & KMS for terraform s3 backend
  | Name          | Type   | Default                                  | Example             | Notes |
  | ------------- | ------ | ---------------------------------------- | ------------------- | ----- |
  | region        | string | us-east-1                                |                     |       |
- | name          | string |                                          | test-123            |       |
+ | table_name    | string |                                          | test_123            |       |
+ | bucket_prefix | string |                                          | test-bucket         |       |
  | lazy_api_host | string | <https://lazy.apps.ops-drivevariant.com> |                     |       |
  | lazy_api_key  | string |                                          | `octopus populated` |       |
  | user_tags     | object |                                          | `see below`         |       |
@@ -46,6 +47,7 @@ module "test_s3_module" {
   lazy_api_key  = var.lazy_api_key
   lazy_api_host = var.lazy_api_host
   octopus_tags  = var.octopus_tags
-  role_arn      = var.role_arn
+
+  aws_role_to_assume      = var.aws_role_to_assume
 }
 ```

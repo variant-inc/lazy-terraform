@@ -3,8 +3,12 @@ variable "region" {
   default     = "us-east-1"
 }
 
-variable "name" {
+variable "table_name" {
   description = "Name of the dyanmodb table and prefix of s3 bucket"
+}
+
+variable "bucket_prefix" {
+  description = "Prefix of s3 bucket"
 }
 
 variable "user_tags" {
@@ -29,7 +33,7 @@ variable "lazy_api_key" {
   sensitive   = true
 }
 
-variable "role_arn" {
+variable "aws_role_to_assume" {
   description = "Role used by boto3 to create/destroy s3 bucket"
   type        = string
 }
