@@ -21,7 +21,7 @@ resource "local_file" "env_file" {
 $LAZY_API_HOST = "${var.lazy_api_host}"
 $LAZY_API_KEY = "${var.lazy_api_key}"
 $BUCKET_NAME ="${local.name}"
-$AWS_ROLE_TO_ASSUME ="${var.role_arn}"
+$AWS_ROLE_TO_ASSUME ="${var.aws_role_to_assume}"
 $AWS_REGION ="${var.region}"
 $TAGS = '${local.tags}'
 EOF
@@ -38,9 +38,9 @@ resource "random_string" "random" {
 
 resource "null_resource" "s3_create_delete" {
   triggers = {
-    bucket_name = local.name
-    role_arn    = var.role_arn
-    region      = var.region
+    bucket_name        = local.name
+    aws_role_to_assume = var.aws_role_to_assume
+    region             = var.region
   }
 
   provisioner "local-exec" {

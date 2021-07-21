@@ -21,7 +21,7 @@ variable "lazy_api_key" {
   description = "Lazy API Key - auto set by octopus"
 }
 
-variable "role_arn" {
+variable "aws_role_to_assume" {
   type        = string
   description = "Role to assume while creating bucket. Auto set by octopus"
 }

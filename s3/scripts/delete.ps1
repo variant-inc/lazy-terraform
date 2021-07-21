@@ -18,7 +18,7 @@ $headers = @{
   'Content-Type' = 'application/json'
 }
 
-Write-Output "Lazy API URL $lazyS3DeleteUrl"
+Write-Output "Lazy API Delete URL $lazyS3DeleteUrl"
 Write-Output "Deleting Bucket $BUCKET_NAME"
 
 try
