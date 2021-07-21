@@ -20,7 +20,7 @@ $headers = @{
 
 $TAGS
 
-Write-Output "Lazy API URL $lazyS3UpdateUrl"
+Write-Output "Lazy API Update URL $lazyS3UpdateUrl"
 try
 {
   & $PSScriptRoot/create.ps1

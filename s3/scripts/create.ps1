@@ -40,7 +40,7 @@ else
 
 $body
 
-Write-Output "Lazy API URL $lazyS3CreateUrl"
+Write-Output "Lazy API Create URL $lazyS3CreateUrl"
 $Response = Invoke-RestMethod -Uri $lazyS3CreateUrl `
   -Headers $headers -Method POST -Body $body
 
