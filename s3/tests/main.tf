@@ -35,8 +35,8 @@ module "test_s3_module" {
   lazy_api_key  = var.lazy_api_key
   lazy_api_host = var.lazy_api_host
 
-  bucket_prefix = "test-123asdasdas"
-  role_arn      = var.aws_role_to_assume
+  bucket_prefix      = "test-123asdasdas"
+  aws_role_to_assume = var.aws_role_to_assume
 
   env = "non-prod"
 

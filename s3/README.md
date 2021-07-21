@@ -14,16 +14,16 @@ Module to create s3 bucket
 
 ## Input Variables
 
- | Name          | Type   | Default                                  | Example                               | Notes                                       |
- | ------------- | ------ | ---------------------------------------- | ------------------------------------- | ------------------------------------------- |
- | region        | string |                                          |                                       |                                             |
- | bucket_prefix | string | us-east-1                                |                                       |                                             |
- | lazy_api_host | string | <https://lazy.apps.ops-drivevariant.com> |                                       | auto set at octopus                         |
- | lazy_api_key  | string |                                          |                                       | auto set at octopus                         |
- | role_arn      | string |                                          | arn:aws:iam::108141096600:role/tf-rds |                                             |
- | env           | string | non-prod                                 | prod                                  | `prod` will support replication in the future |
- | user_tags     | object |                                          | `see below`                           |                                             |
- | octopus_tags  | object |                                          | `see below`                           | auto set at octopus                         |
+ | Name               | Type   | Default                                  | Example                               | Notes                                         |
+ | ------------------ | ------ | ---------------------------------------- | ------------------------------------- | --------------------------------------------- |
+ | region             | string |                                          |                                       |                                               |
+ | bucket_prefix      | string | us-east-1                                |                                       |                                               |
+ | lazy_api_host      | string | <https://lazy.apps.ops-drivevariant.com> |                                       | auto set at octopus                           |
+ | lazy_api_key       | string |                                          |                                       | auto set at octopus                           |
+ | aws_role_to_assume | string |                                          | arn:aws:iam::108141096600:role/tf-rds |                                               |
+ | env                | string | non-prod                                 | prod                                  | `prod` will support replication in the future |
+ | user_tags          | object |                                          | `see below`                           |                                               |
+ | octopus_tags       | object |                                          | `see below`                           | auto set at octopus                           |
 
 For `user_tags`, refer <https://github.com/variant-inc/lazy-terraform/tree/master/submodules/tags>
 
