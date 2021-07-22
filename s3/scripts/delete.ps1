@@ -1,8 +1,15 @@
+[CmdletBinding()]
+param (
+  [Parameter()]
+  [string]
+  $ModulePath
+)
+
 $ErrorActionPreference = "Stop"
 $InformationPreference = "Continue"
 $WarningPreference = "SilentlyContinue"
 
-. ./env/env.ps1
+. $ModulePath/env/env.ps1
 
 Trap
 {

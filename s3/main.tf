@@ -44,18 +44,16 @@ resource "null_resource" "s3_create_delete" {
   }
 
   provisioner "local-exec" {
-    working_dir = path.module
     interpreter = ["pwsh", "-c"]
 
-    command = "./scripts/create.ps1"
+    command = "${path.module}/scripts/create.ps1 ${path.module}"
   }
 
   provisioner "local-exec" {
     when        = destroy
-    working_dir = path.module
     interpreter = ["pwsh", "-c"]
 
-    command = "./scripts/delete.ps1"
+    command = "${path.module}/scripts/delete.ps1 ${path.module}"
   }
   depends_on = [local_file.env_file]
 }
@@ -66,10 +64,9 @@ resource "null_resource" "s3_update_tags" {
     dummy = uuid()
   }
   provisioner "local-exec" {
-    working_dir = path.module
     interpreter = ["pwsh", "-c"]
 
-    command = "./scripts/tags.ps1"
+    command = "${path.module}/scripts/tags.ps1 ${path.module}"
   }
   depends_on = [null_resource.s3_create_delete, local_file.env_file]
 }
