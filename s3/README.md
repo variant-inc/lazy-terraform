@@ -16,8 +16,9 @@ Module to create s3 bucket
 
  | Name               | Type   | Default                                  | Example                               | Notes                                         |
  | ------------------ | ------ | ---------------------------------------- | ------------------------------------- | --------------------------------------------- |
- | region             | string |                                          |                                       |                                               |
- | bucket_prefix      | string | us-east-1                                |                                       |                                               |
+ | region             | string | us-east-1                                |                                       |                                               |
+ | bucket_prefix      | string |                                          | test-1                                | Either this or `bucket_name` is required      |
+ | bucket_prefix      | string |                                          | test-123-asda                         |                                               |
  | lazy_api_host      | string | <https://lazy.apps.ops-drivevariant.com> |                                       | auto set at octopus                           |
  | lazy_api_key       | string |                                          |                                       | auto set at octopus                           |
  | aws_role_to_assume | string |                                          | arn:aws:iam::108141096600:role/tf-rds |                                               |
