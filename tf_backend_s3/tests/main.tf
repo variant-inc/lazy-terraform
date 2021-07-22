@@ -27,7 +27,7 @@ module "tf_backend" {
   source = "../"
 
   region        = "us-east-1"
-  table_name    = "test_ops"
+  table_name    = "test-ops"
   bucket_prefix = "test-ops"
 
   user_tags = {

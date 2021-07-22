@@ -29,25 +29,8 @@ variable "octopus_tags" {
 
 [Example](./tests/main.tf)
 
+Use the following for source
+
 ```bash
-module "test_s3_module" {
-  source = "../"
-
-  profile = "devops"
-  region  = "us-east-1"
-  name    = "test-ops-39"
-
-  user_tags = {
-    team    = "devops2"
-    purpose = "s3-test3"
-    owner   = "naveen3"
-  }
-
-  # If run from octopus, this will be auto set
-  lazy_api_key  = var.lazy_api_key
-  lazy_api_host = var.lazy_api_host
-  octopus_tags  = var.octopus_tags
-
-  aws_role_to_assume      = var.aws_role_to_assume
-}
+source = "github.com/variant-inc/lazy-terraform//rds?ref=v1"
 ```
