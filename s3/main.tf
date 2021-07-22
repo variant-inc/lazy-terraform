@@ -3,7 +3,7 @@ locals {
     replication = var.env == "prod"
   }
 
-  name = "${var.bucket_prefix}-${random_string.random.result}"
+  name = var.bucket_name != "" ? var.bucket_name : "${var.bucket_prefix}-${random_string.random.result}"
   tags = jsonencode(merge(module.tags.tags, local.replication_tags))
 }
 

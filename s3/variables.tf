@@ -4,9 +4,16 @@ variable "region" {
   description = "Region where s3 bucket will be created"
 }
 
+variable "bucket_name" {
+  type        = string
+  description = "Name of the s3 bucket. Either one of bucket_name or bucket_prefix is required. bucket_name gets highest preference"
+  default = ""
+}
+
 variable "bucket_prefix" {
   type        = string
-  description = "Prefix of the s3 bucket"
+  description = "Prefix of the s3 bucket. Either one of bucket_name or bucket_prefix is required"
+  default = ""
 }
 
 variable "lazy_api_host" {
