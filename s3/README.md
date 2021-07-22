@@ -19,9 +19,6 @@ Module to create s3 bucket
  | region             | string | us-east-1                                |                                       |                                               |
  | bucket_prefix      | string |                                          | test-1                                | Either this or `bucket_name` is required      |
  | bucket_prefix      | string |                                          | test-123-asda                         |                                               |
- | lazy_api_host      | string | <https://lazy.apps.ops-drivevariant.com> |                                       | auto set at octopus                           |
- | lazy_api_key       | string |                                          |                                       | auto set at octopus                           |
- | aws_role_to_assume | string |                                          | arn:aws:iam::108141096600:role/tf-rds |                                               |
  | env                | string | non-prod                                 | prod                                  | `prod` will support replication in the future |
  | user_tags          | object |                                          | `see below`                           |                                               |
  | octopus_tags       | object |                                          | `see below`                           | auto set at octopus                           |
@@ -36,6 +33,12 @@ variable "octopus_tags" {
   type = map(string)
 }
 ```
+
+To test locally, you need to have powershell & curl installed and the following env variables set to appropriate values
+
+1. LAZY_API_HOST
+2. LAZY_API_KEY
+3. AWS_ROLE_TO_ASSUME
 
 ## Examples
 

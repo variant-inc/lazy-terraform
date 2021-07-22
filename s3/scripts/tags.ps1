@@ -2,16 +2,20 @@
 param (
   [Parameter()]
   [string]
-  $ModulePath
+  $BUCKET_NAME,
+
+  [Parameter()]
+  [string]
+  $AWS_REGION,
+
+  [Parameter()]
+  [string]
+  $TAGS
 )
 
 $ErrorActionPreference = "Stop"
 $InformationPreference = "Continue"
 $WarningPreference = "SilentlyContinue"
-
-ls
-pwd
-. $ModulePath/env/env.ps1
 
 Trap
 {
@@ -21,24 +25,24 @@ Trap
   Write-Error $_
 }
 
-$lazyS3UpdateUrl = "$LAZY_API_HOST/profiles/custom/s3/$BUCKET_NAME/tags?role_arn=$AWS_ROLE_TO_ASSUME"
+$lazyS3UpdateUrl = "$env:LAZY_API_HOST/profiles/custom/s3/$BUCKET_NAME/tags?role_arn=$env:AWS_ROLE_TO_ASSUME"
 $headers = @{
-  'x-api-key'    = $LAZY_API_KEY
+  'x-api-key'    = $env:LAZY_API_KEY
   'Content-Type' = 'application/json'
 }
 
-$TAGS
-
-Write-Output "Lazy API Update URL $lazyS3UpdateUrl"
 try
 {
-  & $PSScriptRoot/create.ps1
+  & $PSScriptRoot/create.ps1 -BUCKET_NAME $BUCKET_NAME -AWS_REGION $AWS_REGION
 }
 catch
 {
   Write-Information "Bucket $BUCKET_NAME already exists"
 }
 
+$TAGS
+
+Write-Output "Lazy API Update URL $lazyS3UpdateUrl"
 $Response = Invoke-RestMethod -Uri $lazyS3UpdateUrl `
   -Headers $headers -Method PUT -Body $TAGS
 

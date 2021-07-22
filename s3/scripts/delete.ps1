@@ -2,14 +2,16 @@
 param (
   [Parameter()]
   [string]
-  $ModulePath
+  $BUCKET_NAME,
+
+  [Parameter()]
+  [string]
+  $AWS_REGION
 )
 
 $ErrorActionPreference = "Stop"
 $InformationPreference = "Continue"
 $WarningPreference = "SilentlyContinue"
-
-. $ModulePath/env/env.ps1
 
 Trap
 {
@@ -19,9 +21,9 @@ Trap
   Write-Error $_
 }
 
-$lazyS3DeleteUrl = "$LAZY_API_HOST/profiles/custom/s3/${BUCKET_NAME}?role_arn=$AWS_ROLE_TO_ASSUME"
+$lazyS3DeleteUrl = "$env:LAZY_API_HOST/profiles/custom/s3/${BUCKET_NAME}?role_arn=$env:AWS_ROLE_TO_ASSUME"
 $headers = @{
-  'x-api-key'    = $LAZY_API_KEY
+  'x-api-key'    = $env:LAZY_API_KEY
   'Content-Type' = 'application/json'
 }
 
