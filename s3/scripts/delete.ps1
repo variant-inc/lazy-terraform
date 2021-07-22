@@ -2,11 +2,7 @@
 param (
   [Parameter()]
   [string]
-  $BUCKET_NAME,
-
-  [Parameter()]
-  [string]
-  $AWS_REGION
+  $BUCKET_NAME
 )
 
 $ErrorActionPreference = "Stop"

@@ -42,7 +42,7 @@ resource "null_resource" "s3_create_delete" {
     working_dir = path.module
     interpreter = ["pwsh", "-c"]
 
-    command = "./scripts/delete.ps1 -BUCKET_NAME ${self.triggers.bucket_name} -AWS_REGION ${self.triggers.region}"
+    command = "./scripts/delete.ps1 -BUCKET_NAME ${self.triggers.bucket_name}"
   }
 }
 
