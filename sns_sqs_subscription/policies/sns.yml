@@ -1,0 +1,6 @@
+mode: crud
+name: sns
+write:
+  - "arn:aws:sns:*:*:subscription-test-topic"
+read:
+  - "arn:aws:sns:*:*:subscription-test-topic"
