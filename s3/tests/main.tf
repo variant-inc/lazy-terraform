@@ -10,21 +10,9 @@ variable "octopus_tags" {
   type        = map(string)
 }
 
-variable "lazy_api_host" {
-  type = string
-}
-
-variable "lazy_api_key" {
-  type      = string
-  sensitive = true
-}
-
-variable "aws_role_to_assume" {
-  type = string
-}
-
 variable "region" {
   type = string
+  default = "us-east-1"
 }
 
 module "test_s3_module" {
@@ -32,11 +20,7 @@ module "test_s3_module" {
 
   region = var.region
 
-  lazy_api_key  = var.lazy_api_key
-  lazy_api_host = var.lazy_api_host
-
   bucket_prefix      = "test-123asdasdas"
-  aws_role_to_assume = var.aws_role_to_assume
 
   env = "non-prod"
 
