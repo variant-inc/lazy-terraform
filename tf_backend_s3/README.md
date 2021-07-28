@@ -2,6 +2,12 @@
 
 Module to create s3, dynamodb & KMS for terraform s3 backend
 
+Following environment variables are required before running the module
+
+1. LAZY_API_HOST
+2. LAZY_API_KEY
+3. AWS_ROLE_TO_ASSUME
+
 ## Input Variables
 
  | Name          | Type   | Default                                  | Example             | Notes |
