@@ -21,19 +21,8 @@ variable "octopus_tags" {
   type        = map(string)
 }
 
-variable "lazy_api_host" {
-  description = "Lazy API URL. Auto Filled by Octopus"
-  type        = string
-  default     = "https://lazy.apps.ops-drivevariant.com"
-}
-
-variable "lazy_api_key" {
-  description = "Lazy API Key. Auto Filled by Octopus"
-  type        = string
-  sensitive   = true
-}
-
-variable "aws_role_to_assume" {
-  description = "Role used by boto3 to create/destroy s3 bucket"
-  type        = string
+variable "create_vars_bucket" {
+  description = "Create Vars Bucket"
+  type        = bool
+  default     = false
 }

@@ -10,17 +10,10 @@ variable "octopus_tags" {
   type        = map(string)
 }
 
-variable "lazy_api_host" {
-  type = string
-}
-
-variable "lazy_api_key" {
-  type      = string
-  sensitive = true
-}
-
-variable "aws_role_to_assume" {
-  type = string
+variable "create_vars_bucket" {
+  description = "Create Vars Bucket"
+  type        = bool
+  default     = false
 }
 
 module "tf_backend" {
@@ -37,8 +30,6 @@ module "tf_backend" {
   }
 
   # If run from octopus, this will be auto set
-  lazy_api_key       = var.lazy_api_key
-  lazy_api_host      = var.lazy_api_host
   octopus_tags       = var.octopus_tags
-  aws_role_to_assume = var.aws_role_to_assume
+  create_vars_bucket = var.create_vars_bucket
 }

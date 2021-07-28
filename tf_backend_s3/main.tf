@@ -3,14 +3,10 @@ module "bucket" {
 
   region        = var.region
   bucket_prefix = var.bucket_prefix
-
-  lazy_api_key  = var.lazy_api_key
-  lazy_api_host = var.lazy_api_host
   user_tags     = var.user_tags
   octopus_tags  = var.octopus_tags
 
-  env                = "prod"
-  aws_role_to_assume = var.aws_role_to_assume
+  env = "prod"
 }
 
 module "dynamodb_table" {
@@ -28,5 +24,18 @@ module "dynamodb_table" {
       type = "S",
     }
   ]
+}
+
+module "bucket_vars" {
+  count  = var.create_vars_bucket ? 1 : 0
+  source = "github.com/variant-inc/lazy-terraform//s3?ref=v1"
+
+  region        = var.region
+  bucket_prefix = "${var.bucket_prefix}-vars"
+
+  user_tags    = var.user_tags
+  octopus_tags = var.octopus_tags
+
+  env = "prod"
 }
 

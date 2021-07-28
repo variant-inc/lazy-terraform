@@ -5,3 +5,7 @@ output "dynamodb_table" {
 output "state_bucket" {
   value = module.bucket.bucket_name
 }
+
+output "vars_bucket" {
+  value = join("", module.bucket_vars.*.bucket_name)
+}

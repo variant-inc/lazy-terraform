@@ -9,8 +9,6 @@ Module to create s3, dynamodb & KMS for terraform s3 backend
  | region        | string | us-east-1                                |                     |       |
  | table_name    | string |                                          | test_123            |       |
  | bucket_prefix | string |                                          | test-bucket         |       |
- | lazy_api_host | string | <https://lazy.apps.ops-drivevariant.com> |                     |       |
- | lazy_api_key  | string |                                          | `octopus populated` |       |
  | user_tags     | object |                                          | `see below`         |       |
  | octopus_tags  | object |                                          | `see below`         |       |
 
@@ -32,5 +30,5 @@ variable "octopus_tags" {
 Use the following for source
 
 ```bash
-source = "github.com/variant-inc/lazy-terraform//rds?ref=v1"
+source = "github.com/variant-inc/lazy-terraform//tf_backend_s3?ref=v1"
 ```
