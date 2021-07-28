@@ -16,23 +16,6 @@ variable "bucket_prefix" {
   default = ""
 }
 
-variable "lazy_api_host" {
-  type        = string
-  default     = "https://lazy.apps.ops-drivevariant.com"
-  description = "Lazy API - auto set by octopus"
-}
-
-variable "lazy_api_key" {
-  type        = string
-  sensitive   = true
-  description = "Lazy API Key - auto set by octopus"
-}
-
-variable "aws_role_to_assume" {
-  type        = string
-  description = "Role to assume while creating bucket. Auto set by octopus"
-}
-
 variable "env" {
   description = "prod env supports replication"
   type        = string
