@@ -2,14 +2,19 @@
 
 Module to create s3, dynamodb & KMS for terraform s3 backend
 
+Following environment variables are required before running the module
+
+1. LAZY_API_HOST
+2. LAZY_API_KEY
+3. AWS_ROLE_TO_ASSUME
+
 ## Input Variables
 
  | Name          | Type   | Default                                  | Example             | Notes |
  | ------------- | ------ | ---------------------------------------- | ------------------- | ----- |
  | region        | string | us-east-1                                |                     |       |
- | name          | string |                                          | test-123            |       |
- | lazy_api_host | string | <https://lazy.apps.ops-drivevariant.com> |                     |       |
- | lazy_api_key  | string |                                          | `octopus populated` |       |
+ | table_name    | string |                                          | test_123            |       |
+ | bucket_prefix | string |                                          | test-bucket         |       |
  | user_tags     | object |                                          | `see below`         |       |
  | octopus_tags  | object |                                          | `see below`         |       |
 
@@ -28,24 +33,8 @@ variable "octopus_tags" {
 
 [Example](./tests/main.tf)
 
+Use the following for source
+
 ```bash
-module "test_s3_module" {
-  source = "../"
-
-  profile = "devops"
-  region  = "us-east-1"
-  name    = "test-ops-39"
-
-  user_tags = {
-    team    = "devops2"
-    purpose = "s3-test3"
-    owner   = "naveen3"
-  }
-
-  # If run from octopus, this will be auto set
-  lazy_api_key  = var.lazy_api_key
-  lazy_api_host = var.lazy_api_host
-  octopus_tags  = var.octopus_tags
-  role_arn      = var.role_arn
-}
+source = "github.com/variant-inc/lazy-terraform//tf_backend_s3?ref=v1"
 ```

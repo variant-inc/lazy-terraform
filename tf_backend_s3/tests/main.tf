@@ -10,24 +10,18 @@ variable "octopus_tags" {
   type        = map(string)
 }
 
-variable "lazy_api_host" {
-  type = string
-}
-
-variable "lazy_api_key" {
-  type      = string
-  sensitive = true
-}
-
-variable "role_arn" {
-  type = string
+variable "create_vars_bucket" {
+  description = "Create Vars Bucket"
+  type        = bool
+  default     = false
 }
 
 module "tf_backend" {
   source = "../"
 
-  region  = "us-east-1"
-  name    = "test-ops-39"
+  region        = "us-east-1"
+  table_name    = "test-ops"
+  bucket_prefix = "test-ops"
 
   user_tags = {
     team    = "devops2"
@@ -36,8 +30,6 @@ module "tf_backend" {
   }
 
   # If run from octopus, this will be auto set
-  lazy_api_key  = var.lazy_api_key
-  lazy_api_host = var.lazy_api_host
-  octopus_tags  = var.octopus_tags
-  role_arn      = var.role_arn
+  octopus_tags       = var.octopus_tags
+  create_vars_bucket = var.create_vars_bucket
 }
