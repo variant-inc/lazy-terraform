@@ -1,22 +1,11 @@
-variable "profile" {
-  type        = string
-  description = "Profile where table need to be created"
-}
 variable "user_tags" {
   description = "Mandatory user tags"
-  type = object({
-    team    = string
-    purpose = string
-    owner   = string
-  })
+  type        = map(string)
 }
 
 variable "octopus_tags" {
   description = "Octopus Tags"
-  type = object({
-    project = string
-    space   = string
-  })
+  type        = map(string)
 }
 
 variable "billing_mode" {
@@ -28,11 +17,6 @@ variable "billing_mode" {
 variable "hash_key" {
   type        = string
   description = "The attribute to use as the hash (partition) key. Must also be defined as an attribute"
-}
-
-variable "hash_key_type" {
-  type        = string
-  description = "hash key type"
 }
 
 variable "range_key" {

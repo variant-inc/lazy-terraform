@@ -1,8 +1,3 @@
-variable "profile" {
-  description = "AWS profile"
-  default     = "default"
-}
-
 variable "user_tags" {
   description = "Mandatory tags for all resources"
   type        = map(string)

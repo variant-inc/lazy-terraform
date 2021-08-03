@@ -1,0 +1,15 @@
+{
+  "name": "test-api-gateway",
+  "subdomain": "test-api-gateway.api-gateway",
+  "user_tags": {
+    "team": "variant-eng",
+    "owner": "test",
+    "purpose": "test"
+  },
+  "octopus_tags": {
+    "project": "test",
+    "space": "cloudops"
+  },
+  "authorizer_audience": "0oa11hehq4wUPWXZH5d7",
+  "authorizer_issuer": "https://office-drivevariant.okta.com"
+}

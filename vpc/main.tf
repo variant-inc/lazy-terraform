@@ -34,8 +34,11 @@ module "vpc" {
   enable_nat_gateway = true
   single_nat_gateway = false
 
-  tags = {
-    Terraform   = "true"
-    Environment = "dev"
+  tags = { for k, v in module.tags.tags: k => v if k != "Name" }
+  private_subnet_tags = {
+    type = "private"
+  }
+  public_subnet_tags = {
+    type = "public"
   }
 }

@@ -1,0 +1,15 @@
+{
+  "table_name": "test-11",
+  "hash_key": "UserId",
+  "range_key": "Name",
+  "attributes": [
+    {
+      "name": "UserId",
+      "type": "S"
+    },
+    {
+      "name": "Name",
+      "type": "S"
+    }
+  ]
+}

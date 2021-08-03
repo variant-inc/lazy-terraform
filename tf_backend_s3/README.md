@@ -2,33 +2,39 @@
 
 Module to create s3, dynamodb & KMS for terraform s3 backend
 
+Following environment variables are required before running the module
+
+1. LAZY_API_HOST
+2. LAZY_API_KEY
+3. AWS_ROLE_TO_ASSUME
+
 ## Input Variables
 
-- profile
-  - string
-- region
-  - string
-- environment
-  - string
-- dynamodb_table_name
-  - string
-- replica_bucket_prefix
-  - string
-- state_bucket_prefix
-  - string
+ | Name          | Type   | Default                                  | Example             | Notes |
+ | ------------- | ------ | ---------------------------------------- | ------------------- | ----- |
+ | region        | string | us-east-1                                |                     |       |
+ | table_name    | string |                                          | test_123            |       |
+ | bucket_prefix | string |                                          | test-bucket         |       |
+ | user_tags     | object |                                          | `see below`         |       |
+ | octopus_tags  | object |                                          | `see below`         |       |
 
-## Example .tfvars
+For `user_tags`, refer <https://github.com/variant-inc/lazy-terraform/tree/master/submodules/tags>
 
-```text
-profile = "profile"
-region = "us-east-1"
-environment = "stage"
+`octopus_tags` are auto set at octopus. Set the variable as
 
-dynamodb_table_name = "engineering_tf_state"
-replica_bucket_prefix = "engineering-tf-state-replica"
-state_bucket_prefix = "engineering-tf-state"
+```bash
+variable "octopus_tags" {
+  description = "Octopus Tags"
+  type = map(string)
+}
+```
 
-tag_purpose = "Terraform State Files"
-tag_owner = "DevOps"
-tag_team = "DevOps"
+## Example tf
+
+[Example](./tests/main.tf)
+
+Use the following for source
+
+```bash
+source = "github.com/variant-inc/lazy-terraform//tf_backend_s3?ref=v1"
 ```

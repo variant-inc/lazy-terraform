@@ -1,40 +1,32 @@
 variable "region" {
-  type         = string
-  default      = "us-east-1"
-  description  = "Region where s3 bucket need to be created"
-}
-
-variable "profile" {
   type        = string
-  description = "Profile where s3 bucket need to created"
+  default     = "us-east-1"
+  description = "Region where s3 bucket will be created"
 }
 
 variable "bucket_name" {
   type        = string
-  default     = "name-not-provided"
-  description = "Name given to s3 bucket"
+  description = "Name of the s3 bucket. Either one of bucket_name or bucket_prefix is required. bucket_name gets highest preference"
+  default = ""
 }
 
-variable "lazy_api_host" {
+variable "bucket_prefix" {
   type        = string
-  default     = "https://lazy.apps.ops-drivevariant.com"
+  description = "Prefix of the s3 bucket. Either one of bucket_name or bucket_prefix is required"
+  default = ""
 }
 
-variable "lazy_api_key" {
+variable "env" {
+  description = "prod env supports replication"
   type        = string
-  sensitive   = true
+  validation {
+    condition     = contains(["prod", "non-prod"], var.env)
+    error_message = "Supported values are [\"prod\", \"non-prod\"]."
+  }
 }
 
-variable "role_arn" {
-  type        = string
-  default     = ""
-}
-variable "replication"{
-  type        = bool
-  default     = false
-}
 variable "user_tags" {
-  description = "User tags"
+  description = "Mandatory tags for all resources"
   type        = map(string)
 }
 

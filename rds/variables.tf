@@ -1,8 +1,3 @@
-variable "profile" {
-  description = "AWS Account Number"
-  default     = "default"
-}
-
 variable "allocated_storage" {
   description = "The allocated storage in gigabytes"
   default     = "100"
@@ -14,8 +9,8 @@ variable "family" {
 }
 
 variable "inbound_cidrs" {
-  description = "CIDR block to expect requests to originate from ie the source/destination in es' security group"
-  default     = ["0.0.0.0/0"]
+  description = "CIDR block to expect requests to originate from ie the source/destination in rds security group"
+  default     = []
 }
 
 variable "allow_major_version_upgrade" {
@@ -69,9 +64,15 @@ variable "identifier" {
   type        = string
 }
 
+variable "name" {
+  description = "The name of the RDS database that has to be created"
+  type        = string
+  default     = null
+}
+
 variable "instance_class" {
   description = "The instance type of the RDS instance"
-  default     = "db.r6g.large"
+  type        = string
 }
 
 variable "iops" {
@@ -109,25 +110,44 @@ variable "performance_insights_enabled" {
 
 variable "env" {
   description = "Type of RDS instance. Prod will have monitoring enabled always"
-  default     = "dev"
 
   validation {
-    condition     = contains(["prod", "dev"], var.env)
-    error_message = "Supported values are [\"prod\", \"dev\"]."
+    condition     = contains(["prod", "non-prod"], var.env)
+    error_message = "Supported values are [\"prod\", \"non-prod\"]."
   }
 }
 
 variable "user_tags" {
   description = "Mandatory tags fot the elk resources"
-  type = map(string)
+  type        = map(string)
 }
 
 variable "octopus_tags" {
   description = "Octopus Tags"
-  type = map(string)
+  type        = map(string)
 }
 
 variable "vpc_id" {
   description = "VPC to create the cluster in. If it is empty, then cluster will be created in `default-vpc`"
-  default = ""
+  default     = ""
+}
+
+variable "whitelist_openvpn" {
+  description = "Whitelist OpenVPN. Will be forced to be false when env is prod"
+  default     = false
+}
+
+variable "whitelist_eks" {
+  description = "Whitelist EKS Cluster"
+  default     = true
+}
+
+variable "cluster_name" {
+  description = "Cluster Name. Required if whitelist_eks is true"
+  default     = ""
+}
+
+variable "domain" {
+  description = "Domain for creating route53. Required if env is 'prod'"
+  type        = string
 }

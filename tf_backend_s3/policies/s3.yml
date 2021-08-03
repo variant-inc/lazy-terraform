@@ -1,0 +1,13 @@
+mode: crud
+name: s3
+write:
+  - "arn:aws:s3:::test-*"
+tagging:
+  - "arn:aws:s3:::test-*"
+permissions-management:
+  - "arn:aws:s3:::test-*"
+wildcard-only:
+  service-write:
+    - s3
+  service-permissions-management:
+    - s3

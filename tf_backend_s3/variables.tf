@@ -1,33 +1,28 @@
-variable "profile" {
-  description = "AWS Account Number"
-  default     = "default"
-}
-
 variable "region" {
   description = "AWS Default Region"
   default     = "us-east-1"
 }
 
-variable "dynamodb_table_name" {
+variable "table_name" {
+  description = "Name of the dyanmodb table and prefix of s3 bucket"
 }
 
-variable "replica_bucket_prefix" {
+variable "bucket_prefix" {
+  description = "Prefix of s3 bucket"
 }
 
-variable "state_bucket_prefix" {
+variable "user_tags" {
+  description = "Mandatory User tags"
+  type        = map(string)
 }
 
-variable "tag_purpose" {
-  type = string
-  description = "Purpose Tag"
+variable "octopus_tags" {
+  description = "Mandatory Octopus Tags"
+  type        = map(string)
 }
 
-variable "tag_team" {
-  type = string
-  description = "Team Tag"
-}
-
-variable "tag_owner" {
-  type = string
-  description = "Owner Tag"
+variable "create_vars_bucket" {
+  description = "Create Vars Bucket"
+  type        = bool
+  default     = false
 }

@@ -1,13 +1,3 @@
-variable "profile" {
-  description = "AWS Profile"
-  default     = "default"
-}
-
-variable "region" {
-  description = "AWS Default Region"
-  default     = "us-east-1"
-}
-
 variable "policy_description" {
   description = "AWS IAM Policy Description"
   default     = ""
@@ -25,8 +15,8 @@ variable "policy_json" {
     Statement = list(object({
       Sid      = string
       Effect   = string
-      Action   = string
-      Resource = string
+      Action   = any
+      Resource = any
     }))
   })
 }
