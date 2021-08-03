@@ -57,7 +57,7 @@ Region will be picked up from the environment variable AWS_DEFAULT_REGION
 | Name | Description | Type | Example |
 | - | - | - | - |
 | broker_amqp_endpoint | Endpoint for connecting via AMQP client | string | amqps://b-be41287c-8d63-4c31-87a6-8a8e728fbea7.mq.us-east-1.amazonaws.com:5671 |
-| broker_console_endpoint | HTTP Endpoint for administration console | string | https://b-be41287c-8d63-4c31-87a6-8a8e728fbea7.mq.us-east-1.amazonaws.com    |
+| broker_console_endpoint | HTTP Endpoint for administration console | string | <https://b-be41287c-8d63-4c31-87a6-8a8e728fbea7.mq.us-east-1.amazonaws.com>    |
 | broker_user | Root username | string | rmqadmin |
 | broker_aws_secret_name | Name of secret which contains root password to be retrieved from AWS Secrets Manager | string | eng-track-and-trace-amq-password |
 
