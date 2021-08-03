@@ -79,7 +79,7 @@ resource "aws_mq_broker" "mq" {
 }
 
 resource "aws_secretsmanager_secret" "broker_password" {
-  name        = "${var.broker_name}-amq-password"
+  name        = "${var.broker_name}-mq-password"
   description = "Password for root user ${var.username} on AMQ broker ${var.broker_name}"
   tags        = module.tags.tags
 }
