@@ -34,7 +34,15 @@ module "vpc" {
   enable_nat_gateway = true
   single_nat_gateway = false
 
-  tags = { for k, v in module.tags.tags: k => v if k != "Name" }
+  enable_flow_log                      = true
+  create_flow_log_cloudwatch_log_group = true
+  create_flow_log_cloudwatch_iam_role  = true
+  flow_log_max_aggregation_interval    = 60
+  
+  enable_dns_hostnames = true
+  enable_dns_support   = true
+
+  tags = { for k, v in module.tags.tags : k => v if k != "Name" }
   private_subnet_tags = {
     type = "private"
   }
