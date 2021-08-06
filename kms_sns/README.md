@@ -28,7 +28,7 @@ variable "octopus_tags" {
 
 ```bash
   module "kms_sns" {
-    source = "github.com/variant-inc/lazy-terraform//kms/sns?ref=v1"
+    source = "github.com/variant-inc/lazy-terraform//kms_sns?ref=v1"
 
     user_tags = {
       team= "devops"
