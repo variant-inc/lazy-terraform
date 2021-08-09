@@ -76,7 +76,7 @@ module "db_east_2" {
   subnet_ids                          = module.subnets.subnets.ids
   vpc_security_group_ids              = [module.security_group.security_group_id]
   cross_region_replica                = true
-  kms_key_id                          = data.aws_kms_alias.rds.arn
+  kms_key_id                          = data.aws_kms_alias.rds.target_key_arn
 
   multi_az            = true
   skip_final_snapshot = true
