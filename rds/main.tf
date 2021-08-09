@@ -152,7 +152,7 @@ module "db" {
   ## performance monitoring
   performance_insights_enabled          = var.env == "prod" ? true : var.performance_insights_enabled
   performance_insights_retention_period = var.env == "prod" ? 731 : 7
-  performance_insights_kms_key_id       = data.aws_kms_alias.rds.arn
+  performance_insights_kms_key_id       = data.aws_kms_alias.rds.target_key_arn
 
   timeouts = {
     "create" : "140m",
