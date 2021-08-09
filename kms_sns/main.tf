@@ -21,25 +21,20 @@ resource "aws_kms_key" "sns" {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Sid": "Allow access through SNS for all principals in the account that are authorized to use SNS",
+      "Sid": "Allow access through sns.amazonaws.com",
       "Effect": "Allow",
       "Principal": {
-        "AWS": "*"
+        "Service": "sns.amazonaws.com"
       },
       "Action": [
+        "kms:Encrypt",
         "kms:Decrypt",
         "kms:GenerateDataKey*",
         "kms:CreateGrant",
         "kms:ListGrants",
         "kms:DescribeKey"
       ],
-      "Resource": "*",
-      "Condition": {
-        "StringEquals": {
-          "kms:ViaService": "sns.us-east-1.amazonaws.com",
-          "kms:CallerAccount": "${data.aws_caller_identity.current.account_id}"
-        }
-      }
+      "Resource": "*"
     },
     {
       "Sid": "Enable IAM User Permissions",
