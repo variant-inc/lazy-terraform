@@ -91,7 +91,7 @@ module "db_east_2" {
   ## performance monitoring
   performance_insights_enabled          = true
   performance_insights_retention_period = 731
-  performance_insights_kms_key_id       = data.aws_kms_alias.rds.arn
+  performance_insights_kms_key_id       = data.aws_kms_alias.rds.target_key_arn
 
   timeouts = {
     "create" : "140m",
