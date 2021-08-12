@@ -1,3 +1,10 @@
+terraform {
+  backend "local" {}
+  required_version = ">= 0.15.0"
+}
+
+provider "aws" {}
+
 module "rabbit_mq" {
   source = "../"
 
