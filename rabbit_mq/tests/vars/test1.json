@@ -1,0 +1,9 @@
+{
+  "broker_name": "test-lazy-terraform-rabbit-mq",
+  "publicly_accessible": true,
+  "user_tags": {
+    "team": "variant-eng",
+    "owner": "test",
+    "purpose": "test"
+  }
+}
