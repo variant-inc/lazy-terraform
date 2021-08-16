@@ -58,23 +58,38 @@ resource "aws_mq_broker" "mq" {
   engine_type        = "RabbitMQ"
   engine_version     = var.engine_version
   host_instance_type = var.broker_instance_type
+
   user {
     username = var.username
     password = random_password.password.result
   }
+
   auto_minor_version_upgrade = var.auto_minor_version_upgrade
   deployment_mode            = var.deployment_mode
+
   logs {
     general = var.cloudwatch_general_logs
   }
+
   maintenance_window_start_time {
     day_of_week = var.maintenance_window.day_of_week
     time_of_day = var.maintenance_window.time_of_day
     time_zone   = "UTC"
   }
+
   publicly_accessible = var.publicly_accessible
   tags                = module.tags.tags
   security_groups     = var.publicly_accessible ? null : [module.security_group.security_group_id]
   subnet_ids          = (var.publicly_accessible ? null : (var.deployment_mode != "SINGLE_INSTANCE" ? module.subnets.subnets.ids : [random_shuffle.random_subnet.result[0]]))
 }
 
+resource "aws_secretsmanager_secret" "broker_password" {
+  name        = "${var.broker_name}-mq-password"
+  description = "Password for root user ${var.username} on AMQ broker ${var.broker_name}"
+  tags        = module.tags.tags
+}
+
+resource "aws_secretsmanager_secret_version" "broker_password" {
+  secret_id     = aws_secretsmanager_secret.broker_password.id
+  secret_string = random_password.password.result
+}
