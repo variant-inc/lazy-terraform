@@ -1,0 +1,4 @@
+mode: crud
+name: amq
+skip-resource-constraints:
+  - mq:*

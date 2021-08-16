@@ -1,0 +1,11 @@
+mode: crud
+name: amazon-mq
+write:
+  - "arn:aws:mq:*:*:broker:*"
+  - "arn:aws:mq:*:*:configuration:*"
+tagging:
+  - "arn:aws:mq:*:*:broker:*"
+  - "arn:aws:mq:*:*:configuration:*"
+wildcard-only:
+  service-write:
+    - mq
