@@ -14,5 +14,8 @@ variable "name" {
 
 variable "octopus_tags" {
   description = "Octopus Tags"
-  type = map(string)
+  type = object({
+    project = string
+    space   = string
+  })
 }
