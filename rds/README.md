@@ -82,12 +82,28 @@ module "cluster" {
 ## Get Cluster details
 
 ```bash
-data "aws_db_instance" "database" {
-  db_instance_identifier = "my-test-database"
+data "aws_secretsmanager_secret" "database" {
+  name = "rds-variant-dev"
 }
 
-output "cluster" {
-  value = data.aws_db_instance.database
+data "aws_secretsmanager_secret_version" "database" {
+  secret_id = data.aws_secretsmanager_secret.database.id
+}
+
+output "host" {
+  value = jsondecode(data.aws_secretsmanager_secret_version.database.secret_string)["host"]
+}
+
+output "username" {
+  value = jsondecode(data.aws_secretsmanager_secret_version.database.secret_string)["username"]
+}
+
+output "identifier" {
+  value = jsondecode(data.aws_secretsmanager_secret_version.database.secret_string)["identifier"]
+}
+
+output "password" {
+  value = jsondecode(data.aws_secretsmanager_secret_version.database.secret_string)["password"]
 }
 ```
 
