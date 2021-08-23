@@ -159,6 +159,10 @@ module "db" {
     "delete" : "140m",
     "update" : "180m"
   }
+
+  depends_on = [
+    module.security_group[0]
+  ]
 }
 
 resource "aws_secretsmanager_secret" "db" {
@@ -231,6 +235,11 @@ module "postgres" {
   tags       = module.tags.tags
   enabled    = var.engine == "postgres"
   identifier = var.identifier
+
+  depends_on = [
+    module.db,
+    module.security_group[0],
+  ]
 }
 
 data "aws_route53_zone" "zone" {
