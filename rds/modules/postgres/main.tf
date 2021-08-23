@@ -54,8 +54,10 @@ resource "aws_secretsmanager_secret_version" "ro_roles" {
 }
 
 resource "postgresql_role" "create" {
-  name            = "postgres"
-  login           = true
-  create_role     = true
-  password        = var.create_password
+  count = var.username != "postgres" ? 1 : 0
+
+  name        = "postgres"
+  login       = true
+  create_role = true
+  password    = var.create_password
 }
