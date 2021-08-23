@@ -14,6 +14,12 @@ variable "password" {
   sensitive   = true
 }
 
+variable "create_password" {
+  description = "Create User Password"
+  type        = string
+  sensitive   = true
+}
+
 variable "name" {
   description = "Database Name"
   type        = string

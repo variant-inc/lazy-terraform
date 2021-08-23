@@ -170,7 +170,7 @@ resource "aws_secretsmanager_secret" "db" {
 
 resource "aws_secretsmanager_secret_version" "password" {
   secret_id     = aws_secretsmanager_secret.db.id
-  secret_string = module.db.db_master_password
+  secret_string = random_password.create_password.result
 }
 
 resource "aws_secretsmanager_secret" "creds" {
@@ -224,13 +224,19 @@ module "replica" {
 module "postgres" {
   source = "./modules/postgres"
 
-  host       = module.db.db_instance_address
-  username   = var.username
-  password   = module.db.db_master_password
-  name       = "postgres"
-  tags       = module.tags.tags
-  enabled    = var.engine == "postgres"
-  identifier = var.identifier
+  host            = module.db.db_instance_address
+  username        = var.username
+  password        = module.db.db_master_password
+  name            = "postgres"
+  tags            = module.tags.tags
+  enabled         = var.engine == "postgres"
+  identifier      = var.identifier
+  create_password = random_password.create_password.result
+}
+
+resource "random_password" "create_password" {
+  length  = 16
+  special = false
 }
 
 data "aws_route53_zone" "zone" {
