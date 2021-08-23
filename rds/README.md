@@ -83,7 +83,7 @@ module "cluster" {
 
 ```bash
 data "aws_secretsmanager_secret" "database" {
-  name = "rds-variant-dev"
+  name = "rds-variant-dev-rds"
 }
 
 data "aws_secretsmanager_secret_version" "database" {
@@ -91,19 +91,11 @@ data "aws_secretsmanager_secret_version" "database" {
 }
 
 output "host" {
-  value = jsondecode(data.aws_secretsmanager_secret_version.database.secret_string)["host"]
-}
-
-output "username" {
-  value = jsondecode(data.aws_secretsmanager_secret_version.database.secret_string)["username"]
-}
-
-output "identifier" {
-  value = jsondecode(data.aws_secretsmanager_secret_version.database.secret_string)["identifier"]
+  value = module.db.db_instance_address
 }
 
 output "password" {
-  value = jsondecode(data.aws_secretsmanager_secret_version.database.secret_string)["password"]
+  value = data.aws_secretsmanager_secret_version.database.secret_string
 }
 ```
 
