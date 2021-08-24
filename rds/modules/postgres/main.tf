@@ -52,3 +52,12 @@ resource "aws_secretsmanager_secret_version" "ro_roles" {
   secret_id     = aws_secretsmanager_secret.ro_roles[0].id
   secret_string = jsonencode(zipmap(local.roles_ro, random_password.roles_ro_password.*.result))
 }
+
+resource "postgresql_role" "create" {
+  count = var.username != "postgres" ? 1 : 0
+
+  name        = "postgres"
+  login       = true
+  create_role = true
+  password    = var.create_password
+}
