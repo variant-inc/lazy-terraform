@@ -159,6 +159,10 @@ module "db" {
     "delete" : "140m",
     "update" : "180m"
   }
+
+  depends_on = [
+    module.security_group[0]
+  ]
 }
 
 resource "aws_secretsmanager_secret" "db" {
