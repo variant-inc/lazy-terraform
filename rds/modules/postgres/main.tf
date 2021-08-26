@@ -53,11 +53,38 @@ resource "aws_secretsmanager_secret_version" "ro_roles" {
   secret_string = jsonencode(zipmap(local.roles_ro, random_password.roles_ro_password.*.result))
 }
 
+resource "random_password" "create_password" {
+  count = var.username != "postgres" ? 1 : 0
+
+  length  = 16
+  special = false
+}
+
 resource "postgresql_role" "create" {
   count = var.username != "postgres" ? 1 : 0
 
   name        = "postgres"
   login       = true
   create_role = true
-  password    = var.create_password
+  password    = random_password.create_password[0].result
+}
+
+resource "aws_secretsmanager_secret" "postgres_creds" {
+  count = var.username != "postgres" ? 1 : 0
+
+  depends_on = [
+    postgresql_role.create
+  ]
+
+  name                    = "${var.identifier}--postgres-creds"
+  tags                    = var.tags
+  description             = "Contains Postgres Creds which can CREATE ROLE"
+  recovery_window_in_days = 0
+}
+
+resource "aws_secretsmanager_secret_version" "postgres_creds" {
+  count = var.username != "postgres" ? 1 : 0
+
+  secret_id     = aws_secretsmanager_secret.postgres_creds[0].id
+  secret_string = random_password.create_password[0].result
 }

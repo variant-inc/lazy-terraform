@@ -174,7 +174,7 @@ resource "aws_secretsmanager_secret" "db" {
 
 resource "aws_secretsmanager_secret_version" "password" {
   secret_id     = aws_secretsmanager_secret.db.id
-  secret_string = random_password.create_password.result
+  secret_string = module.db.db_master_password
 }
 
 resource "aws_secretsmanager_secret" "creds" {
@@ -235,12 +235,6 @@ module "postgres" {
   tags            = module.tags.tags
   enabled         = var.engine == "postgres"
   identifier      = var.identifier
-  create_password = random_password.create_password.result
-}
-
-resource "random_password" "create_password" {
-  length  = 16
-  special = false
 }
 
 data "aws_route53_zone" "zone" {
