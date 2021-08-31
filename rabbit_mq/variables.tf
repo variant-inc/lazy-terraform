@@ -39,7 +39,7 @@ variable "username" {
 
 variable "auto_minor_version_upgrade" {
   type        = bool
-  default     = true
+  default     = false
   description = "Whether to automatically upgrade to new minor versions of brokers as Amazon MQ makes releases available"
 }
 
