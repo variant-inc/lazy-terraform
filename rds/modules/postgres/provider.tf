@@ -6,3 +6,12 @@ provider "postgresql" {
   superuser       = false
   database        = var.name
 }
+
+terraform {
+  required_providers {
+    postgresql = {
+      source  = "cyrilgdn/postgresql"
+      version = ">= 1.12.0"
+    }
+  }
+}

@@ -174,25 +174,7 @@ resource "aws_secretsmanager_secret" "db" {
 
 resource "aws_secretsmanager_secret_version" "password" {
   secret_id     = aws_secretsmanager_secret.db.id
-  secret_string = random_password.create_password.result
-}
-
-resource "aws_secretsmanager_secret" "creds" {
-  name                    = "${var.identifier}-rds-creds"
-  tags                    = module.tags.tags
-  description             = local.description
-  recovery_window_in_days = 0
-}
-
-resource "aws_secretsmanager_secret_version" "creds" {
-  secret_id = aws_secretsmanager_secret.creds.id
-
-  secret_string = jsonencode({
-    host       = module.db.db_instance_address
-    username   = var.username
-    password   = module.db.db_master_password
-    identifier = var.identifier
-  })
+  secret_string = module.db.db_master_password
 }
 
 module "replica" {
@@ -235,13 +217,8 @@ module "postgres" {
   tags            = module.tags.tags
   enabled         = var.engine == "postgres"
   identifier      = var.identifier
-  create_password = random_password.create_password.result
 }
 
-resource "random_password" "create_password" {
-  length  = 16
-  special = false
-}
 
 data "aws_route53_zone" "zone" {
   name = var.domain
