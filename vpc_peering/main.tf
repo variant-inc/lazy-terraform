@@ -10,7 +10,7 @@ data "aws_vpc" "srcVpc" {
   provider = aws.this
   filter {
     name   = "tag-value"
-    values = ["${title(var.name_tag_value)}", "${var.name_tag_value}"]
+    values = ["${var.name_tag_value}"]
   }
   filter {
     name   = "tag-key"
@@ -22,7 +22,7 @@ data "aws_vpc" "destVpc" {
   provider = aws.peer
   filter {
     name   = "tag-value"
-    values = ["${title(var.name_tag_value)}", "${var.name_tag_value}"]
+    values = ["${var.name_tag_value}"]
   }
   filter {
     name   = "tag-key"
