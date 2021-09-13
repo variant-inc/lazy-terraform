@@ -1,5 +1,5 @@
-variable "vpc_src_profile" {
-  description = "VPC requestor profile"
+variable "vpc_src_region" {
+  description = "VPC requestor region"
 }
 
 variable "vpc_dest_region" {
