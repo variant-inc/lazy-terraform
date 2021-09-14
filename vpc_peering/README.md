@@ -11,8 +11,6 @@
 | name_tag_value  | string      |         |                                                                                 |
 | user_tags       | map(string) |         | {   team    =  "devops"   purpose =  "vpc peering test"   owner   =  "naveen" } |
 | octopus_tags    | map(string) |         | {   project         =  "test"   space           =  "Default" }                  |
-| vpc_src_region  | string      |         | us-east-1                                                                       |
-| vpc_dest_region | string      |         | us-east-2                                                                       |
 
 For `user_tags` , refer <https://github.com/variant-inc/lazy-terraform/tree/master/submodules/tags>
 
@@ -27,17 +25,33 @@ variable "octopus_tags" {
 
 ## Examples
 
+versions.tf
+
+```bash
+terraform {
+  required_version = ">= 0.15.0"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 3.30"
+    }
+  }
+}
+```
+
 provider.tf
 
 ```bash
 provider "aws" {
-  alias  = "this"
-  region = var.vpc_src_region
+  alias   = "this"
+  profile = "ops"
+  region  = "us-east-1"
 }
 
 provider "aws" {
-  alias  = "peer"
-  region = var.vpc_dest_region
+  alias   = "peer"
+  profile = "dpl"
+  region  = "us-east-1"
 }
 ```
 
@@ -57,40 +71,34 @@ variable "name_tag_value" {
   description = "Name tag value"
 }
 
-variable "vpc_src_region" {
-  description = "VPC requestor region"
-}
-
-variable "vpc_dest_region" {
-  description = "VPC acceptor region"
-}
 
 module "vpc_peering" {
-  source = "github.com/variant-inc/lazy-terraform//vpc_peering?ref=v1"
+  #source = "git::https://github.com/variant-inc/lazy-terraform.git//vpc_peering?ref=v1"
   #For branch
-  #source = "github.com/variant-inc/lazy-terraform//vpc_peering?ref=feature/CLOUD-756-vpc-peering-with-name-tag"
-  name_tag_value= var.name_tag_value
-  user_tags = var.user_tags
-  octopus_tags = var.octopus_tags # If run from octopus, this will be auto set
+  source = "git::https://github.com/variant-inc/lazy-terraform.git//vpc_peering?ref=feature/CLOUD-756-vpc-peering-with-name-tag"
+  providers = {
+    aws.this = aws.this
+    aws.peer = aws.peer
+  }
+  name_tag_value = var.name_tag_value
+  user_tags      = var.user_tags
+  octopus_tags   = var.octopus_tags # If run from octopus, this will be auto set
 }
 ```
 
 .tfvars
 
 ```bash
-vpc_src_region="us-east-1"
-vpc_dest_region="us-east-1"
-name_tag_value="peering-vpc"
+name_tag_value  = "peering-vpc"
 user_tags = {
   team    = "devops"
   purpose = "vpc peering test"
   owner   = "naveen"
 }
 octopus_tags = {
-  project         = "test"
-  space           = "Default"
+  project = "test"
+  space   = "Default"
 }
-
 ```
 
 ## Ouput Variables

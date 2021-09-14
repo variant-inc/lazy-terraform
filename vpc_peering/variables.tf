@@ -1,11 +1,3 @@
-variable "vpc_src_region" {
-  description = "VPC requestor region"
-}
-
-variable "vpc_dest_region" {
-  description = "VPC acceptor region"
-}
-
 variable "name_tag_value" {
   description = "Name tag value"
 }

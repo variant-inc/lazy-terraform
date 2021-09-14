@@ -4,6 +4,7 @@ terraform {
     aws = {
       source  = "hashicorp/aws"
       version = ">= 3.30"
+      configuration_aliases = [aws.this, aws.peer]
     }
   }
 }
