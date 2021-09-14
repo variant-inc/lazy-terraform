@@ -42,12 +42,15 @@ terraform {
 provider.tf
 
 ```bash
+#Provider of the Requester VPC
 provider "aws" {
   alias   = "this"
   profile = "ops"
   region  = "us-east-1"
 }
 
+# Aliases are required because of cross-region
+#Provider of the Accepter VPC
 provider "aws" {
   alias   = "peer"
   profile = "dpl"
