@@ -15,7 +15,10 @@ variable "name" {
 variable "octopus_tags" {
   description = "Octopus Tags"
   type = object({
-    project = string
-    space   = string
+    project         = string
+    space           = string
+    environment     = string
+    project_group   = string
+    release_channel = string
   })
 }
