@@ -6,11 +6,12 @@
 
 ## Input Variables
 
-| Name            | Type        | Default | Example                                                                         |
-|-----------------|-------------|---------|---------------------------------------------------------------------------------|
-| name_tag_value  | string      |         |                                                                                 |
-| user_tags       | map(string) |         | {   team    =  "devops"   purpose =  "vpc peering test"   owner   =  "naveen" } |
-| octopus_tags    | map(string) |         | {   project         =  "test"   space           =  "Default" }                  |
+| Name            | Type        | Default | Example                                                                                                                                       |
+|-----------------|-------------|---------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| src_name_tag    | string      |         | source_vpc                                                                                                                                    |
+| dest_name_tag   | string      |         | destination_vpc                                                                                                                               |
+| user_tags       | map(string) |         | {'team': 'devops', 'purpose': 'vpc peering test', 'owner': 'naveen'}                                                                          |
+| octopus_tags    | map(string) |         | {'project': 'test', 'space': 'Default', 'environment': 'development', 'project_group': 'Default Project Group', 'release_channel': 'release'} |
 
 For `user_tags` , refer <https://github.com/variant-inc/lazy-terraform/tree/master/submodules/tags>
 
@@ -45,7 +46,7 @@ provider.tf
 #Provider of the Requester VPC
 provider "aws" {
   alias   = "this"
-  profile = "ops"
+  profile = "dpl"
   region  = "us-east-1"
 }
 
@@ -54,13 +55,21 @@ provider "aws" {
 provider "aws" {
   alias   = "peer"
   profile = "dpl"
-  region  = "us-east-1"
+  region  = "us-east-2"
 }
 ```
 
 main.tf
 
 ```bash
+variable "src_name_tag" {
+  description = "Source Name tag value"
+  type        = string
+}
+variable "dest_name_tag" {
+  description = "Destination Name tag value"
+  type        = string
+}
 variable "octopus_tags" {
   description = "Octopus Tags"
   type        = map(string)
@@ -68,10 +77,6 @@ variable "octopus_tags" {
 variable "user_tags" {
   description = "User tags"
   type        = map(string)
-}
-
-variable "name_tag_value" {
-  description = "Name tag value"
 }
 
 
@@ -83,28 +88,35 @@ module "vpc_peering" {
     aws.this = aws.this
     aws.peer = aws.peer
   }
-  name_tag_value = var.name_tag_value
+  src_name_tag = var.src_name_tag
+  dest_name_tag = var.src_name_tag
   user_tags      = var.user_tags
   octopus_tags   = var.octopus_tags # If run from octopus, this will be auto set
 }
 ```
 
-.tfvars
+.tfvars.json
 
-```bash
-name_tag_value  = "peering-vpc"
-user_tags = {
-  team    = "devops"
-  purpose = "vpc peering test"
-  owner   = "naveen"
-}
-octopus_tags = {
-  project = "test"
-  space   = "Default"
+```json
+{
+   "src_name_tag":"source_vpc",
+   "dest_name_tag":"destination_vpc",
+   "user_tags":{
+      "team":"devops",
+      "purpose":"vpc peering test",
+      "owner":"naveen"
+   },
+   "octopus_tags":{
+      "project":"test",
+      "space":"Default",
+      "environment": "development",
+      "project_group": "Default Project Group",
+      "release_channel": "release"
+   }
 }
 ```
 
-## Ouput Variables
+## Output Variables
 
 | Name                      | Type   |
 |---------------------------|--------|
