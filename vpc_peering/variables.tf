@@ -1,5 +1,11 @@
-variable "name_tag_value" {
-  description = "Name tag value"
+variable "src_name_tag" {
+  description = "Source Name tag value"
+  type        = string
+}
+
+variable "dest_name_tag" {
+  description = "Destination Name tag value"
+  type        = string
 }
 
 variable "user_tags" {

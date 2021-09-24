@@ -10,7 +10,7 @@ data "aws_vpc" "srcVpc" {
   provider = aws.this
   filter {
     name   = "tag-value"
-    values = ["${var.name_tag_value}"]
+    values = ["${var.src_name_tag}"]
   }
   filter {
     name   = "tag-key"
@@ -22,7 +22,7 @@ data "aws_vpc" "destVpc" {
   provider = aws.peer
   filter {
     name   = "tag-value"
-    values = ["${var.name_tag_value}"]
+    values = ["${var.dest_name_tag}"]
   }
   filter {
     name   = "tag-key"
@@ -32,7 +32,8 @@ data "aws_vpc" "destVpc" {
 
 // Creates a peering between VPCs different accounts and different regions
 module "vpc_peering" {
-  source = "github.com/grem11n/terraform-aws-vpc-peering"
+  source  = "grem11n/vpc-peering/aws"
+  version = "4.0.1"
 
   providers = {
     aws.this = aws.this
