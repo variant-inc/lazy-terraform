@@ -69,7 +69,7 @@ output "tags" {
 
 This will tag all AWS provider `resource`s that support tags.
 
-```
+```bash
 provider "aws" {
   default_tags {
     tags = module.tags.tags
