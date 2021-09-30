@@ -64,3 +64,15 @@ output "tags" {
   value = module.tags.tags
 }
 ```
+
+## Tagging AWS Resources
+
+This will tag all AWS provider `resource`s that support tags.
+
+```
+provider "aws" {
+  default_tags {
+    tags = module.tags.tags
+  }
+}
+```
