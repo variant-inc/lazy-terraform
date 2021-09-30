@@ -1,6 +1,3 @@
-# Get data for tags
-data "aws_caller_identity" "current" {}
-
 locals {
   user_tags = {
     for k, v in var.user_tags :
@@ -9,7 +6,6 @@ locals {
 
   common_tags = {
     "Name"                    = var.name
-    "aws/account_number"      = data.aws_caller_identity.current.account_id
     "octopus/project"         = var.octopus_tags.project
     "octopus/space"           = var.octopus_tags.space
     "octopus/environment"     = var.octopus_tags.environment
