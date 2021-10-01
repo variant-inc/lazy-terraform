@@ -15,7 +15,8 @@ For `user_tags`, refer <https://github.com/variant-inc/lazy-terraform/tree/maste
 
 `octopus_tags` are auto set at octopus. Set the variable as
 
-terraform.tfvars.json
+terraform.tfvars.
+
 ```json
 {
     "bucket_prefix":"test-ralph",
@@ -44,7 +45,6 @@ terraform.tfvars.json
       }
  }
 ```
-
 
 ## Examples
 
