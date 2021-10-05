@@ -16,7 +16,7 @@ module "security_group" {
   source = "terraform-aws-modules/security-group/aws"
 
   name          = "${var.domain_name}-ec"
-  description = "Security group for ${var.domain_name} ElastiCache"
+  description = "Security group for ${var.identifier} ElastiCache"
   vpc_id      = local.vpc_id
   tags        = module.tags.tags
 
