@@ -83,6 +83,7 @@ Project: [lazy-terraform](https://octopus.apps.ops-drivevariant.com/app#/Spaces-
 
     ```bash
     git tag -d v1
+    git push --delete origin v1
     git tag v1
     git push origin v1
     ```
