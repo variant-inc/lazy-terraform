@@ -6,6 +6,7 @@ This module create a VPC with private and public subnets
 
 | Name         | Type   | Default Value                                  | Example      |
 | ------------ | ------ | ---------------------------------------------- | ------------ |
+| region       | string | us-east-1                                      | us-west-2    |
 | name         | string | default                                        |              |
 | cidr         | string |                                                | 10.10.0.0/20 |
 | user_tags    | object |               | `see below` |
