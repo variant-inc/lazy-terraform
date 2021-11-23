@@ -7,13 +7,13 @@ variable "region" {
 variable "bucket_name" {
   type        = string
   description = "Name of the s3 bucket. Either one of bucket_name or bucket_prefix is required. bucket_name gets highest preference"
-  default = ""
+  default     = ""
 }
 
 variable "bucket_prefix" {
   type        = string
   description = "Prefix of the s3 bucket. Either one of bucket_name or bucket_prefix is required"
-  default = ""
+  default     = ""
 }
 
 variable "env" {

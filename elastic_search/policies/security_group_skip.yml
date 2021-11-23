@@ -1,4 +1,0 @@
-mode: crud
-name: security-group
-skip-resource-constraints:
-  - ec2:CreateSecurityGroup

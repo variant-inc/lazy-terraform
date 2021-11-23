@@ -11,7 +11,7 @@ variable "octopus_tags" {
 }
 
 variable "region" {
-  type = string
+  type    = string
   default = "us-east-1"
 }
 
@@ -20,7 +20,7 @@ module "test_s3_module" {
 
   region = var.region
 
-  bucket_prefix      = "test-123asdasdas"
+  bucket_prefix = "test-123asdasdas"
 
   env = "non-prod"
 

@@ -1,21 +1,21 @@
 locals {
   common_tags = {
-    "Name" = var.ec2_instance_name
+    "Name"    = var.ec2_instance_name
     "Purpose" = var.instance_purpose
-    "Owner" = var.instance_owner
+    "Owner"   = var.instance_owner
   }
   default_sg_rule = {
-    "ssm": {
-        "type" :"egress",
-        "from_port":"0",
-        "to_port":"65535",
-        "protocol":"TCP",
-        "description":"Default egress to any for SSM access",
-        "cidr_blocks": ["0.0.0.0/0"],
-        "source_security_group_id": null
+    "ssm" : {
+      "type" : "egress",
+      "from_port" : "0",
+      "to_port" : "65535",
+      "protocol" : "TCP",
+      "description" : "Default egress to any for SSM access",
+      "cidr_blocks" : ["0.0.0.0/0"],
+      "source_security_group_id" : null
     }
   }
-  merged_sg_rules = merge(local.default_sg_rule,var.security_group_rules_data)
+  merged_sg_rules = merge(local.default_sg_rule, var.security_group_rules_data)
 }
 
 data "aws_subnet_ids" "private" {
@@ -34,26 +34,26 @@ resource "random_shuffle" "random_subnet" {
 
 resource "aws_eip" "ec2_instance_eip" {
   count = var.subnet_type == "public" ? 1 : 0
-  vpc  = true
-  tags = local.common_tags
+  vpc   = true
+  tags  = local.common_tags
 }
 
 resource "aws_security_group" "ec2_security_group" {
   name        = "${var.ec2_instance_name}-ec2"
   description = "Security group for ${var.ec2_instance_name}"
   vpc_id      = var.vpc_id
-  tags = local.common_tags
+  tags        = local.common_tags
 }
 
 resource "aws_security_group_rule" "ec2_security_group_rules" {
-  for_each = local.merged_sg_rules
-  description = each.value.description
-  type = each.value.type
-  from_port = each.value.from_port
-  to_port = each.value.to_port
-  protocol = each.value.protocol
-  security_group_id = aws_security_group.ec2_security_group.id
-  cidr_blocks = each.value.cidr_blocks
+  for_each                 = local.merged_sg_rules
+  description              = each.value.description
+  type                     = each.value.type
+  from_port                = each.value.from_port
+  to_port                  = each.value.to_port
+  protocol                 = each.value.protocol
+  security_group_id        = aws_security_group.ec2_security_group.id
+  cidr_blocks              = each.value.cidr_blocks
   source_security_group_id = each.value.source_security_group_id
 }
 
@@ -63,23 +63,23 @@ resource "aws_iam_instance_profile" "instance_profile" {
 }
 
 module "ec2-instance" {
-  source  = "terraform-aws-modules/ec2-instance/aws"
-  version = "2.16.0"
-  name = var.ec2_instance_name
-  ami = var.ami_id
+  source                      = "terraform-aws-modules/ec2-instance/aws"
+  version                     = "2.16.0"
+  name                        = var.ec2_instance_name
+  ami                         = var.ami_id
   associate_public_ip_address = var.associate_public_ip_address
-  instance_type = var.ec2_instance_type
-  ebs_optimized = var.ebs_optimized
-  monitoring = var.install_cloudwatch_agent
-  tags = local.common_tags
-  subnet_id = random_shuffle.random_subnet.result[0]
-  iam_instance_profile = aws_iam_instance_profile.instance_profile.name
-  vpc_security_group_ids = [aws_security_group.ec2_security_group.id]
+  instance_type               = var.ec2_instance_type
+  ebs_optimized               = var.ebs_optimized
+  monitoring                  = var.install_cloudwatch_agent
+  tags                        = local.common_tags
+  subnet_id                   = random_shuffle.random_subnet.result[0]
+  iam_instance_profile        = aws_iam_instance_profile.instance_profile.name
+  vpc_security_group_ids      = [aws_security_group.ec2_security_group.id]
   root_block_device = [{
     volume_type = var.ebs_vol_type
     volume_size = var.ebs_volume_size
-    kms_key_id = var.kms_key_id
-    encrypted = true
+    kms_key_id  = var.kms_key_id
+    encrypted   = true
   }]
   metadata_options = {
     "http_endpoint" = "enabled",
@@ -88,7 +88,7 @@ module "ec2-instance" {
 }
 
 resource "aws_eip_association" "ec2_instance" {
-  count = var.subnet_type == "public" ? 1 : 0
+  count         = var.subnet_type == "public" ? 1 : 0
   instance_id   = module.ec2-instance.id[0]
   allocation_id = aws_eip.ec2_instance_eip[0].id
 }

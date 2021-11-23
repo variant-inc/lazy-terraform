@@ -16,11 +16,11 @@ module "api_gateway" {
 
   authorizer_audience = var.authorizer_audience
   authorizer_issuer   = var.authorizer_issuer
-  
+
   cors_configuration = {
-    allow_headers     = ["content-type", "authorization", "x-api-key"]
-    allow_methods     = ["*"]
-    allow_origins     = ["*"]
+    allow_headers = ["content-type", "authorization", "x-api-key"]
+    allow_methods = ["*"]
+    allow_origins = ["*"]
   }
 
   integrations = {
