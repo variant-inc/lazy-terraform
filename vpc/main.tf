@@ -34,11 +34,18 @@ module "vpc" {
   enable_nat_gateway = true
   single_nat_gateway = false
 
-  enable_flow_log                      = true
-  create_flow_log_cloudwatch_log_group = true
-  create_flow_log_cloudwatch_iam_role  = true
-  flow_log_max_aggregation_interval    = 60
-  
+  enable_flow_log                                 = true
+  create_flow_log_cloudwatch_log_group            = true
+  create_flow_log_cloudwatch_iam_role             = true
+  flow_log_max_aggregation_interval               = 60
+  flow_log_file_format                            = "parquet"
+  flow_log_cloudwatch_log_group_retention_in_days = 365
+  flow_log_per_hour_partition                     = true
+
+  manage_default_security_group  = true
+  default_security_group_ingress = []
+  default_security_group_egress  = []
+
   enable_dns_hostnames = true
   enable_dns_support   = true
 
