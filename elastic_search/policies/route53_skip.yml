@@ -1,4 +1,0 @@
-mode: crud
-name: route53
-skip-resource-constraints:
-  - route53:ChangeResourceRecordSets

@@ -16,10 +16,10 @@ module "dynamodb_table" {
   range_key  = var.range_key
   attributes = var.attributes
 
-  user_tags    = {
-    "team": "devops",
-    "purpose": "dynamo",
-    "owner": "naveen"
+  user_tags = {
+    "team" : "devops",
+    "purpose" : "dynamo",
+    "owner" : "naveen"
   }
 
   global_secondary_indexes = var.global_secondary_indexes

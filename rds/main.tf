@@ -210,13 +210,13 @@ module "replica" {
 module "postgres" {
   source = "./modules/postgres"
 
-  host            = module.db.db_instance_address
-  username        = var.username
-  password        = module.db.db_master_password
-  name            = "postgres"
-  tags            = module.tags.tags
-  enabled         = var.engine == "postgres"
-  identifier      = var.identifier
+  host       = module.db.db_instance_address
+  username   = var.username
+  password   = module.db.db_master_password
+  name       = "postgres"
+  tags       = module.tags.tags
+  enabled    = var.engine == "postgres"
+  identifier = var.identifier
 }
 
 
