@@ -40,10 +40,21 @@ catch
   Write-Information "Bucket $BUCKET_NAME already exists"
 }
 
+
 $TAGS
+
+$hashtable = @{}
+
+(ConvertFrom-Json $TAGS).psobject.properties | Foreach { $hashtable[$_.Name] = $_.Value }
+
+
+$body +=@{}
+$body["tags"] = $hashtable
+$body | ConvertTo-Json -Depth 100 -Compress
+
 
 Write-Output "Lazy API Update URL $lazyS3UpdateUrl"
 $Response = Invoke-RestMethod -Uri $lazyS3UpdateUrl `
-  -Headers $headers -Method PUT -Body $TAGS
+  -Headers $headers -Method PUT -Body $body | ConvertTo-Json -Depth 100 -Compress
 
 $Response | ConvertTo-Json
