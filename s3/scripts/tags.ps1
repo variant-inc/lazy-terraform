@@ -25,7 +25,7 @@ Trap
   Write-Error $_
 }
 
-$lazyS3UpdateUrl = "$env:LAZY_API_HOST/profiles/custom/s3/$BUCKET_NAME/tags?role_arn=$env:AWS_ROLE_TO_ASSUME"
+$lazyS3UpdateUrl = "$env:LAZY_API_HOST/tenants/custom/profiles/custom/s3/$BUCKET_NAME/tags?role_arn=$env:AWS_ROLE_TO_ASSUME"
 $headers = @{
   'x-api-key'    = $env:LAZY_API_KEY
   'Content-Type' = 'application/json'
@@ -40,10 +40,15 @@ catch
   Write-Information "Bucket $BUCKET_NAME already exists"
 }
 
+
 $TAGS
+$hashtable = @{}
+(ConvertFrom-Json $TAGS).psobject.properties | Foreach { $hashtable[$_.Name] = $_.Value }
+
+$body =@{ tags = $hashtable }
 
 Write-Output "Lazy API Update URL $lazyS3UpdateUrl"
 $Response = Invoke-RestMethod -Uri $lazyS3UpdateUrl `
-  -Headers $headers -Method PUT -Body $TAGS
+  -Headers $headers -Method PUT -Body ($body | ConvertTo-Json -Depth 5)
 
 $Response | ConvertTo-Json

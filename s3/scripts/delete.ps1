@@ -17,7 +17,7 @@ Trap
   Write-Error $_
 }
 
-$lazyS3DeleteUrl = "$env:LAZY_API_HOST/profiles/custom/s3/${BUCKET_NAME}?role_arn=$env:AWS_ROLE_TO_ASSUME"
+$lazyS3DeleteUrl = "$env:LAZY_API_HOST/tenants/custom/profiles/custom/s3/${BUCKET_NAME}?role_arn=$env:AWS_ROLE_TO_ASSUME"
 $headers = @{
   'x-api-key'    = $env:LAZY_API_KEY
   'Content-Type' = 'application/json'
