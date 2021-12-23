@@ -45,8 +45,7 @@ $TAGS
 $hashtable = @{}
 (ConvertFrom-Json $TAGS).psobject.properties | Foreach { $hashtable[$_.Name] = $_.Value }
 
-$body +=@{}
-$body["tags"] = $hashtable
+$body =@{ tags = $hashtable }
 
 Write-Output "Lazy API Update URL $lazyS3UpdateUrl"
 $Response = Invoke-RestMethod -Uri $lazyS3UpdateUrl `
