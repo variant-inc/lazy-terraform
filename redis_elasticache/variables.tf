@@ -1,8 +1,3 @@
-variable "profile" {
-  description = "AWS Account Number"
-  default     = "default"
-}
-
 variable "domain_name" {
   description = "Elastic Search Domain Name"
 }
