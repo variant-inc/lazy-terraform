@@ -1,5 +1,5 @@
 locals {
-  vpc_id = var.vpc_id == "" ? module.vpc.vpc.id : var.vpc_id
+  vpc_id = var.vpc_id == "" ? data.aws_eks_cluster.cluster.vpc_config[0].vpc_id : var.vpc_id
 }
 
 module "tags" {
@@ -27,8 +27,8 @@ module "security_group" {
   egress_rules       = ["all-all"]
 }
 
-module "vpc" {
-  source = "github.com/variant-inc/lazy-terraform//submodules/vpc?ref=v1"
+data "aws_eks_cluster" "cluster" {
+  name = var.cluster_name
 }
 
 # Get subnets for ES cluster nodes

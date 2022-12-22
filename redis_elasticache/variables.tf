@@ -45,3 +45,8 @@ variable "octopus_tags" {
   description = "Octopus Tags"
   type        = map(string)
 }
+
+variable "cluster_name" {
+  description = "Name of the cluster"
+  type = string
+}
