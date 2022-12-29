@@ -1,0 +1,6 @@
+mode: crud
+name: sqs
+write:
+  - "arn:aws:sqs:*:*:subscription-test-queue"
+read:
+  - "arn:aws:sqs:*:*:subscription-test-queue"
