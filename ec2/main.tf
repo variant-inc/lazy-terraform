@@ -64,7 +64,7 @@ resource "aws_iam_instance_profile" "instance_profile" {
 
 module "ec2-instance" {
   source                      = "terraform-aws-modules/ec2-instance/aws"
-  version                     = "2.16.0"
+  version                     = "5.6.1"
   name                        = var.ec2_instance_name
   ami                         = var.ami_id
   associate_public_ip_address = var.associate_public_ip_address
@@ -96,7 +96,7 @@ resource "aws_eip_association" "ec2_instance" {
 
 module "metric_alarm" {
   source  = "terraform-aws-modules/cloudwatch/aws//modules/metric-alarm"
-  version = "~> 1.0"
+  version = "~> 5.0"
 
   alarm_name          = "${var.ec2_instance_name}_cpu_usage"
   alarm_description   = "CPU usage alarm for ${var.ec2_instance_name}"

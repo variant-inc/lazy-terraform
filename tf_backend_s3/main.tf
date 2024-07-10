@@ -1,5 +1,5 @@
 module "bucket" {
-  source = "github.com/variant-inc/lazy-terraform//s3?ref=v1"
+  source = "github.com/variant-inc/lazy-terraform//s3?ref=v1.9"
 
   region        = var.region
   bucket_prefix = var.bucket_prefix
@@ -10,7 +10,7 @@ module "bucket" {
 }
 
 module "dynamodb_table" {
-  source = "github.com/variant-inc/lazy-terraform//dynamo_db?ref=v1"
+  source = "github.com/variant-inc/lazy-terraform//dynamo_db?ref=v1.9"
 
   table_name = var.table_name
   hash_key   = "LockID"
@@ -28,7 +28,7 @@ module "dynamodb_table" {
 
 module "bucket_vars" {
   count  = var.create_vars_bucket ? 1 : 0
-  source = "github.com/variant-inc/lazy-terraform//s3?ref=v1"
+  source = "github.com/variant-inc/lazy-terraform//s3?ref=v1.9"
 
   region        = var.region
   bucket_prefix = "${var.bucket_prefix}-vars"

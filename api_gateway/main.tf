@@ -1,5 +1,5 @@
 module "tags" {
-  source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1"
+  source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1.9"
 
   user_tags    = var.user_tags
   octopus_tags = var.octopus_tags
@@ -13,11 +13,11 @@ locals {
 }
 
 module "vpc" {
-  source = "github.com/variant-inc/lazy-terraform//submodules/vpc?ref=v1"
+  source = "github.com/variant-inc/lazy-terraform//submodules/vpc?ref=v1.9"
 }
 
 module "subnets" {
-  source = "github.com/variant-inc/lazy-terraform//submodules/subnets?ref=v1"
+  source = "github.com/variant-inc/lazy-terraform//submodules/subnets?ref=v1.9"
 
   vpc_id = local.vpc_id
 }
@@ -28,7 +28,7 @@ data "aws_route53_zone" "this" {
 
 module "acm" {
   source  = "terraform-aws-modules/acm/aws"
-  version = "~> 3.0"
+  version = "~> 5.0"
 
   domain_name               = local.domain_name
   zone_id                   = data.aws_route53_zone.this.id
@@ -49,7 +49,7 @@ resource "aws_route53_record" "api" {
 
 module "api_gateway_security_group" {
   source  = "terraform-aws-modules/security-group/aws"
-  version = "~> 4.0"
+  version = "~> 5.0"
 
   name        = "api-gateway-sg-${var.name}"
   description = "Security group for ${var.name} API Gateway"
