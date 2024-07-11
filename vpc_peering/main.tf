@@ -33,7 +33,7 @@ data "aws_vpc" "destVpc" {
 // Creates a peering between VPCs different accounts and different regions
 module "vpc_peering" {
   source  = "grem11n/vpc-peering/aws"
-  version = "4.0.1"
+  version = "6.0.0"
 
   providers = {
     aws.this = aws.this
