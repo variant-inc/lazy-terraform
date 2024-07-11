@@ -8,7 +8,7 @@ locals {
 }
 
 module "tags" {
-  source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1"
+  source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1.9"
 
   name = local.name
 

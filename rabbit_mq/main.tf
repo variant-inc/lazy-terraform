@@ -1,6 +1,6 @@
 # Create tags
 module "tags" {
-  source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1"
+  source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1.9"
   # source = "../submodules/tags" # For testing
   user_tags    = var.user_tags
   octopus_tags = var.octopus_tags
@@ -9,7 +9,7 @@ module "tags" {
 
 # Create vpc
 module "vpc" {
-  source = "github.com/variant-inc/lazy-terraform//submodules/vpc?ref=v1"
+  source = "github.com/variant-inc/lazy-terraform//submodules/vpc?ref=v1.9"
 }
 
 # Create security group
@@ -27,7 +27,7 @@ module "security_group" {
 
 # Get subnets
 module "subnets" {
-  source = "github.com/variant-inc/lazy-terraform//submodules/subnets?ref=v1"
+  source = "github.com/variant-inc/lazy-terraform//submodules/subnets?ref=v1.9"
   vpc_id = module.vpc.vpc.id
   type   = var.publicly_accessible ? "public" : "private"
 }

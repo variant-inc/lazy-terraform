@@ -3,7 +3,7 @@ data "aws_iam_role" "octopus" {
 }
 
 module "tags" {
-  source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1"
+  source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1.9"
   user_tags = {
     team    = "cloudops"
     purpose = "policy for ${var.name}"

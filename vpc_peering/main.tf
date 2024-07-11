@@ -1,5 +1,5 @@
 module "tags" {
-  source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1"
+  source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1.9"
 
   user_tags    = var.user_tags
   name         = "tf-vpc-peering"
@@ -33,7 +33,7 @@ data "aws_vpc" "destVpc" {
 // Creates a peering between VPCs different accounts and different regions
 module "vpc_peering" {
   source  = "grem11n/vpc-peering/aws"
-  version = "4.0.1"
+  version = "4.1.0"
 
   providers = {
     aws.this = aws.this
