@@ -96,7 +96,7 @@ resource "aws_eip_association" "ec2_instance" {
 
 module "metric_alarm" {
   source  = "terraform-aws-modules/cloudwatch/aws//modules/metric-alarm"
-  version = "~> 1.0"
+  version = "~> 2.0"
 
   alarm_name          = "${var.ec2_instance_name}_cpu_usage"
   alarm_description   = "CPU usage alarm for ${var.ec2_instance_name}"
