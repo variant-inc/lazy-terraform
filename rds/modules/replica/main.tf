@@ -8,7 +8,7 @@ data "aws_kms_alias" "rds" {
 }
 
 module "tags" {
-  source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1"
+  source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1.9"
 
   user_tags    = var.user_tags
   name         = var.identifier
@@ -16,12 +16,12 @@ module "tags" {
 }
 
 module "vpc" {
-  source = "github.com/variant-inc/lazy-terraform//submodules/vpc?ref=v1"
+  source = "github.com/variant-inc/lazy-terraform//submodules/vpc?ref=v1.9"
 }
 
 # Get subnets for ES cluster nodes
 module "subnets" {
-  source = "github.com/variant-inc/lazy-terraform//submodules/subnets?ref=v1"
+  source = "github.com/variant-inc/lazy-terraform//submodules/subnets?ref=v1.9"
 
   vpc_id = module.vpc.vpc.id
 }

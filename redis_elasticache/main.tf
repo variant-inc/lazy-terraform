@@ -3,7 +3,7 @@ locals {
 }
 
 module "tags" {
-  source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1"
+  source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1.9"
   # source = "../submodules/tags" # For testing
 
   user_tags    = var.user_tags
@@ -33,7 +33,7 @@ data "aws_eks_cluster" "cluster" {
 
 # Get subnets for ES cluster nodes
 module "subnets" {
-  source = "github.com/variant-inc/lazy-terraform//submodules/subnets?ref=v1"
+  source = "github.com/variant-inc/lazy-terraform//submodules/subnets?ref=v1.9"
   # source = "../submodules/subnets" # For testing
 
   vpc_id = local.vpc_id

@@ -1,5 +1,5 @@
 module "tags" {
-  source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1"
+  source = "github.com/variant-inc/lazy-terraform//submodules/tags?ref=v1.9"
 
   user_tags    = var.user_tags
   octopus_tags = var.octopus_tags
@@ -13,11 +13,11 @@ locals {
 }
 
 module "vpc" {
-  source = "github.com/variant-inc/lazy-terraform//submodules/vpc?ref=v1"
+  source = "github.com/variant-inc/lazy-terraform//submodules/vpc?ref=v1.9"
 }
 
 module "subnets" {
-  source = "github.com/variant-inc/lazy-terraform//submodules/subnets?ref=v1"
+  source = "github.com/variant-inc/lazy-terraform//submodules/subnets?ref=v1.9"
 
   vpc_id = local.vpc_id
 }
